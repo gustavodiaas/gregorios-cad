@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gregório's CAD — planejamento visual e otimização de layouts industriais.">
+    <title>Gregório's CAD | Layouts industriais inteligentes</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="drag-styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script>
+        // Verificar se jsPDF carregou corretamente
+        window.addEventListener('load', function() {
+            if (typeof window.jsPDF !== 'undefined') {
+            }
+            if (typeof window.jspdf !== 'undefined') {
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-container" data-app="gregorios-cad">
+    <header class="app-header">
+        <div class="logo-container">
+            <span class="brand-mark" aria-hidden="true"><i class="fas fa-drafting-compass"></i></span>
+            <div class="brand-copy">
+                <h1 class="logo">Gregório's CAD</h1>
+                <span class="brand-subtitle">Layouts industriais inteligentes</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="zoom-indicator">
+                <i class="fas fa-search"></i>
+                <span id="zoomLevel">100%</span>
+            </div>
+            <button id="centerViewBtn" class="theme-toggle" title="Centralizar Vista">
+                <i class="fas fa-crosshairs"></i>
+            </button>
+            <div class="dropdown-container">
+                <button id="colorPaletteBtn" class="theme-toggle" title="Paleta de Cores">
+                    <i class="fas fa-palette"></i>
+                </button>
+                <div id="colorPaletteDropdown" class="dropdown-content color-palette-dropdown">
+                    <div class="color-palette-section">
+                        <h4>Cores</h4>
+                        <div class="color-options">
+                            <div class="color-option" data-color="#E53E3E" style="background-color: #E53E3E;" title="Vermelho"></div>
+                            <div class="color-option" data-color="#ED8936" style="background-color: #ED8936;" title="Laranja"></div>
+                            <div class="color-option" data-color="#F6E05E" style="background-color: #F6E05E;" title="Amarelo"></div>
+                            <div class="color-option" data-color="#68D391" style="background-color: #68D391;" title="Verde Claro"></div>
+                            <div class="color-option" data-color="#38A169" style="background-color: #38A169;" title="Verde"></div>
+                            <div class="color-option" data-color="#00BCD4" style="background-color: #00BCD4;" title="Turquesa"></div>
+                            <div class="color-option" data-color="#63B3ED" style="background-color: #63B3ED;" title="Azul Claro"></div>
+                            <div class="color-option" data-color="#3182CE" style="background-color: #3182CE;" title="Azul"></div>
+                            <div class="color-option" data-color="#805AD5" style="background-color: #805AD5;" title="Roxo"></div>
+                            <div class="color-option" data-color="#9C27B0" style="background-color: #9C27B0;" title="Magenta"></div>
+                            <div class="color-option" data-color="#D53F8C" style="background-color: #D53F8C;" title="Rosa"></div>
+                            <div class="color-option" data-color="#E91E63" style="background-color: #E91E63;" title="Rosa Intenso"></div>
+                        </div>
+                    </div>
+                    <div class="color-palette-section">
+                        <h4>Neutras</h4>
+                        <div class="color-options">
+                            <div class="color-option" data-color="#000000" style="background-color: #000000;" title="Preto"></div>
+                            <div class="color-option" data-color="#1A202C" style="background-color: #1A202C;" title="Carvão"></div>
+                            <div class="color-option" data-color="#2D3748" style="background-color: #2D3748;" title="Cinza Muito Escuro"></div>
+                            <div class="color-option" data-color="#4A5568" style="background-color: #4A5568;" title="Cinza Escuro"></div>
+                            <div class="color-option" data-color="#718096" style="background-color: #718096;" title="Cinza Médio"></div>
+                            <div class="color-option" data-color="#A0AEC0" style="background-color: #A0AEC0;" title="Cinza"></div>
+                            <div class="color-option" data-color="#CBD5E0" style="background-color: #CBD5E0;" title="Cinza Claro"></div>
+                            <div class="color-option" data-color="#E2E8F0" style="background-color: #E2E8F0;" title="Prata"></div>
+                            <div class="color-option" data-color="#EDF2F7" style="background-color: #EDF2F7;" title="Cinza Neve"></div>
+                            <div class="color-option" data-color="#F7FAFC" style="background-color: #F7FAFC;" title="Quase Branco"></div>
+                            <div class="color-option" data-color="#FFFFFF" style="background-color: #FFFFFF; border: 1px solid #CBD5E0;" title="Branco"></div>
+                            <div class="color-option" data-color="#FFF5F5" style="background-color: #FFF5F5; border: 1px solid #CBD5E0;" title="Branco Rosado"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="toggleRightSidebarBtn" class="theme-toggle" title="Mostrar Menu Direito">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button id="toggleAllDimensionsBtn" class="theme-toggle" title="Esconder Todas as Cotas">
+                <i class="fas fa-ruler"></i>
+            </button>
+            <div class="dropdown-container">
+                <button id="toggleNavMeshBtn" class="theme-toggle" title="Visualizar NavMesh">
+                    <i class="fas fa-project-diagram"></i>
+                </button>
+                <div id="navMeshDropdown" class="dropdown-content">
+                    <div class="dropdown-section">
+                        <h4>NavMesh Debug</h4>
+                        <div class="dropdown-item" id="toggleNavMeshVisualization">
+                            <i class="fas fa-eye"></i>
+                            <span>Toggle Visualização</span>
+                        </div>
+                        <div class="dropdown-separator"></div>
+                        <h5>Largura para Visualização</h5>
+                        <div id="navMeshWidthOptions">
+                            <!-- Opções serão preenchidas dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="undoBtn" class="theme-toggle" title="Desfazer" disabled>
+                <i class="fas fa-undo"></i>
+            </button>
+            <button id="redoBtn" class="theme-toggle" title="Refazer" disabled>
+                <i class="fas fa-redo"></i>
+            </button>
+            <div class="planner-controls-header">
+                <button id="headerPlayBtn" class="theme-toggle" title="Executar Roteiro">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="headerStopBtn" class="theme-toggle" style="display: none; color: #ef4444;" title="Parar Roteiro">
+                    <i class="fas fa-stop"></i>
+                </button>
+                <select id="headerSpeedSelect" class="speed-select" title="Velocidade">
+                    <option value="1" selected>1x</option>
+                    <option value="16">16x</option>
+                    <option value="64">64x</option>
+                    <option value="512">512x</option>
+                </select>
+                <div id="simulationTimer" class="simulation-timer" title="Tempo de Simulação" style="display: none;">
+                    <i class="fas fa-clock"></i>
+                    <span>00:00:00</span>
+                </div>
+            </div>
+            <button id="saveLayoutBtn" class="action-button">
+                <i class="fas fa-save"></i>
+                <span>Salvar</span>
+            </button>
+            <button id="loadLayoutBtn" class="action-button">
+                <i class="fas fa-folder-open"></i>
+                <span>Carregar</span>
+            </button>
+            <button id="exportImgBtn" class="action-button">
+                <i class="fas fa-file-export"></i>
+                <span>Exportar</span>
+            </button>
+            <button id="openProductPlannerBtn" class="action-button">
+                <i class="fas fa-route"></i>
+                <span>Roteiro</span>
+            </button>
+            <button id="toggleThemeBtn" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="app-content">
+        <aside class="sidebar left-sidebar">
+            <!-- Handle de redimensionamento para sidebar esquerda -->
+            <div class="resize-handle resize-handle-right" data-direction="right"></div>
+            <div class="sidebar-section">
+                <h2 class="section-title">Ferramentas</h2>
+                <div class="tool-buttons">
+                    <button id="createAreaBtn" class="tool-button">
+                        <i class="fas fa-vector-square"></i>
+                        <span>Área de Movimentação</span>
+                    </button>
+                    <button id="createWallBtn" class="tool-button">
+                        <i class="fas fa-grip-lines"></i>
+                        <span>Criar Paredes</span>
+                    </button>
+                    <div id="createFreeLineBtnGroup" class="tool-button-group">
+                        <button id="createFreeLineBtn" class="tool-button">
+                            <i id="freeLineBtnIcon" class="fas fa-pen"></i>
+                            <span id="freeLineBtnLabel">Linhas Livres</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </button>
+                        <div id="freeLineShapeMenu" class="dropdown-menu">
+                            <div class="dropdown-item selected" data-shape="line">
+                                <i class="fas fa-pen"></i> Linha
+                            </div>
+                            <div class="dropdown-item" data-shape="rectangle">
+                                <i class="far fa-square"></i> Retângulo
+                            </div>
+                            <div class="dropdown-item" data-shape="circle">
+                                <i class="far fa-circle"></i> Círculo
+                            </div>
+                            <div class="dropdown-item" data-shape="triangle">
+                                <i class="fas fa-play fa-rotate-270"></i> Triângulo
+                            </div>
+                        </div>
+                    </div>
+                    <button id="createOpeningBtn" class="tool-button">
+                        <i class="fas fa-door-open"></i>
+                        <span>Portas</span>
+                    </button>
+                    <button id="createBlockingBtn" class="tool-button">
+                        <i class="fas fa-ban"></i>
+                        <span>Área de Bloqueio</span>
+                    </button>
+                    <button id="createResourceBtn" class="tool-button">
+                        <i class="fas fa-cube"></i>
+                        <span>Recurso</span>
+                    </button>
+                    <button id="createOperatorBtn" class="tool-button">
+                        <i class="fas fa-user"></i>
+                        <span>Incluir Operador</span>
+                    </button>
+                    <button id="createHubBtn" class="tool-button">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Adicionar Hub</span>
+                    </button>
+                    <button id="createStairBtn" class="tool-button">
+                        <i class="fas fa-stairs"></i>
+                        <span>Escada</span>
+                    </button>
+                    <div id="createExclusionZoneBtnGroup" class="tool-button-group">
+                        <button id="createExclusionZoneBtn" class="tool-button">
+                            <i id="exclusionZoneBtnIcon" class="far fa-square"></i>
+                            <span id="exclusionZoneBtnLabel">Zona de Exclusão</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </button>
+                        <div id="exclusionZoneShapeMenu" class="dropdown-menu">
+                            <div class="dropdown-item selected" data-shape="rectangle">
+                                <i class="far fa-square"></i> Retângulo
+                            </div>
+                            <div class="dropdown-item" data-shape="circle">
+                                <i class="far fa-circle"></i> Círculo
+                            </div>
+                            <div class="dropdown-item" data-shape="triangle">
+                                <i class="fas fa-play fa-rotate-270"></i> Triângulo
+                            </div>
+                        </div>
+                    </div>
+                    <div id="createConnectionBtnGroup" class="tool-button-group">
+                        <button id="createConnectionBtn" class="tool-button">
+                            <i class="fas fa-project-diagram"></i>
+                            <span id="connectionBtnLabel">Conexão (60cm)</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </button>
+                        <div id="connectionTypeMenu" class="dropdown-menu">
+                            <div class="dropdown-item selected" data-width="60">Pedestre (60cm)</div>
+                            <div class="dropdown-item" data-width="120">Paleteira (120cm)</div>
+                            <div class="dropdown-item" data-width="250">Empilhadeira (250cm)</div>
+                            <div class="dropdown-item" data-width="custom">Personalizado...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shape selector - appears when a tool is selected -->
+            <div id="shapeSelector" class="sidebar-section hidden">
+                <h2 class="section-title">Formato</h2>
+                <div class="shape-buttons">
+                    <button id="shapeRectangle" class="shape-button active" data-shape="rectangle">
+                        <i class="fas fa-square"></i>
+                    </button>
+                    <button id="shapeCircle" class="shape-button" data-shape="circle">
+                        <i class="fas fa-circle"></i>
+                    </button>
+                    <button id="shapePolygon" class="shape-button" data-shape="polygon">
+                        <i class="fas fa-draw-polygon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-section" style="position:relative;">
+                <h2 class="section-title">Otimização</h2>
+                <div class="optimization-controls">
+                    <div class="form-group">
+                        <label for="algorithmSelect">Algoritmo:</label>
+                        <select id="algorithmSelect" class="form-control">
+                            <option value="brute">Força Bruta</option>
+                            <option value="hill">Hill Climbing</option>
+                            <option value="annealing">Simulated Annealing</option>
+                            <option value="genetic">Algoritmo Genético</option>
+                            <option value="pso">Particle Swarm Optimization</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="passLevelInput">Nível de Passe (cm):</label>
+                        <input type="number" id="passLevelInput" class="form-control" placeholder="Ex: 10" min="0" />
+                    </div>
+                    <button id="optimizeLayoutBtn" class="optimize-button">
+                        <i class="fas fa-magic"></i>
+                        <span>Otimizar Layout</span>
+                        <i class="fas fa-spinner fa-spin loading-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <div id="canvas-container" class="canvas-area">
+            <div class="floor-controls">
+                <div class="floor-tabs-wrapper">
+                    <div id="floorTabs" class="floor-tabs"></div>
+                    <button id="addFloorBtn" class="floor-add-btn" title="Adicionar pavimento">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <canvas id="staticCanvas" style="position: absolute; top: 0; left: 0; z-index: 0; pointer-events: none;"></canvas>
+            <canvas id="layoutCanvas" style="position: absolute; top: 0; left: 0; z-index: 1; background: transparent;"></canvas>
+            <!-- canvas-overlay foi removido -->
+            <div id="connectionAnimationsLayer" class="connection-animations-layer"></div>
+            
+            <!-- Indicador de setas direcionais para midpoints -->
+            <div id="midpointArrowsIndicator" class="midpoint-arrows-indicator" style="display: none;">
+                <div class="keyboard-keys">
+                    <div class="key-row">
+                        <div class="key up" data-direction="up" style="display: none;">
+                            <i class="fas fa-chevron-up"></i>
+                        </div>
+                    </div>
+                    <div class="key-row">
+                        <div class="key left" data-direction="left" style="display: none;">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="key right" data-direction="right" style="display: none;">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="key-row">
+                        <div class="key down" data-direction="down" style="display: none;">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Canvas scroll controls -->
+            <div class="canvas-scroll-controls">
+                <div class="scroll-bar horizontal-scroll" title="Arraste para navegar horizontalmente">
+                    <div class="scroll-track">
+                        <div class="scroll-thumb" id="horizontal-thumb"></div>
+                    </div>
+                </div>
+                <div class="scroll-bar vertical-scroll" title="Arraste para navegar verticalmente">
+                    <div class="scroll-track">
+                        <div class="scroll-thumb" id="vertical-thumb"></div>
+                    </div>
+                </div>
+                <div class="scroll-arrows">
+                    <button class="scroll-arrow" id="scroll-up" title="Navegar para cima">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                    <button class="scroll-arrow" id="scroll-down" title="Navegar para baixo">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <button class="scroll-arrow" id="scroll-left" title="Navegar para esquerda">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="scroll-arrow" id="scroll-right" title="Navegar para direita">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <aside class="sidebar right-sidebar">
+            <!-- Handle de redimensionamento para sidebar direita -->
+            <div class="resize-handle resize-handle-left" data-direction="left"></div>
+
+            <!-- Elementos utilitários ocultos (usados por export.js e updateConnectionMetrics) -->
+            <div style="display:none">
+                <div id="connectionAnalysisPanel"></div>
+                <span id="totalDistanceMetric"></span>
+                <span id="totalConnectionsMetric"></span>
+                <span id="cycleTimeMetric"></span>
+                <span id="cycleTimeRange"></span>
+                <span id="valueAddedTimeMetric"></span>
+                <span id="nonValueAddedTimeMetric"></span>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="section-title">Análise por Operador</h2>
+                <div id="operatorCyclesPanel" class="connection-analysis">
+                    <div class="no-connections-message">
+                        <i class="fas fa-users-cog"></i>
+                        <p>Aguardando execução...</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Product Planner Sidebar (Full Screen) -->
+        <aside id="plannerSidebar" class="planner-sidebar">
+            <div class="planner-sidebar-header">
+                <div class="planner-header-title">
+                    <h2>Roteiro do Produto</h2>
+                    <p class="planner-subtitle">Configure as etapas e ações dos operadores</p>
+                </div>
+                <button id="closePlannerSidebarBtn" class="planner-close-btn" title="Fechar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="planner-sidebar-body">
+                <div class="planner-toolbar">
+                    <div class="planner-product-section">
+                        <div class="planner-product-field">
+                            <label for="productNameInput">Nome do Produto</label>
+                            <input type="text" id="productNameInput" placeholder="Ex.: Produto A, SKU-001, etc." />
+                        </div>
+                        <div class="planner-schedule-group">
+                            <div class="planner-schedule-field">
+                                <label for="shiftStartInput">Início Exp.</label>
+                                <input type="time" id="shiftStartInput" value="07:00" />
+                            </div>
+                            <div class="planner-schedule-field">
+                                <label for="shiftEndInput">Fim Exp.</label>
+                                <input type="time" id="shiftEndInput" value="17:00" />
+                            </div>
+                            <div class="planner-schedule-field">
+                                <label for="lunchStartInput">Início Almoço</label>
+                                <input type="time" id="lunchStartInput" value="12:00" />
+                            </div>
+                            <div class="planner-schedule-field">
+                                <label for="lunchEndInput">Fim Almoço</label>
+                                <input type="time" id="lunchEndInput" value="13:00" />
+                            </div>
+                            <div class="planner-schedule-field planner-availability-field">
+                                <label for="totalAvailabilityInput">Disponib. (s)</label>
+                                <input type="number" id="totalAvailabilityInput" readonly tabindex="-1" />
+                            </div>
+                        </div>
+                        <div class="planner-product-meta">
+                            <span id="columnCountLabel" class="meta-badge">
+                                <i class="fas fa-columns"></i>
+                                <strong>0</strong> ações
+                            </span>
+                        </div>
+                    </div>
+                    <div class="planner-toolbar-actions">
+                        <button id="addPlannerStageBtn" class="planner-btn-stage">
+                            <i class="fas fa-layer-group"></i>
+                            <span>Nova Camada</span>
+                        </button>
+                        <button id="addPlannerColumnBtn" class="planner-btn-column">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Adicionar Ação</span>
+                        </button>
+                        <button id="toggleLoopingBtn" class="planner-btn-looping">
+                            <i class="fas fa-sync"></i>
+                            <span>Looping: Off</span>
+                        </button>
+                        <button id="clearAllColumnsBtn" class="planner-btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Limpar Tudo</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="planner-grid-container">
+                    <div class="planner-grid-wrapper">
+                        <div class="planner-grid" id="plannerColumnsGrid"></div>
+                        <div id="plannerEmptyState" class="planner-empty-state active">
+                            <i class="fas fa-table"></i>
+                            <p>Clique em <strong>"Adicionar Etapa Completa"</strong> ou <strong>"Adicionar Coluna"</strong> para começar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="planner-sidebar-footer">
+                <button id="playPlannerBtn" class="planner-action-btn success">
+                    <i class="fas fa-play"></i>
+                    <span>Executar Animação</span>
+                </button>
+                <button id="stopPlannerBtn" class="planner-action-btn danger" style="display: none;">
+                    <i class="fas fa-stop"></i>
+                    <span>Parar</span>
+                </button>
+                <button id="savePlannerBtn" class="planner-action-btn primary">
+                    <i class="fas fa-save"></i>
+                    <span>Salvar Roteiro</span>
+                </button>
+                <button id="loadPlannerBtn" class="planner-action-btn secondary" style="margin-left: 5px;">
+                    <i class="fas fa-upload"></i>
+                    <span>Carregar Roteiro</span>
+                </button>
+                <input type="file" id="loadPlannerInput" accept=".json" style="display: none;" />
+            </div>
+        </aside>
+    </main>
+
+    <footer class="app-footer">
+        <span>Uma dedicatória a <strong>Gregório Wachter</strong>, idealizador deste projeto.</span>
+    </footer>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div id="renameOption" class="menu-item">
+            <i class="fas fa-edit"></i>
+            <span>Renomear</span>
+        </div>
+        <div id="rotateOption" class="menu-item">
+            <i class="fas fa-sync"></i>
+            <span>Rotacionar 90°</span>
+        </div>
+        <div id="copyOption" class="menu-item">
+            <i class="fas fa-copy"></i>
+            <span>Copiar</span>
+        </div>
+        <div id="pasteOption" class="menu-item">
+            <i class="fas fa-paste"></i>
+            <span>Colar</span>
+        </div>
+        <div id="showDimensionsOption" class="menu-item">
+            <i class="fas fa-ruler-combined"></i>
+            <span>Mostrar Cotas</span>
+        </div>
+        <div id="lockOption" class="menu-item">
+            <i class="fas fa-lock"></i>
+            <span>Bloquear</span>
+        </div>
+        <div id="unlockOption" class="menu-item">
+            <i class="fas fa-unlock"></i>
+            <span>Desbloquear</span>
+        </div>
+        <div id="mergeAreasOption" class="menu-item">
+            <i class="fas fa-object-group"></i>
+            <span>Unir Áreas</span>
+        </div>
+        <div id="editPolygonOption" class="menu-item">
+            <i class="fas fa-edit"></i>
+            <span>Editar Medidas</span>
+        </div>
+        <div id="editWallLengthOption" class="menu-item">
+            <i class="fas fa-ruler"></i>
+            <span>Editar Comprimento</span>
+        </div>
+        <div id="splitWallOption" class="menu-item">
+            <i class="fas fa-cut"></i>
+            <span>Dividir Parede</span>
+        </div>
+        <div id="extendWallOption" class="menu-item">
+            <i class="fas fa-arrows-alt-h"></i>
+            <span>Estender Parede</span>
+        </div>
+        <div id="attachOrbitalOption" class="menu-item">
+            <i class="fas fa-link"></i>
+            <span>Anexar ao Recurso</span>
+        </div>
+        <div id="allowConnectionPassOption" class="menu-item">
+            <i class="fas fa-route"></i>
+            <span>Permitir Passagem de Conexão</span>
+        </div>
+        <div id="allowOrbitalPassOption" class="menu-item">
+            <i class="fas fa-circle-notch"></i>
+            <span>Permitir Passagem de Zona de Exclusão</span>
+        </div>
+        <div id="deleteZonesOption" class="menu-item">
+            <i class="fas fa-trash-alt"></i>
+            <span>Apagar Zonas de Exclusão</span>
+        </div>
+        <div id="deleteOption" class="menu-item">
+            <i class="fas fa-trash"></i>
+            <span>Excluir</span>
+        </div>
+    </div>
+
+    <!-- Modal para entrada de texto -->
+    <div id="inputModalOverlay" class="modal-overlay">
+        <div id="inputModalContent" class="modal-content">
+            <div class="modal-header">
+                <i id="inputModalIcon" class="fas fa-edit"></i>
+                <h3 id="inputModalTitle" class="modal-title">Renomear</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputModalField">Nome:</label>
+                    <input type="text" id="inputModalField" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="inputModalConfirmBtn" class="modal-button primary">Confirmar</button>
+                <button id="inputModalCancelBtn" class="modal-button secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para notificações -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div id="modalContent" class="modal-content">
+            <div class="modal-header">
+                <i id="modalIcon" class="fas fa-info-circle"></i>
+                <h3 id="modalTitle" class="modal-title"></h3>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="modalCloseBtn" class="modal-button">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input de arquivo oculto para carregar layouts -->
+    <input type="file" id="layoutFileInput" accept=".json" class="hidden" />
+
+    <script src="https://cdn.jsdelivr.net/npm/polygon-clipping@latest/dist/polygon-clipping.umd.min.js"></script>
+    <!-- Script principal modularizado -->
+    <script type="module" src="./src/main.js"></script>
+    <!-- Script antigo (remover após migração completa) -->
+    <!-- <script src="script.js"></script> -->
+  </body>
+</html>
