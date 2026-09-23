@@ -1,0 +1,392 @@
+#layoutCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: default;
+    background-color: var(--bg-color);
+}
+
+#layoutCanvas.drawing {
+    cursor: crosshair;
+}
+
+#layoutCanvas.grabbing {
+    cursor: grabbing;
+}
+
+.connection-animations-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    contain: paint;
+    z-index: 5;
+}
+
+.connection-operator {
+    position: absolute;
+    transform-origin: 50% 50%;
+    pointer-events: none;
+    image-rendering: pixelated;
+    will-change: transform, top, left;
+    display: none;
+}
+
+/* Element highlights */
+.drawing-preview {
+    stroke: var(--primary-color);
+    stroke-width: 2;
+    stroke-dasharray: 5, 5;
+    fill: rgba(255, 107, 0, 0.1);
+}
+
+/* Orbital zone styles */
+.orbital-zone {
+    stroke: var(--orbital-color);
+    stroke-width: 2;
+    fill: rgba(139, 92, 246, 0.1);
+}
+
+/* Blocking area styles */
+.blocking-area {
+    stroke: var(--blocking-color);
+    stroke-width: 2;
+    fill: rgba(220, 38, 38, 0.2);
+}
+
+/* Connection path styles */
+.connection-path {
+    stroke: var(--text-light);
+    stroke-width: 2;
+    fill: none;
+    marker-end: url(#arrowhead);
+}
+
+.connection-path.highlight {
+    stroke: var(--primary-color);
+    stroke-width: 3;
+}
+
+/* Wall styles */
+.wall-element {
+    stroke: var(--wall-color);
+    stroke-width: 3;
+    fill: none;
+    cursor: pointer;
+}
+
+.wall-element:hover {
+    stroke: var(--wall-hover);
+}
+
+.wall-element.selected {
+    stroke: var(--wall-selected);
+    stroke-width: 4;
+}
+
+.wall-preview {
+    stroke: var(--wall-preview-color);
+    stroke-width: 3;
+    stroke-dasharray: 5, 5;
+    fill: none;
+    pointer-events: none;
+}
+
+.snap-indicator {
+    fill: var(--snap-indicator-color);
+    stroke: #ffffff;
+    stroke-width: 1;
+    pointer-events: none;
+}
+
+.wall-dimension {
+    font-size: 11px;
+    fill: var(--wall-color);
+    font-weight: 600;
+    text-anchor: middle;
+    pointer-events: none;
+}
+
+.wall-length-input {
+    position: absolute;
+    background: var(--bg-light);
+    border: 2px solid var(--wall-color);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    font-size: 12px;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Grid lines */
+.grid-lines {
+    stroke: var(--grid-line-thin);
+    stroke-width: 0.5;
+}
+
+.grid-lines-thick {
+    stroke: var(--grid-line-thick);
+    stroke-width: 1;
+}
+
+/* Indicador de setas direcionais para midpoints */
+.midpoint-arrows-indicator {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: midpointPulse 2s ease-in-out infinite;
+    transition: opacity 0.3s ease;
+}
+
+.midpoint-arrows-indicator .keyboard-keys {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.midpoint-arrows-indicator .key-row {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+}
+
+.midpoint-arrows-indicator .key {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(145deg, #ffffff, #e2e8f0);
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #475569;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    animation: keyPulse 1.5s ease-in-out infinite;
+}
+
+.midpoint-arrows-indicator .key.active {
+    background: linear-gradient(145deg, #ff6b00, #e65f00);
+    border-color: #b94700;
+    color: #ffffff;
+    box-shadow: 
+        0 4px 8px rgba(255, 107, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Dark theme adjustments */
+.dark-theme .midpoint-arrows-indicator .key {
+    background: linear-gradient(145deg, #374151, #1f2937);
+    border-color: #6b7280;
+    color: #e5e7eb;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .midpoint-arrows-indicator .key.active {
+    background: linear-gradient(145deg, #ff6b00, #e65f00);
+    border-color: #b94700;
+    color: #ffffff;
+}
+
+/* Destaque para aresta selecionada no modo de edição de midpoint */
+.selected-edge-highlight {
+    stroke: #ff6b00 !important;
+    stroke-width: 3 !important;
+    stroke-dasharray: 5,5 !important;
+    animation: edgeHighlight 1s ease-in-out infinite alternate;
+}
+
+/* Indicador visual para recursos com hubs */
+.resource-with-hubs {
+    /* Borda sutil para indicar que o recurso tem hubs de conexão */
+    outline: 1px dashed rgba(255, 107, 0, 0.3);
+    outline-offset: 2px;
+}
+
+/* Estados de hover para hubs */
+.hub-hover-indicator {
+    /* Estilo aplicado quando mouse está sobre um hub */
+    background-color: rgba(255, 107, 0, 0.1);
+    border-radius: 50%;
+}
+
+.hub-created {
+    animation: hubCreated 0.3s ease-out;
+}
+
+/* Indicador de hub ativo durante criação de conexão */
+.hub-connection-preview {
+    /* Estilo para hub que está sendo usado como preview durante criação */
+    box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.5);
+    background-color: rgba(255, 107, 0, 0.1);
+}
+
+/* Debug: destaque para recursos com hubs (desenvolvimento) */
+.debug-show-hubs .resource-with-hubs {
+    outline-color: rgba(255, 0, 0, 0.5);
+    outline-width: 2px;
+}
+
+.debug-show-hubs .connection-hub {
+    /* Em modo debug, hubs podem ter cores diferentes */
+    filter: hue-rotate(90deg);
+}
+
+/* Canvas scroll controls - DESABILITADOS (usando scroll nativo) */
+.canvas-scroll-controls {
+    display: none; /* Ocultar controles customizados */
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    pointer-events: auto;
+    z-index: 100;
+}
+
+.scroll-bar {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.scroll-bar:hover {
+    opacity: 1;
+}
+
+.horizontal-scroll {
+    width: 180px;
+    height: 14px;
+    bottom: 50px;
+    right: 0;
+}
+
+.vertical-scroll {
+    width: 14px;
+    height: 180px;
+    bottom: 0;
+    right: 50px;
+}
+
+.scroll-track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: var(--radius);
+    background-color: var(--bg-light);
+}
+
+.scroll-thumb {
+    position: absolute;
+    background-color: var(--primary-color);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+
+.scroll-thumb:hover {
+    background-color: var(--primary-hover);
+}
+
+.horizontal-scroll .scroll-thumb {
+    height: 100%;
+    width: 30px;
+    min-width: 15px;
+    top: 0;
+    left: 0;
+}
+
+.vertical-scroll .scroll-thumb {
+    width: 100%;
+    height: 30px;
+    min-height: 15px;
+    left: 0;
+    top: 0;
+}
+
+.scroll-arrows {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: 20px 20px;
+    grid-template-rows: 20px 20px;
+    gap: 1px;
+    width: 42px;
+    height: 42px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1px;
+    box-shadow: var(--shadow-sm);
+}
+
+.scroll-arrow {
+    background-color: transparent;
+    border: none;
+    border-radius: 2px;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.scroll-arrow:hover {
+    background-color: var(--primary-color);
+    color: white;
+    opacity: 1;
+}
+
+#scroll-up {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+#scroll-down {
+    grid-column: 1 / -1;
+    grid-row: 2;
+}
+
+#scroll-left {
+    grid-column: 1;
+    grid-row: 1 / -1;
+}
+
+#scroll-right {
+    grid-column: 2;
+    grid-row: 1 / -1;
+}
+
+/* Canvas tips */
+.canvas-tips {
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(255, 107, 0, 0.9);
+    color: white;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.canvas-tips:hover {
+    opacity: 1;
+}

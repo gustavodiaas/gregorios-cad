@@ -1,0 +1,224 @@
+/* Identidade visual compartilhável com o ecossistema Indicadores. */
+
+.app-container {
+    overflow: hidden;
+}
+
+.app-header {
+    min-height: var(--header-height);
+    padding: 0 1.25rem;
+    border-bottom-color: rgba(15, 23, 42, 0.06);
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+}
+
+.logo-container {
+    gap: 0.75rem;
+    min-width: max-content;
+}
+
+.brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    color: #fff;
+    background: linear-gradient(145deg, #ff7a1a, var(--primary-color));
+    box-shadow: 0 8px 18px rgba(255, 107, 0, 0.22);
+}
+
+.brand-copy {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.logo {
+    color: var(--text-color);
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+}
+
+.brand-subtitle {
+    margin-top: 0.25rem;
+    color: var(--text-light);
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+.header-actions {
+    align-items: center;
+}
+
+.action-button,
+.theme-toggle,
+.zoom-indicator,
+.speed-select {
+    min-height: 2.35rem;
+    border-color: rgba(15, 23, 42, 0.08);
+    border-radius: 0.65rem;
+    box-shadow: none;
+}
+
+.action-button:hover,
+.theme-toggle:hover {
+    background-color: var(--primary-subtle);
+    border-color: rgba(255, 107, 0, 0.35);
+}
+
+#exportImgBtn {
+    color: #fff;
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 6px 14px rgba(255, 107, 0, 0.18);
+}
+
+#exportImgBtn:hover {
+    color: #fff;
+    background: var(--primary-hover);
+}
+
+.app-content {
+    gap: 0.75rem;
+    min-height: 0;
+    padding: 0.75rem 0.75rem 0;
+}
+
+.left-sidebar {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.canvas-area {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.sidebar-section {
+    padding: 1.1rem;
+}
+
+.section-title {
+    margin-bottom: 0.8rem;
+    color: var(--text-light);
+    font-size: 0.7rem;
+    letter-spacing: 0.11em;
+}
+
+.tool-button {
+    border-color: transparent;
+    border-radius: 0.65rem;
+}
+
+.tool-button:hover {
+    background-color: var(--primary-subtle);
+}
+
+.tool-button.active {
+    background-color: var(--primary-subtle);
+    border: 1px solid rgba(255, 107, 0, 0.5);
+    box-shadow: none;
+}
+
+.optimize-button {
+    background-color: var(--primary-color);
+    border-radius: 0.65rem;
+    box-shadow: 0 6px 14px rgba(255, 107, 0, 0.18);
+}
+
+.optimize-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.floor-tabs-wrapper,
+.dropdown-content,
+.context-menu,
+.modal-content {
+    border-radius: 0.85rem;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.1);
+}
+
+.sidebar,
+.canvas-area {
+    scrollbar-color: #c5c7cc transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.canvas-area::-webkit-scrollbar-thumb {
+    background: #c5c7cc;
+}
+
+.app-footer {
+    min-height: var(--footer-height);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    color: var(--text-light);
+    background: var(--bg-color);
+    border-top: 1px solid rgba(15, 23, 42, 0.05);
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+}
+
+.app-footer strong {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.right-sidebar {
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height) - var(--footer-height));
+}
+
+.dark-theme .app-header,
+.dark-theme .left-sidebar,
+.dark-theme .canvas-area {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.dark-theme .action-button:hover,
+.dark-theme .theme-toggle:hover,
+.dark-theme .tool-button:hover,
+.dark-theme .tool-button.active {
+    background-color: var(--primary-subtle);
+}
+
+.dark-theme .app-footer {
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 1100px) {
+    .brand-subtitle,
+    .action-button span {
+        display: none;
+    }
+
+    .logo {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-header {
+        padding: 0 0.75rem;
+    }
+
+    .brand-copy {
+        display: none;
+    }
+
+    .app-content {
+        gap: 0.5rem;
+        padding: 0.5rem 0.5rem 0;
+    }
+
+    .app-footer {
+        text-align: center;
+    }
+}

@@ -1,0 +1,163 @@
+:root {
+    --primary-color: #ff6b00;
+    --primary-hover: #e65f00;
+    --primary-subtle: #fff3e8;
+    --secondary-color: #10b981; /* Added for product planner */
+    --secondary-hover: #059669;
+    --danger-color: #ef4444;
+    --danger-hover: #dc2626;
+    --warning-color: #f59e0b;
+    --warning-hover: #d97706;
+    --blocking-color: #dc2626;
+    --blocking-hover: #b91c1c;
+    --orbital-color: #8b5cf6;
+    --orbital-hover: #7c3aed;
+    --text-color: #1f2937;
+    --text-light: #6b7280;
+    --bg-color: #f6f6f7;
+    --bg-light: #ffffff;
+    --bg-dark: #f1f1f2;
+    --border-color: #e6e6e8;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --radius-sm: 0.375rem;
+    --radius: 0.5rem;
+    --radius-md: 0.625rem;
+    --radius-lg: 0.875rem;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --sidebar-width: 280px;
+    --left-sidebar-width: 280px;
+    --right-sidebar-width: 280px;
+    --header-height: 72px;
+    --footer-height: 38px;
+    --transition: all 0.2s ease;
+    --grid-line-thin: rgba(128, 128, 128, 0.3);
+    --grid-line-thick: rgba(128, 128, 128, 0.6);
+    --wall-color: #8b4513;
+    --wall-hover: #a0522d;
+    --wall-selected: #cd853f;
+    --snap-indicator-color: #ff4444;
+    --wall-preview-color: rgba(139, 69, 19, 0.6);
+    --dimension-color: #000000;
+}
+
+/* Dark theme variables */
+.dark-theme {
+    --primary-color: #ff7a1a;
+    --primary-hover: #ff9a52;
+    --primary-subtle: #402616;
+    --secondary-color: #10b981;
+    --secondary-hover: #34d399;
+    --danger-color: #ef4444;
+    --danger-hover: #f87171;
+    --warning-color: #f59e0b;
+    --warning-hover: #fbbf24;
+    --blocking-color: #dc2626;
+    --blocking-hover: #f87171;
+    --orbital-color: #8b5cf6;
+    --orbital-hover: #a78bfa;
+    --text-color: #f9fafb;
+    --text-light: #d1d5db;
+    --bg-color: #111827;
+    --bg-light: #1f2937;
+    --bg-dark: #0f172a;
+    --border-color: #374151;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.26);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.26);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+    --grid-line-thin: rgba(255, 255, 255, 0.2);
+    --grid-line-thick: rgba(255, 255, 255, 0.4);
+    --dimension-color: #ffffff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes midpointPulse {
+    0%, 100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
+@keyframes keyPulse {
+    0%, 100% {
+        transform: translateY(0px);
+        box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        transform: translateY(-1px);
+        box-shadow: 
+            0 4px 8px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes edgeHighlight {
+    0% {
+        stroke-opacity: 0.6;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-opacity: 1;
+        stroke-dashoffset: 10;
+    }
+}
+
+@keyframes hubCreated {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes planner-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(255, 107, 0, 0.8), 0 0 20px rgba(255, 107, 0, 0.4);
+    }
+}

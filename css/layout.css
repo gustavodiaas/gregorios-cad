@@ -1,0 +1,223 @@
+/* App container */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+.app-header {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    background-color: var(--bg-light);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    z-index: 30;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: -0.025em;
+}
+
+.logo span {
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Main content */
+.app-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--bg-light);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    flex-shrink: 0;
+    position: relative;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--primary-color) var(--bg-light); /* Firefox */
+}
+
+.left-sidebar {
+    width: var(--left-sidebar-width);
+}
+
+.right-sidebar {
+    width: max-content;
+    min-width: var(--right-sidebar-width);
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    height: calc(100vh - var(--header-height));
+    z-index: 100;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: var(--bg-light);
+    border-radius: var(--radius);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: var(--radius);
+    border: 2px solid var(--bg-light);
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+.sidebar::-webkit-scrollbar-corner {
+    background: var(--bg-light);
+}
+
+.right-sidebar.hidden {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Sidebar direita é overlay (position fixed), o canvas sempre ocupa a largura total */
+
+/* Estilos para redimensionamento */
+body.is-resizing {
+    user-select: none;
+    cursor: col-resize;
+}
+
+body.is-resizing * {
+    cursor: col-resize !important;
+    user-select: none !important;
+}
+
+.canvas-area {
+    flex: 1;
+    position: relative;
+    background-color: var(--bg-color);
+    overflow: auto; /* Mudança para scroll nativo */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--primary-color) var(--bg-light); /* Firefox */
+}
+
+#canvas-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.resize-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: transparent;
+    cursor: col-resize;
+    z-index: 1000;
+    transition: background-color 0.2s ease;
+}
+
+.resize-handle:hover {
+    background-color: var(--primary-color);
+}
+
+.resize-handle-right {
+    right: -2px;
+}
+
+.resize-handle-left {
+    left: -2px;
+}
+
+.resize-handle.resizing {
+    background-color: var(--primary-color);
+}
+
+.sidebar-section {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Dark theme specific styles for sidebar resizing */
+.dark-theme .resize-handle:hover {
+    background-color: var(--primary-hover);
+}
+
+.dark-theme .resize-handle.resizing {
+    background-color: var(--primary-hover);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    :root {
+        --sidebar-width: 250px;
+        --left-sidebar-width: 250px;
+        --right-sidebar-width: 250px;
+    }
+}
+
+@media (max-width: 992px) {
+    :root {
+        --sidebar-width: 220px;
+        --left-sidebar-width: 220px;
+        --right-sidebar-width: 220px;
+    }
+    .sidebar-section {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-content {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+    }
+    
+    .canvas-area {
+        flex: 1;
+    }
+}

@@ -1,0 +1,304 @@
+/* Connection Analysis Panel */
+.connection-analysis {
+    min-height: 150px;
+    padding: 0.5rem;
+    overflow-x: auto;
+}
+
+.no-connections-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.no-connections-message i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
+}
+
+.no-connections-message p {
+    font-size: 0.875rem;
+}
+
+.analysis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.analysis-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.analysis-count {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    background-color: var(--bg-subtle);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.analysis-section {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: var(--bg-subtle);
+    border-radius: 0.25rem;
+}
+
+.analysis-section h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+
+.connection-list, .stats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.connection-list li, .stats-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.connection-list li:last-child, .stats-list li:last-child {
+    border-bottom: none;
+}
+
+.resource-names {
+    white-space: nowrap;
+}
+
+.connection-count {
+    font-weight: 600;
+    color: var(--primary);
+    background-color: var(--primary-subtle);
+    border-radius: 0.25rem;
+    padding: 0 0.5rem;
+}
+
+.stat-label {
+    color: var(--text-light);
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+}
+
+.data-table th, .data-table td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.data-table th {
+    background-color: var(--bg-dark);
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: var(--bg-dark);
+}
+
+.data-table tfoot tr {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.data-table tbody tr.connection-highlighted {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.data-table tbody tr.connection-highlighted td {
+    color: inherit;
+}
+
+/* Optimization metrics */
+.optimization-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.metric-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+}
+
+.metric-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+}
+
+.metric-content {
+    flex: 1;
+}
+
+.metric-content h3 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.15rem;
+}
+
+.metric-content p {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.metric-sub {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-top: 0.1rem;
+}
+
+/* =============================
+   Operator cards (side by side)
+   ============================= */
+.operator-cards-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
+    align-items: flex-start;
+}
+
+.operator-card {
+    flex: 0 0 auto;
+    min-width: 180px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.operator-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.operator-card-header i {
+    font-size: 0.78rem;
+    opacity: 0.9;
+}
+
+.operator-card-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    padding: 0.4rem 0.75rem 0.2rem;
+    background-color: var(--bg-color, #f8fafc);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.operator-card-empty {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    padding: 0.5rem 0.75rem;
+    font-style: italic;
+    white-space: nowrap;
+}
+
+.operator-card-table {
+    width: 100%;
+}
+
+.operator-card-table th,
+.operator-card-table td {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+
+.operator-card-table th {
+    background-color: var(--bg-dark);
+    font-size: 0.72rem;
+}
+
+.operator-card-table td:first-child {
+    color: var(--text-light);
+}
+
+.operator-card-table td:last-child,
+.operator-card-table td strong {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.operator-card-table tfoot tr {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+}
+
+.operator-card-table tfoot td {
+    color: #fff !important;
+}
+
+.operator-card-table .metric-va {
+    color: #43a047 !important;
+}
+
+.operator-card-table .metric-nva {
+    color: #e53935 !important;
+}
+
+/* Dark theme */
+.dark-theme .operator-card {
+    background-color: var(--bg-light);
+    border-color: var(--border-color);
+}
+
+.dark-theme .operator-card-section-title {
+    background-color: var(--bg-dark);
+}

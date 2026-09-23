@@ -1,0 +1,350 @@
+/* Tool buttons */
+.tool-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tool-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+}
+
+.tool-button:hover {
+    background-color: var(--bg-color);
+    border-color: var(--primary-color);
+}
+
+.tool-button.active {
+    background-color: var(--bg-light); 
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.tool-button.active:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tool-button.danger {
+    background-color: var(--danger-color);
+    color: white;
+    border-color: var(--danger-color);
+}
+
+.tool-button.danger:hover {
+    background-color: var(--danger-hover);
+}
+
+.tool-button.warning {
+    background-color: var(--warning-color);
+    color: white;
+    border-color: var(--warning-color);
+}
+
+.tool-button.warning:hover {
+    background-color: var(--warning-hover);
+}
+
+.tool-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tool-button i {
+    font-size: 1rem;
+}
+
+/* Tool button group with dropdown */
+.tool-button-group {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* Garantir mesma largura dos outros botões */
+}
+
+.tool-button-group .tool-button {
+    width: 100%; /* Botão ocupa toda a largura disponível */
+    justify-content: space-between; /* Distribui conteúdo e seta */
+}
+
+.tool-button .dropdown-arrow {
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+    opacity: 0.7;
+    transition: transform var(--transition);
+    flex-shrink: 0; /* Evita que a seta diminua */
+}
+
+.tool-button-group.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Shape selector */
+.shape-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.shape-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.shape-button i {
+    font-size: 1.25rem;
+}
+
+.shape-button:hover {
+    background-color: var(--bg-color);
+    border-color: var(--primary-color);
+}
+
+.shape-button.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Optimization controls */
+.optimization-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.optimize-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+}
+
+.optimize-button:hover {
+    background-color: var(--secondary-hover);
+}
+
+.loading-icon {
+    display: none;
+}
+
+.optimize-button.loading .loading-icon {
+    display: inline-block;
+}
+
+.optimize-button.loading span {
+    display: none;
+}
+
+/* History controls */
+.history-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.history-controls .tool-button {
+    flex: 1;
+}
+
+/* Floor controls */
+.floor-controls {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 12;
+    pointer-events: none;
+}
+
+.floor-tabs-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 0.4rem;
+    pointer-events: auto;
+}
+
+.floor-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 0;
+}
+
+.floor-tabs::-webkit-scrollbar {
+    width: 4px;
+}
+
+.floor-tabs::-webkit-scrollbar-thumb {
+    background-color: rgba(148, 163, 184, 0.6);
+    border-radius: 9999px;
+}
+
+.floor-tab {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--text-light);
+    border-radius: var(--radius-md);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+    flex: 1;
+    text-align: left;
+}
+
+.floor-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.floor-overlay-check {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+    margin: 0;
+    border-radius: 3px;
+}
+
+.floor-tab:hover {
+    color: var(--primary-color);
+    background-color: var(--bg-dark);
+}
+
+.floor-tab.active {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px rgba(255, 107, 0, 0.35);
+}
+
+.floor-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 1.75rem;
+    border: 1px dashed var(--border-color);
+    background-color: transparent;
+    color: var(--text-light);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.7rem;
+}
+
+.floor-add-btn:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+.dark-theme .floor-tabs-wrapper {
+    background-color: var(--bg-dark);
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.dark-theme .floor-tab {
+    color: var(--text-light);
+}
+
+.dark-theme .floor-tab:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Zoom indicator */
+.zoom-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+    height: 2.25rem; /* Mesma altura do theme-toggle */
+}
+
+/* Canvas tips */
+.canvas-tips {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background-color: rgba(255, 107, 0, 0.9); /* Azul primário com transparência */
+    color: white;
+    border-radius: var(--radius);
+    font-size: 0.75rem; /* Mantido pequeno */
+    font-weight: 500;
+    height: 2.25rem; /* Mesma altura do theme-toggle */
+    box-shadow: var(--shadow-sm);
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.canvas-tips:hover {
+    opacity: 1;
+}
+
+.canvas-tips small { /* Garantir que o small herde a cor corretamente */
+    color: inherit;
+}
+
+/* Locked element indicator */
+.lock-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--warning-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
