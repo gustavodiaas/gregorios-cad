@@ -1,0 +1,112 @@
+import { Tool } from './Tool.js';
+import { 
+    getCanvas, 
+    getCurrentStairRect, 
+    setCurrentStairRect, 
+    setIsDrawingStair, 
+    getIsDrawingStair,
+    isPanning
+} from '../state.js';
+import { createStairFromRect, resetStairDrawingState } from '../stairs.js';
+import { saveStateToHistory } from '../history.js';
+import { drawAll } from '../drawing.js';
+import { getAreaAtPos, getMousePos } from '../events/mouseUtils.js';
+
+export class StairTool extends Tool {
+    constructor() {
+        super();
+        this.name = 'StairTool';
+    }
+
+    activate() {
+        super.activate();
+        const canvas = getCanvas();
+        if (canvas) {
+            canvas.style.cursor = 'crosshair';
+        }
+    }
+
+    deactivate() {
+        super.deactivate();
+        resetStairDrawingState();
+        const canvas = getCanvas();
+        if (canvas) {
+            canvas.style.cursor = 'default';
+        }
+        drawAll();
+    }
+
+    onMouseDown(e) {
+        if (e.button !== 0) { super.onMouseDown(e); return; }
+
+        const canvas = getCanvas();
+        const pos = getMousePos(e);
+
+        const parentArea = getAreaAtPos(pos);
+
+        if (!parentArea) {
+            canvas.style.cursor = 'not-allowed';
+            return;
+        }
+
+        const stairRect = getCurrentStairRect();
+        stairRect.x = pos.x;
+        stairRect.y = pos.y;
+        stairRect.width = 0;
+        stairRect.height = 0;
+        stairRect.parentAreaId = parentArea.id;
+        setCurrentStairRect(stairRect);
+        setIsDrawingStair(true);
+        canvas.style.cursor = 'crosshair';
+        drawAll();
+    }
+
+    onMouseMove(e) {
+        super.onMouseMove(e);
+        if (isPanning) return;
+        
+        const pos = getMousePos(e);
+
+        if (getIsDrawingStair()) {
+            const stairRect = getCurrentStairRect();
+            stairRect.width = pos.x - stairRect.x;
+            stairRect.height = pos.y - stairRect.y;
+            setCurrentStairRect(stairRect);
+            drawAll();
+        }
+    }
+
+    onMouseUp(e) {
+        if (e.button !== 0) { super.onMouseUp(e); return; }
+        if (!getIsDrawingStair()) return;
+
+        const canvas = getCanvas();
+        const pos = getMousePos(e);
+
+        const stairRect = getCurrentStairRect();
+
+        stairRect.width = pos.x - stairRect.x;
+        stairRect.height = pos.y - stairRect.y;
+        const finalX = stairRect.width < 0 ? stairRect.x + stairRect.width : stairRect.x;
+        const finalY = stairRect.height < 0 ? stairRect.y + stairRect.height : stairRect.y;
+        const finalWidth = Math.abs(stairRect.width);
+        const finalHeight = Math.abs(stairRect.height);
+
+        const centerPos = { x: finalX + finalWidth / 2, y: finalY + finalHeight / 2 };
+        const parentArea = getAreaAtPos(centerPos);
+        if (parentArea) {
+            stairRect.parentAreaId = parentArea.id;
+        }
+
+        setCurrentStairRect(stairRect);
+
+        const creationResult = createStairFromRect(stairRect);
+        if (creationResult) {
+            saveStateToHistory('Criar escada');
+        }
+
+        resetStairDrawingState();
+        canvas.style.cursor = 'default';
+        drawAll();
+    }
+}
