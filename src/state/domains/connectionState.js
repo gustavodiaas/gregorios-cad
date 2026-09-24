@@ -13,8 +13,15 @@
 /** @typedef {import('../../types.js').EntityId} EntityId */
 
 import { connections } from './floorState.js';
-import { updateConnectionDistancesTable } from '../../flow-metrics.js';
 import { generateId, ID_PREFIXES } from '../../utils/idGenerator.js';
+
+// Lazy import para evitar dependência circular:
+// connectionState → flow-metrics → state → connectionState
+function triggerConnectionTableUpdate() {
+    import('../../flow-metrics.js').then(({ updateConnectionDistancesTable }) => {
+        updateConnectionDistancesTable();
+    }).catch(() => {});
+}
 
 // =============================================================================
 // ESTADO DE DESENHO
@@ -78,7 +85,7 @@ export function getConnections() {
 export function setConnections(newConnections) {
     if (!Array.isArray(newConnections)) {
         connections.length = 0;
-        updateConnectionDistancesTable();
+        triggerConnectionTableUpdate();
         return;
     }
 
@@ -90,7 +97,7 @@ export function setConnections(newConnections) {
     connections.push(...newConnections);
     
     // Atualizar métricas quando conexões mudam
-    updateConnectionDistancesTable();
+    triggerConnectionTableUpdate();
 }
 
 /**

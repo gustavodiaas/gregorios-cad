@@ -7,7 +7,7 @@
     <title>Gregório's CAD | Layouts industriais inteligentes</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="drag-styles.css">
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@4.2.1/dist/jspdf.umd.min.js"></script>
     <script>
         // Verificar se jsPDF carregou corretamente
         window.addEventListener('load', function() {
@@ -720,7 +720,7 @@
     <!-- Input de arquivo oculto para carregar layouts -->
     <input type="file" id="layoutFileInput" accept=".json" class="hidden" />
 
-    <script src="https://cdn.jsdelivr.net/npm/polygon-clipping@latest/dist/polygon-clipping.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/polygon-clipping@0.15.7/dist/polygon-clipping.umd.min.js"></script>
     <!-- Script principal modularizado -->
     <script type="module" src="./src/main.js"></script>
     <!-- Script antigo (remover após migração completa) -->
