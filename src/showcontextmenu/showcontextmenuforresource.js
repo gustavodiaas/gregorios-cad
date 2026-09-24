@@ -9,7 +9,7 @@ import {
 } from '../resources.js';
 import { mergeResources } from '../merge_resources/resource_operations.js';
 import { duplicateResource } from '../merge_resources/duplicateResource.js';
-import { rotateResource } from '../merge_resources/rotateResource.js';
+import { rotateResource } from '../merge_resources/rotateresource.js';
 import { ensureContextMenuElement, hideContextMenu } from './showcontextmenuutils.js';
 import { applyColorToResource } from '../color-palette.js';
 import { pasteImageToResource, removeImageFromResource, copyResourceImageToClipboard } from '../resource-image.js';

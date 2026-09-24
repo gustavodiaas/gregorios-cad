@@ -11,10 +11,10 @@ const ACTION_OPTIONS = [
 ];
 
 const SPRITE_OPTIONS = [
-    { value: 'stopped man.gif', label: 'Stopped Man' },
-    { value: 'walking man.gif', label: 'Walking Man' },
-    { value: 'working man.gif', label: 'Working Man' },
-    { value: 'pallet man.gif', label: 'Pallet Man' }
+    { value: 'stopped man.gif', label: 'Parado' },
+    { value: 'assets/operator-walking.svg', label: 'Em movimento' },
+    { value: 'assets/operator-working.svg', label: 'Em operação' },
+    { value: 'assets/operator-pallet.svg', label: 'Com paleteira' }
 ];
 
 const COLUMN_TYPES = [

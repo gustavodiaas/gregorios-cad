@@ -34,9 +34,9 @@ const SPRITE_ROTATION_OFFSET_RAD = Math.PI / 2;
  */
 const DEFAULT_OPTIONS = {
     frameRate: 30,
-    spriteSrc: 'walking man.gif',
-    workingSpriteSrc: 'working man.gif',
-    palletSpriteSrc: 'pallet man.gif',
+    spriteSrc: 'assets/operator-walking.svg',
+    workingSpriteSrc: 'assets/operator-working.svg',
+    palletSpriteSrc: 'assets/operator-pallet.svg',
     speedCmPerSec: 60,
     baseScale: 0.85,
     scaleMultiplier: 2
@@ -431,6 +431,12 @@ class ConnectionSprite {
         this.element.draggable = false;
         this.element.decoding = 'async';
         this.element.loading = 'lazy';
+        this.element.addEventListener('error', () => {
+            if (this.currentSrc !== 'stopped man.gif') {
+                this.currentSrc = 'stopped man.gif';
+                this.element.src = this.currentSrc;
+            }
+        });
         this.mode = null;
         this.currentSrc = null;
         this.setMode('walking');

@@ -1,6 +1,6 @@
 // Arquivo principal: importa e executa todos os módulos/funções
 import { toggleGlobalDimensions, getGlobalShowDimensions } from './config.js';
-import { setCanvas, setCtx, setStaticCanvas, setStaticCtx, setScale, getScale, setOffsetXCanvas, setOffsetYCanvas, movementAreas, walls, nextAreaId, getCurrentConnectionWidth, setCurrentConnectionWidth } from './state.js';
+import { setCanvas, setCtx, setStaticCanvas, setStaticCtx, setScale, getScale, setOffsetXCanvas, setOffsetYCanvas, getCurrentConnectionWidth, setCurrentConnectionWidth } from './state.js';
 import * as Drawing from './drawing.js';
 import { 
     initializeEventListeners} from './events.js';
@@ -14,7 +14,7 @@ import { initializeNavMeshControls } from './navmesh-controls.js'; // Sistema de
 import { getAllMovementAreas, calculateBoundingBox } from './areas.js';
 import { getAllFloors } from './state.js';
 import { setActiveTool, getCurrentTool } from './active_tool.js';
-import { createOpening, startCreatingOpening, migrateBaseOpeningsToAdvanced } from './openings.js';
+import { startCreatingOpening, migrateBaseOpeningsToAdvanced } from './openings.js';
 import './pathfinding.js'; // Sistema de pathfinding A*
 import './navigation.js'; // Sistema de navegação mesh
 import { initializeConnectionAnimator } from './connections/connectionAnimations.js';
@@ -411,9 +411,9 @@ function main() {
     setStaticCtx(staticDomCtx);
 
     initializeConnectionAnimator({
-        spriteSrc: window.connectionOperatorSpriteSrc || 'walking man.gif',
-        workingSpriteSrc: window.connectionOperatorWorkingSpriteSrc || 'working man.gif',
-        palletSpriteSrc: window.connectionOperatorPalletSpriteSrc || 'pallet man.gif',
+        spriteSrc: window.connectionOperatorSpriteSrc || 'assets/operator-walking.svg',
+        workingSpriteSrc: window.connectionOperatorWorkingSpriteSrc || 'assets/operator-working.svg',
+        palletSpriteSrc: window.connectionOperatorPalletSpriteSrc || 'assets/operator-pallet.svg',
         frameRate: 30
     });
     initializeFloorManager();
@@ -498,11 +498,7 @@ function main() {
         centerViewBtn.addEventListener('click', () => {
             centerView();
         });
-        
-        // Aplicar classe active inicialmente, já que a vista começa centralizada
-        // A classe será removida após o timeout no centerView
-        centerViewBtn.classList.add('active');
-    }    
+    }
     
     // Adiciona event listener ao botão de mostrar/esconder todas as cotas
     const toggleAllDimensionsBtn = document.getElementById('toggleAllDimensionsBtn');
@@ -543,39 +539,8 @@ function main() {
         }
     });
     
-    // ÁREA DE TESTE - Adicionar uma área temporária para testar
-    // 1000cm x 1000cm = 500px x 500px (pixelsPerCm = 0.5)
-    const testArea = {
-        id: nextAreaId,
-        x: 100,
-        y: 100,
-        width: 500,
-        height: 500,
-        vertices: [
-            [100, 100],
-            [600, 100],
-            [600, 600],
-            [100, 600]
-        ],
-        rings: null,
-        locked: false,
-        showDimensions: true
-    };
-    // Gera a NavMesh imediatamente ao criar a área de teste
-    import('./navMeshBaker.js').then(({ ensureAreaHasNavMesh }) => {
-        movementAreas.push(testArea);
-        window.nextAreaId = nextAreaId + 1;
-        ensureAreaHasNavMesh(testArea);
-        Drawing.drawAll();
-        setTimeout(() => {
-            centerView();
-            // Garantir que o botão tenha a classe active após a centralização inicial
-            const centerViewBtn = document.getElementById('centerViewBtn');
-            if (centerViewBtn) {
-                centerViewBtn.classList.add('active');
-            }
-        }, 100);
-    });
+    // Começar com um projeto vazio. O usuário cria a primeira área no canvas.
+    Drawing.drawAll();
     const toolButtons = [
         'createAreaBtn',
         'createWallBtn',
@@ -770,31 +735,6 @@ function initializeOpeningDropdown() {
     // Expor tipo selecionado globalmente
     window.getSelectedOpeningType = () => selectedOpeningType;
 }
-// --- Função para Criar Aberturas de Teste ---
-function createTestOpenings() {
-    // Aguardar um pouco para garantir que paredes estão carregadas
-    setTimeout(() => {
-        if (walls.length === 0) {
-            return;
-        }
-        let openingsCreated = 0;        // Criar diferentes tipos de aberturas em paredes diferentes
-        walls.forEach((wall, index) => {
-            if (index >= 4) return; // Limitar a 4 paredes para teste
-            const openingType = 'door'; // Agora usamos apenas portas
-            // Criar abertura no meio da parede
-            const opening = createOpening(wall.id, 0.5, openingType);
-            if (opening) {
-                openingsCreated++;
-            }
-        });
-        if (openingsCreated > 0) {
-            Drawing.drawAll(); // Redesenhar para mostrar as aberturas
-        }
-    }, 500);
-}
-// Expor função globalmente para teste via console
-window.createTestOpenings = createTestOpenings;
-
 // Expor funções de visualização da NavMesh globalmente
 import { toggleNavMeshVisualization, setNavMeshVisualWidth } from './drawing.js';
 window.toggleNavMeshVisualization = toggleNavMeshVisualization;

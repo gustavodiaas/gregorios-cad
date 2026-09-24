@@ -1095,7 +1095,7 @@ function executeStep(operatorId, state, stepData, now, layerIndex, deltaTimeMs, 
             });
         }
         
-        state.sprite = createOperatorSprite(operatorId, sprite || 'walking man.gif');
+        state.sprite = createOperatorSprite(operatorId, sprite || 'assets/operator-walking.svg');
         if (state.position) {
             updateSpritePosition(state.sprite, state.position, state.facingAngle);
         }
@@ -1105,7 +1105,7 @@ function executeStep(operatorId, state, stepData, now, layerIndex, deltaTimeMs, 
     
     // Determinar sprites baseado no tipo de ação
     const isMovementAction = actionType === 'mover para' || actionType === 'criar acabado' || actionType === 'mover acabado para';
-    const movementSprite = isMovementAction ? 'walking man.gif' : (sprite || 'stopped man.gif');
+    const movementSprite = isMovementAction ? 'assets/operator-walking.svg' : (sprite || 'stopped man.gif');
     const arrivalSprite = sprite || 'stopped man.gif';
     
     // ========== FASE: AGUARDANDO ACABADO ==========
@@ -1805,14 +1805,18 @@ function createOperatorSprite(operatorId, spriteSrc) {
         console.warn(`[PlannerAnimator] ⚠ Sprite já existe para ${operatorId}, reutilizando ao invés de criar novo`);
         // Atualizar source se necessário
         if (spriteSrc && existingSprite.src !== spriteSrc) {
-            existingSprite.src = spriteSrc || 'walking man.gif';
+            existingSprite.src = spriteSrc || 'assets/operator-walking.svg';
         }
         return existingSprite;
     }
     
     const sprite = document.createElement('img');
     sprite.className = 'planner-operator-sprite';
-    sprite.src = spriteSrc || 'walking man.gif';
+    sprite.onerror = () => {
+        sprite.onerror = null;
+        sprite.src = 'stopped man.gif';
+    };
+    sprite.src = spriteSrc || 'assets/operator-walking.svg';
     sprite.style.position = 'absolute';
     
     // Tamanho base do sprite em pixels do mundo (antes da escala)

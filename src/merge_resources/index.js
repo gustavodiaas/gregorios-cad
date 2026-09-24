@@ -20,7 +20,7 @@ export {
     rotateVertices,
     tryRotateWithPullSystem,
     tryAdvancedPullAdjustment
-} from './rotateResource.js';
+} from './rotateresource.js';
 
 // Re-export helper from resources for compatibility
 export { removeResourcesFromArea } from '../resources.js';

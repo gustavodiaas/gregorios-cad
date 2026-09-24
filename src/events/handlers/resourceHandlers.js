@@ -49,7 +49,7 @@ import { getHubsForResource } from '../../hubs.js';
 import { getAreaAtPos } from '../mouseUtils.js';
 import { calculatePolygonCentroid } from '../../navigation.js';
 import { findClosestEdgePoint, getPolygonCentroid as getHPCentroid } from '../../hub-placement-helper.js';
-import { updateNavMeshWithObstacles } from '../../navmeshbaker.js';
+import { updateNavMeshWithObstacles } from '../../navMeshBaker.js';
 
 // Throttle para atualização de NavMesh durante arraste (evita overhead em cada mousemove)
 let _lastNavMeshUpdateTime = 0;

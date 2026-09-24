@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Operador com paleteira">
+  <circle cx="17" cy="11" r="7" fill="#ff6b00"/>
+  <path d="M18 20v22m0-14 12 9m-12 5L9 55m9-13 9 13" fill="none" stroke="#1f2937" stroke-width="6" stroke-linecap="round"/>
+  <path d="M31 24v23h23M32 39h18v8H32" fill="none" stroke="#ff6b00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="36" cy="52" r="4" fill="#1f2937"/><circle cx="52" cy="52" r="4" fill="#1f2937"/>
+</svg>

@@ -742,7 +742,7 @@ export function createArea(x, y, width, height) {
         movementAreas.push(newArea);
         
         // Gerar NavMesh automaticamente para a nova área (lazy import para evitar dependência circular)
-        import('./navmeshbaker.js').then(mod => {
+        import('./navMeshBaker.js').then(mod => {
             mod.ensureAreaHasNavMesh(newArea);
         });
         

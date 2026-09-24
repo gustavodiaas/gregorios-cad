@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Operador em atividade">
+  <circle cx="25" cy="11" r="7" fill="#ff6b00"/>
+  <path d="M25 20v22m0-15 14 7M25 28l-11 10m11 4-10 13m10-13 12 13" fill="none" stroke="#1f2937" stroke-width="6" stroke-linecap="round"/>
+  <path d="m43 24 10 10m-13-2 11-11" fill="none" stroke="#ff6b00" stroke-width="4" stroke-linecap="round"/>
+</svg>

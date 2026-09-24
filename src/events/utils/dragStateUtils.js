@@ -14,7 +14,7 @@ import { migrateResourceToPolygonal, calculatePolygonBounds } from '../../resour
 import { endResourceDrag } from '../../resource-dimensions.js';
 import { updateConnectionPathsForResource } from '../../connections.js';
 import { updateConnectionDistancesTable } from '../../flow-metrics.js';
-import { updateNavMeshWithObstacles, getNavMeshForWidth } from '../../navmeshbaker.js';
+import { updateNavMeshWithObstacles, getNavMeshForWidth } from '../../navMeshBaker.js';
 import { cloneResourceBoundingBox, createResourceDragState } from '../handlers/resourceHandlers.js';
 
 /**
