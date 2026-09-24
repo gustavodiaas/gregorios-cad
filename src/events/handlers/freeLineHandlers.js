@@ -17,6 +17,7 @@ import { drawAll } from '../../drawing.js';
 import { deselectAllResources, stopResourcePolygonEditing } from '../../resources.js';
 import { 
     createFreeLine, addFreeLine, getSnappedFreeLinePoint,
+    getDimensionAnchorSnap,
     setFreeLineSnapIndicator, clearFreeLineSnapIndicator,
     setFreeLineClosureIndicator, clearFreeLineClosureIndicator
 } from '../../free-lines.js';
@@ -54,7 +55,8 @@ function resolveFreeLineParentAreaId(startPoint, endPoint) {
 export function handleCreateFreeLineMouseDown(pos) {
     setIsDrawingFreeLine(true);
     const rawStart = [pos.x, pos.y];
-    const snapResult = getSnappedFreeLinePoint(null, rawStart, {
+    const shapeMode = getFreeLineShapeMode();
+    const snapResult = (shapeMode === 'dimension' && getDimensionAnchorSnap(rawStart)) || getSnappedFreeLinePoint(null, rawStart, {
         allowAngleSnap: false,
         ignoreSameAsStart: false
     });
@@ -80,7 +82,8 @@ export function handleCreateFreeLineMove(pos) {
     }
 
     const rawPoint = [pos.x, pos.y];
-    const snapResult = getSnappedFreeLinePoint(startPoint, rawPoint, {
+    const shapeMode = getFreeLineShapeMode();
+    const snapResult = (shapeMode === 'dimension' && getDimensionAnchorSnap(rawPoint)) || getSnappedFreeLinePoint(startPoint, rawPoint, {
         allowEndpointSnap: true,
         allowAngleSnap: true,
         ignoreSameAsStart: true
@@ -130,7 +133,8 @@ export function handleCreateFreeLineMouseUp(pos) {
     }
 
     const rawEndPoint = [pos.x, pos.y];
-    const snapResult = getSnappedFreeLinePoint(startPoint, rawEndPoint, {
+    const shapeMode = getFreeLineShapeMode();
+    const snapResult = (shapeMode === 'dimension' && getDimensionAnchorSnap(rawEndPoint)) || getSnappedFreeLinePoint(startPoint, rawEndPoint, {
         allowEndpointSnap: true,
         allowAngleSnap: true,
         ignoreSameAsStart: true
@@ -152,7 +156,6 @@ export function handleCreateFreeLineMouseUp(pos) {
     if (length >= 2) {
         const color = getCurrentResourceColor ? getCurrentResourceColor() : undefined;
         const parentAreaId = resolveFreeLineParentAreaId(startPoint, endPoint);
-        const shapeMode = getFreeLineShapeMode();
         const newLine = createFreeLine(startPoint, endPoint, color, parentAreaId, shapeMode);
         if (newLine) {
             saveStateToHistory(shapeMode === 'dimension' ? 'Criar cota' : 'Criar linha livre');

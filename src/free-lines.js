@@ -36,6 +36,7 @@ import { movementAreas } from './state.js';
 import { isPointInAreaWithTolerance } from './events.js';
 import { generateId, ID_PREFIXES } from './utils/idGenerator.js';
 import { computeSubSegment, getRemainingSubSegments } from './utils/segment-split.js';
+import { attachDimensionEndpoints, findDimensionAnchor, syncDimensionEndpoints } from './dimension-anchors.js';
 
 const FREE_LINE_AREA_TOLERANCE = 1;
 
@@ -76,7 +77,7 @@ export function createFreeLine(startPoint, endPoint, color = freeLineDefaultColo
         return null;
     }
 
-    return {
+    const line = {
         id: generateId(ID_PREFIXES.FREE_LINE),
         startPoint: [startPoint[0], startPoint[1]],
         endPoint: [endPoint[0], endPoint[1]],
@@ -85,6 +86,7 @@ export function createFreeLine(startPoint, endPoint, color = freeLineDefaultColo
         shapeType: shapeType || 'line',
         parentAreaId: parentAreaId ?? null
     };
+    return shapeType === 'dimension' ? attachDimensionEndpoints(line, startPoint, endPoint) : line;
 }
 
 /**
@@ -166,6 +168,7 @@ function getLineWidth(line) {
  * @param {number} scale
  */
 function drawShape(ctx, line, scale) {
+    if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
     const shapeType = line.shapeType || 'line';
     const sx = line.startPoint[0];
     const sy = line.startPoint[1];
@@ -176,7 +179,7 @@ function drawShape(ctx, line, scale) {
 
     switch (shapeType) {
         case 'dimension': {
-            drawDimensionShape(ctx, sx, sy, ex, ey, scale);
+            drawDimensionShape(ctx, sx, sy, ex, ey, scale, line);
             return;
         }
         case 'rectangle': {
@@ -212,7 +215,7 @@ function drawShape(ctx, line, scale) {
     ctx.stroke();
 }
 
-function drawDimensionShape(ctx, sx, sy, ex, ey, scale) {
+function drawDimensionShape(ctx, sx, sy, ex, ey, scale, line = null) {
     const dx = ex - sx;
     const dy = ey - sy;
     const length = Math.hypot(dx, dy);
@@ -260,6 +263,19 @@ function drawDimensionShape(ctx, sx, sy, ex, ey, scale) {
     ctx.strokeRect(midX - textWidth / 2 - paddingX, midY - fontSize / 2 - paddingY, textWidth + paddingX * 2, fontSize + paddingY * 2);
     ctx.fillStyle = '#0a63c9';
     ctx.fillText(text, midX, midY);
+    [
+        [sx, sy, Boolean(line?.startAnchor)],
+        [ex, ey, Boolean(line?.endAnchor)]
+    ].forEach(([x, y, linked]) => {
+        if (!linked) return;
+        ctx.beginPath();
+        ctx.arc(x, y, 4.5 / scale, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.lineWidth = 2 / scale;
+        ctx.strokeStyle = '#007aff';
+        ctx.stroke();
+    });
     ctx.restore();
     ctx.strokeStyle = previousStroke;
 }
@@ -283,6 +299,7 @@ export function drawFreeLines() {
     ctx.lineCap = 'round';
 
     for (const line of freeLines) {
+        if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
         const isSelected = line.id === selectedId;
         const isHovered = line.id === hoveredId;
         const isLine = !line.shapeType || line.shapeType === 'line';
@@ -497,6 +514,7 @@ export function findFreeLineAtPosition(x, y, tolerancePx = BASE_SELECTION_TOLERA
     let closestDistance = Infinity;
 
     for (const line of freeLines) {
+        if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
         const distance = distanceToShape(x, y, line);
 
         if (distance <= effectiveTolerance && distance < closestDistance) {
@@ -506,6 +524,17 @@ export function findFreeLineAtPosition(x, y, tolerancePx = BASE_SELECTION_TOLERA
     }
 
     return closestLine;
+}
+
+export function getDimensionAnchorSnap(point) {
+    const match = findDimensionAnchor(point);
+    if (!match) return null;
+    return {
+        point: [...match.point],
+        snapped: true,
+        type: 'dimension-anchor',
+        data: match
+    };
 }
 
 /**

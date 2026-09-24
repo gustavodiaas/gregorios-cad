@@ -26,6 +26,7 @@ const MAX_HISTORY_SIZE = 50; // Máximo de estados salvos
 let history = [];
 let currentHistoryIndex = -1;
 let isUndoRedoOperation = false; // Flag para evitar salvar durante undo/redo
+let historyListenersInitialized = false;
 
 /**
  * Cria um snapshot completo do estado atual da aplicação
@@ -170,7 +171,9 @@ export function saveStateToHistory(description = '') {
             }
             
             updateHistoryButtons();
-            
+            window.dispatchEvent(new CustomEvent('gregorios:history-change', {
+                detail: { description }
+            }));
             
         } finally {
             // Liberar o lock
@@ -273,7 +276,9 @@ export function clearHistory() {
  */
 export function initializeHistory() {
     // Salvar estado inicial
-    saveStateToHistory('Estado inicial');
+    if (history.length === 0) saveStateToHistory('Estado inicial');
+    if (historyListenersInitialized) return;
+    historyListenersInitialized = true;
     
     // Configurar event listeners para os botões
     const undoBtn = document.getElementById('undoBtn');
@@ -307,6 +312,11 @@ export function initializeHistory() {
         }
     });
     
+}
+
+export function resetHistoryToCurrentState(description = 'Estado atual') {
+    clearHistory();
+    saveStateToHistory(description);
 }
 
 /**

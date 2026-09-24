@@ -6,7 +6,7 @@ import {
     initializeEventListeners} from './events.js';
 import { initializeMidpointArrowsSystem } from './midpoint-arrows.js';
 import { initializeHistory } from './history.js'; // Sistema de undo/redo
-import { initializeSaveLoad } from './saveload.js'; // Sistema de salvar/carregar
+import { initializeAutoSave, initializeSaveLoad, restoreAutoSavedLayout } from './saveload.js'; // Sistema de salvar/carregar
 import { initializeExport } from './export.js'; // Sistema de exportação
 import { initializeColorPalette } from './color-palette.js'; // Sistema de paleta de cores
 import { initializeSidebarResizing } from './sidebar-resizing.js'; // Sistema de redimensionamento de sidebars
@@ -408,7 +408,7 @@ function initializeNavMeshDropdown() {
     });
 }
 
-function main() {
+async function main() {
     // Limpar seleção ao clicar em qualquer botão do menu principal, exceto o botão da paleta de cores
     const allMenuButtons = document.querySelectorAll('.tool-button, .theme-toggle, .action-button');
     allMenuButtons.forEach(btn => {
@@ -564,8 +564,9 @@ function main() {
         }
     });
     
-    // Começar com um projeto vazio. O usuário cria a primeira área no canvas.
-    Drawing.drawAll();
+    const restoredProject = await restoreAutoSavedLayout();
+    initializeAutoSave();
+    if (!restoredProject) Drawing.drawAll();
     const toolButtons = [
         'createAreaBtn',
         'createWallBtn',

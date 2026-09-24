@@ -17,7 +17,7 @@ import {
     getCurrentFloorId
 } from './state.js';
 import { openings, setSelectedOpeningId } from './openings.js';
-import { initializeHistory, saveStateToHistory } from './history.js';
+import { resetHistoryToCurrentState } from './history.js';
 import { drawAll } from './drawing.js';
 import { ensureAllAreasHaveNavMesh } from './navMeshBaker.js';
 import { refreshNavMeshOptions } from './navmesh-controls.js';
@@ -26,6 +26,20 @@ import { syncHubRegistryWithResources, serializeHubs, loadHubs } from './hubs.js
 import { serializePathCache, loadPathCache } from './planner-path-cache.js';
 import { resetPlannerData } from './product-planner.js';
 import { reloadResourceImages } from './resource-image.js';
+
+const AUTO_SAVE_KEY = 'gregorios-cad-autosave-v1';
+const AUTO_SAVE_DELAY_MS = 650;
+let autoSaveTimer = null;
+let autoSaveInitialized = false;
+let autoSaveRestoreInProgress = false;
+
+function updateAutoSaveStatus(message, state = 'saved') {
+    const status = document.getElementById('autoSaveStatus');
+    if (!status) return;
+    status.dataset.state = state;
+    const label = status.querySelector('span');
+    if (label) label.textContent = message;
+}
 
 // --- Sistema de Loading Overlay ---
 
@@ -262,7 +276,7 @@ async function parseJSONWithFallback(jsonString) {
 /**
  * Cria um snapshot completo do estado atual para salvar
  */
-function createSaveSnapshot() {
+export function createSaveSnapshot() {
     const floorsSnapshot = getFloorsSnapshot();
     const currentFloorId = getCurrentFloorId();
     const pathCacheData = serializePathCache();
@@ -413,7 +427,8 @@ function readFileAsText(file) {
 /**
  * Carrega dados de um snapshot (versão assíncrona com progresso)
  */
-async function loadFromSnapshotAsync(snapshot) {
+export async function loadFromSnapshotAsync(snapshot, options = {}) {
+    const { automatic = false } = options;
     try {
         // Verificar estrutura básica
         if (!snapshot.data || typeof snapshot.data !== 'object') {
@@ -426,7 +441,7 @@ async function loadFromSnapshotAsync(snapshot) {
         await yieldToMain();
         
         // Resetar roteiro do planner para evitar dados órfãos
-        resetPlannerData();
+        if (!automatic) resetPlannerData();
         
         updateLoadingStatus('Limpando seleções...', 30);
         await yieldToMain();
@@ -596,9 +611,7 @@ async function loadFromSnapshotAsync(snapshot) {
         updateLoadingStatus('Inicializando histórico...', 87);
         await yieldToMain();
         
-        // Reinicializar histórico e salvar estado inicial
-        initializeHistory();
-        saveStateToHistory('Layout carregado');
+        resetHistoryToCurrentState(automatic ? 'Projeto recuperado' : 'Layout carregado');
         
         updateLoadingStatus('Regenerando NavMesh completo...', 90);
         await longYield(100); // Garantir que overlay está atualizado
@@ -647,13 +660,20 @@ async function loadFromSnapshotAsync(snapshot) {
         // Esconder overlay e mostrar sucesso
         setTimeout(() => {
             hideLoadingOverlay();
-            showLoadSuccess(data);
-        }, 500);
-        
+            if (automatic) {
+                showNotification('Projeto recuperado automaticamente.', 'success', 2600);
+                updateAutoSaveStatus('Projeto recuperado', 'saved');
+            } else {
+                showLoadSuccess(data);
+            }
+        }, automatic ? 0 : 500);
+        return true;
+
     } catch (error) {
         console.error('❌ Erro ao carregar snapshot:', error);
         hideLoadingOverlay();
         showLoadError(`Erro ao carregar dados: ${error.message}`);
+        return false;
     }
 }
 
@@ -767,4 +787,62 @@ export function initializeSaveLoad() {
     } else {
         console.warn('⚠️  Botão Carregar não encontrado');
     }
+}
+
+export function persistLayoutToBrowser() {
+    if (autoSaveRestoreInProgress) return false;
+    try {
+        const snapshot = createSaveSnapshot();
+        localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(snapshot));
+        updateAutoSaveStatus('Salvo agora', 'saved');
+        return true;
+    } catch (error) {
+        console.warn("[Gregório's CAD] Não foi possível salvar automaticamente:", error);
+        updateAutoSaveStatus('Falha ao salvar', 'error');
+        return false;
+    }
+}
+
+export function scheduleAutoSave() {
+    if (!autoSaveInitialized || autoSaveRestoreInProgress) return;
+    clearTimeout(autoSaveTimer);
+    updateAutoSaveStatus('Salvando…', 'saving');
+    autoSaveTimer = setTimeout(persistLayoutToBrowser, AUTO_SAVE_DELAY_MS);
+}
+
+export async function restoreAutoSavedLayout() {
+    let stored = null;
+    try {
+        stored = localStorage.getItem(AUTO_SAVE_KEY);
+    } catch (error) {
+        console.warn("[Gregório's CAD] Armazenamento local indisponível:", error);
+    }
+    if (!stored) return false;
+
+    try {
+        const snapshot = JSON.parse(stored);
+        autoSaveRestoreInProgress = true;
+        updateAutoSaveStatus('Recuperando projeto…', 'saving');
+        return await loadFromSnapshotAsync(snapshot, { automatic: true });
+    } catch (error) {
+        console.warn("[Gregório's CAD] Salvamento automático inválido:", error);
+        updateAutoSaveStatus('Recuperação indisponível', 'error');
+        return false;
+    } finally {
+        autoSaveRestoreInProgress = false;
+    }
+}
+
+export function initializeAutoSave() {
+    if (autoSaveInitialized) return;
+    autoSaveInitialized = true;
+    const schedule = () => scheduleAutoSave();
+    window.addEventListener('layoutChange', schedule);
+    window.addEventListener('gregorios:history-change', schedule);
+    document.addEventListener('change', schedule);
+    window.addEventListener('pagehide', persistLayoutToBrowser);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') persistLayoutToBrowser();
+    });
+    updateAutoSaveStatus('Salvamento automático ativo', 'saved');
 }

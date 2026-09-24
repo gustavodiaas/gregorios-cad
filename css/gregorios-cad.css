@@ -811,6 +811,27 @@ body {
     font-weight: 500;
 }
 
+.autosave-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #6d6d73;
+    white-space: nowrap;
+}
+
+.autosave-status[data-state="saving"] i {
+    color: var(--ui-accent);
+    animation: autosave-pulse 900ms ease-in-out infinite alternate;
+}
+
+.autosave-status[data-state="error"] {
+    color: #b42318;
+}
+
+@keyframes autosave-pulse {
+    to { opacity: 0.35; }
+}
+
 /* Machine library */
 .machine-library-section {
     flex: 1;
