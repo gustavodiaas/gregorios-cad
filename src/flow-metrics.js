@@ -4,6 +4,7 @@ import { calculateConnectionDistance, findHubById } from './connections.js';
 import { getHubById } from './hubs.js';
 import { openings as allOpenings, getOpeningDisplayName } from './openings.js';
 import { onStateAction } from './state/events.js';
+import { pixelsPerCm } from './config.js';
 
 let connectionAnalysisBodyElement = null;
 
@@ -241,7 +242,7 @@ export function updateConnectionDistancesTable() {
         resourcesCell.textContent = pairKey;
         
         const distCell = document.createElement('td');
-        distCell.textContent = ((group.totalDistance * 2) / 100).toFixed(2); // Converter cm para m
+        distCell.textContent = (group.totalDistance / pixelsPerCm / 100).toFixed(2);
         
         const countCell = document.createElement('td');
         countCell.textContent = group.count;
@@ -257,7 +258,7 @@ export function updateConnectionDistancesTable() {
     
     // Atualizar totais na tabela
     if (newTotalDistanceElement) {
-        newTotalDistanceElement.textContent = ((grandTotalDistance * 2) / 100).toFixed(2); // Converter cm para m
+        newTotalDistanceElement.textContent = (grandTotalDistance / pixelsPerCm / 100).toFixed(2);
     }
     if (newTotalLinesElement) {
         newTotalLinesElement.textContent = grandTotalLines;
@@ -273,12 +274,18 @@ export function updateConnectionDistancesTable() {
 function updateConnectionMetrics(totalDistance, totalConnections) {
     const totalDistanceMetric = document.getElementById('totalDistanceMetric');
     const totalConnectionsMetric = document.getElementById('totalConnectionsMetric');
+    const averageDistanceMetric = document.getElementById('averageDistanceMetric');
+    const totalMeters = totalDistance / pixelsPerCm / 100;
+    const averageMeters = totalConnections > 0 ? totalMeters / totalConnections : 0;
     if (totalDistanceMetric) {
-        totalDistanceMetric.textContent = `${((totalDistance * 2) / 100000).toFixed(2).replace('.', ',')} km`; // Converter cm para km
+        totalDistanceMetric.textContent = `${totalMeters.toFixed(2).replace('.', ',')} m`;
     }
     
     if (totalConnectionsMetric) {
         totalConnectionsMetric.textContent = totalConnections.toString();
+    }
+    if (averageDistanceMetric) {
+        averageDistanceMetric.textContent = `${averageMeters.toFixed(2).replace('.', ',')} m`;
     }
 }
 

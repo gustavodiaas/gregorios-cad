@@ -25,6 +25,7 @@ import { initializeOptimizer } from './optimizer.js'; // Sistema de otimização
 import { initializeWorkspaceTabs } from './ui-shell.js';
 import { initializeMachineLibrary } from './machine-library.js';
 import { initializeSelectionInspector } from './selection-inspector.js';
+import { updateConnectionDistancesTable } from './flow-metrics.js';
 
 export function initializeProductPlanner() {
     // Inicializar o módulo do planner primeiro
@@ -538,6 +539,7 @@ function main() {
     initializeWorkspaceTabs(); // Navegação compacta da barra lateral
     initializeMachineLibrary(); // Biblioteca SVG de máquinas
     initializeSelectionInspector(); // Inspetor de medidas no estilo Visio
+    initializeSpaghettiDiagram(); // Janela de análise das distâncias
     
     // Verificar estado do NavMesh e aplicar classe active se necessário
     import('./drawing.js').then(({ getNavMeshVisualizationState }) => {
@@ -578,6 +580,44 @@ function main() {
             setActiveTool(null);
         }
     });
+}
+
+function initializeSpaghettiDiagram() {
+    const openButton = document.getElementById('openSpaghettiDiagramBtn');
+    const overlay = document.getElementById('spaghettiDiagramOverlay');
+    const panel = document.getElementById('spaghettiDiagramPanel');
+    const closeButtons = [
+        document.getElementById('closeSpaghettiDiagramBtn'),
+        document.getElementById('closeSpaghettiDiagramFooterBtn')
+    ].filter(Boolean);
+
+    if (!openButton || !overlay || !panel) return;
+
+    const close = () => {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('spaghetti-open');
+        openButton.focus();
+    };
+
+    const open = () => {
+        updateConnectionDistancesTable();
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('spaghetti-open');
+        requestAnimationFrame(() => closeButtons[0]?.focus());
+    };
+
+    openButton.addEventListener('click', open);
+    closeButtons.forEach(button => button.addEventListener('click', close));
+    overlay.addEventListener('click', event => {
+        if (event.target === overlay) close();
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && overlay.classList.contains('open')) close();
+    });
+
+    updateConnectionDistancesTable();
 }
 // Função para inicializar o toggle do sidebar direito
 function initializeRightSidebarToggle() {

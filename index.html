@@ -137,6 +137,10 @@
                 <i class="fas fa-folder-open"></i>
                 <span>Carregar</span>
             </button>
+            <button id="openSpaghettiDiagramBtn" class="action-button spaghetti-trigger" title="Abrir análise das distâncias">
+                <i class="fas fa-bezier-curve"></i>
+                <span>Diagrama de Espaguete</span>
+            </button>
             <button id="exportImgBtn" class="action-button">
                 <i class="fas fa-file-export"></i>
                 <span>Exportar</span>
@@ -391,11 +395,8 @@
             <!-- Handle de redimensionamento para sidebar direita -->
             <div class="resize-handle resize-handle-left" data-direction="left"></div>
 
-            <!-- Elementos utilitários ocultos (usados por export.js e updateConnectionMetrics) -->
+            <!-- Elementos utilitários ocultos (usados por export.js e métricas do roteiro) -->
             <div style="display:none">
-                <div id="connectionAnalysisPanel"></div>
-                <span id="totalDistanceMetric"></span>
-                <span id="totalConnectionsMetric"></span>
                 <span id="cycleTimeMetric"></span>
                 <span id="cycleTimeRange"></span>
                 <span id="valueAddedTimeMetric"></span>
@@ -556,6 +557,40 @@
     <footer class="app-footer">
         <span>Uma dedicatória a <strong>Gregório Wachter</strong>, idealizador deste projeto.</span>
     </footer>
+
+    <div id="spaghettiDiagramOverlay" class="spaghetti-overlay" aria-hidden="true">
+        <section id="spaghettiDiagramPanel" class="spaghetti-panel" role="dialog" aria-modal="true" aria-labelledby="spaghettiDiagramTitle">
+            <header class="spaghetti-panel-header">
+                <div>
+                    <span class="eyebrow">Fluxo e movimentação</span>
+                    <h2 id="spaghettiDiagramTitle">Diagrama de Espaguete</h2>
+                    <p>Distâncias consolidadas entre máquinas, recursos e docas.</p>
+                </div>
+                <button id="closeSpaghettiDiagramBtn" class="spaghetti-close" type="button" aria-label="Fechar Diagrama de Espaguete">
+                    <i class="fas fa-times"></i>
+                </button>
+            </header>
+            <div class="spaghetti-summary" aria-label="Resumo das conexões">
+                <article class="spaghetti-metric">
+                    <span>Distância total</span>
+                    <strong id="totalDistanceMetric">0,00 m</strong>
+                </article>
+                <article class="spaghetti-metric">
+                    <span>Total de linhas</span>
+                    <strong id="totalConnectionsMetric">0</strong>
+                </article>
+                <article class="spaghetti-metric">
+                    <span>Média por linha</span>
+                    <strong id="averageDistanceMetric">0,00 m</strong>
+                </article>
+            </div>
+            <div id="connectionAnalysisPanel" class="connection-analysis spaghetti-table-region"></div>
+            <footer class="spaghetti-panel-footer">
+                <span><i class="fas fa-circle-info"></i> As distâncias acompanham o caminho real desenhado.</span>
+                <button id="closeSpaghettiDiagramFooterBtn" class="spaghetti-done" type="button">Concluído</button>
+            </footer>
+        </section>
+    </div>
 
     <!-- Context Menu -->
     <div id="contextMenu" class="context-menu">

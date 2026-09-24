@@ -104,6 +104,58 @@ function getConnectionResourcePolygons(connection) {
     return polys;
 }
 
+function getVisibleConnectionPath(connection) {
+    const path = Array.isArray(connection.path) ? connection.path : [];
+    const preview = Array.isArray(connection.previewPath) ? connection.previewPath : [];
+    if (!connection.isCreating || preview.length < 2) return path;
+
+    if (path.length === 0) return preview;
+    const lastPathPoint = path[path.length - 1];
+    const firstPreviewPoint = preview[0];
+    const startsAtPathEnd = firstPreviewPoint &&
+        Math.abs(firstPreviewPoint.x - lastPathPoint.x) < 0.01 &&
+        Math.abs(firstPreviewPoint.y - lastPathPoint.y) < 0.01;
+    return startsAtPathEnd ? [...path, ...preview.slice(1)] : [...path, ...preview];
+}
+
+function drawLiveConnectionDistance(ctx, connection) {
+    if (!connection.isCreating) return;
+    const points = getVisibleConnectionPath(connection);
+    if (points.length < 2) return;
+
+    let lengthPx = 0;
+    for (let i = 1; i < points.length; i++) {
+        lengthPx += Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y);
+    }
+    if (lengthPx <= 0) return;
+
+    const scale = Math.max(getScale(), 0.01);
+    const last = points[points.length - 1];
+    const label = `${(lengthPx / pixelsPerCm / 100).toFixed(2).replace('.', ',')} m`;
+    const fontSize = 12 / scale;
+    const horizontalPadding = 9 / scale;
+    const height = 25 / scale;
+    const radius = 8 / scale;
+
+    ctx.save();
+    ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+    const width = ctx.measureText(label).width + horizontalPadding * 2;
+    const x = last.x + 14 / scale;
+    const y = last.y - height - 12 / scale;
+    ctx.shadowColor = 'rgba(15, 23, 42, 0.18)';
+    ctx.shadowBlur = 12 / scale;
+    ctx.fillStyle = 'rgba(31, 31, 35, 0.94)';
+    ctx.beginPath();
+    ctx.roundRect(x, y, width, height, radius);
+    ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, x + width / 2, y + height / 2);
+    ctx.restore();
+}
+
 /** @type {string} Cache do último resumo de fallback para evitar spam */
 let _lastFallbackSummary = '';
 
@@ -304,7 +356,7 @@ export function drawConnections() {
         }
         
         // Desenhar prévia adicional para conexões manuais em criação
-        if (connection.isCreating && connection.previewPath && connection.previewPath.length > (connection.path?.length || 0)) {
+        if (connection.isCreating && connection.previewPath && connection.previewPath.length > 1) {
             const connectionWidth = connection.width || 60;
             
             ctx.save();
@@ -316,31 +368,28 @@ export function drawConnections() {
             ctx.lineJoin = 'round';
             ctx.setLineDash([4, 2]); // Linha tracejada mais sutil
             
-            // Desenhar a parte da prévia que vai além do caminho atual
-            const startIndex = connection.path ? connection.path.length - 1 : 0;
-            if (startIndex < connection.previewPath.length - 1) {
-                ctx.beginPath();
-                ctx.moveTo(connection.previewPath[startIndex].x, connection.previewPath[startIndex].y);
-                for (let i = startIndex + 1; i < connection.previewPath.length; i++) {
-                    ctx.lineTo(connection.previewPath[i].x, connection.previewPath[i].y);
-                }
-                ctx.stroke();
+            // A prévia contém apenas o trecho entre o último ponto fixado e o cursor.
+            ctx.beginPath();
+            ctx.moveTo(connection.previewPath[0].x, connection.previewPath[0].y);
+            for (let i = 1; i < connection.previewPath.length; i++) {
+                ctx.lineTo(connection.previewPath[i].x, connection.previewPath[i].y);
             }
+            ctx.stroke();
             
             // Linha central da prévia
             ctx.lineWidth = 1;
             ctx.strokeStyle = '#cbd5e1'; // Cor ainda mais clara para prévia
-            if (startIndex < connection.previewPath.length - 1) {
-                ctx.beginPath();
-                ctx.moveTo(connection.previewPath[startIndex].x, connection.previewPath[startIndex].y);
-                for (let i = startIndex + 1; i < connection.previewPath.length; i++) {
-                    ctx.lineTo(connection.previewPath[i].x, connection.previewPath[i].y);
-                }
-                ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(connection.previewPath[0].x, connection.previewPath[0].y);
+            for (let i = 1; i < connection.previewPath.length; i++) {
+                ctx.lineTo(connection.previewPath[i].x, connection.previewPath[i].y);
             }
+            ctx.stroke();
             ctx.restore();
         }
-        
+
+        drawLiveConnectionDistance(ctx, connection);
+
         ctx.restore();
     });
 
