@@ -155,7 +155,15 @@
         <aside class="sidebar left-sidebar">
             <!-- Handle de redimensionamento para sidebar esquerda -->
             <div class="resize-handle resize-handle-right" data-direction="right"></div>
-            <div class="sidebar-section">
+            <div class="sidebar-workspace-tabs" role="tablist" aria-label="Painéis de criação">
+                <button class="workspace-tab active" type="button" data-workspace="draw" role="tab" aria-selected="true">
+                    <i class="fas fa-pen-ruler"></i><span>Desenhar</span>
+                </button>
+                <button class="workspace-tab" type="button" data-workspace="machines" role="tab" aria-selected="false">
+                    <i class="fas fa-industry"></i><span>Máquinas</span>
+                </button>
+            </div>
+            <div class="sidebar-section draw-workspace-panel">
                 <h2 class="section-title">Ferramentas</h2>
                 <div class="tool-buttons">
                     <button id="createAreaBtn" class="tool-button">
@@ -184,6 +192,9 @@
                             </div>
                             <div class="dropdown-item" data-shape="triangle">
                                 <i class="fas fa-play fa-rotate-270"></i> Triângulo
+                            </div>
+                            <div class="dropdown-item" data-shape="dimension">
+                                <i class="fas fa-ruler-combined"></i> Cota
                             </div>
                         </div>
                     </div>
@@ -246,7 +257,7 @@
             </div>
 
             <!-- Shape selector - appears when a tool is selected -->
-            <div id="shapeSelector" class="sidebar-section hidden">
+            <div id="shapeSelector" class="sidebar-section hidden draw-workspace-panel">
                 <h2 class="section-title">Formato</h2>
                 <div class="shape-buttons">
                     <button id="shapeRectangle" class="shape-button active" data-shape="rectangle">
@@ -261,7 +272,24 @@
                 </div>
             </div>
 
-            <div class="sidebar-section" style="position:relative;">
+            <section id="machineLibraryPanel" class="sidebar-section machine-library-section hidden" aria-label="Biblioteca de máquinas">
+                <div class="library-heading">
+                    <div>
+                        <span class="eyebrow">Biblioteca SVG</span>
+                        <h2>Máquinas industriais</h2>
+                    </div>
+                    <span class="library-count" id="machineLibraryCount">0</span>
+                </div>
+                <label class="library-search" for="machineLibrarySearch">
+                    <i class="fas fa-search"></i>
+                    <input id="machineLibrarySearch" type="search" placeholder="Buscar máquina" autocomplete="off">
+                </label>
+                <div id="machineCategoryFilters" class="library-filters" aria-label="Categorias"></div>
+                <div id="machineLibraryGrid" class="machine-library-grid"></div>
+                <p class="library-help"><i class="fas fa-circle-info"></i> Escolha uma máquina para inseri-la no centro da área ativa.</p>
+            </section>
+
+            <div class="sidebar-section draw-workspace-panel" style="position:relative;">
                 <h2 class="section-title">Otimização</h2>
                 <div class="optimization-controls">
                     <div class="form-group">
@@ -352,6 +380,11 @@
                     </button>
                 </div>
             </div>
+            <div class="canvas-statusbar" aria-label="Estado do desenho">
+                <span><i class="fas fa-magnet"></i> Ajuste à grade</span>
+                <span><i class="fas fa-ruler-combined"></i> cm</span>
+                <span class="statusbar-hint">Arraste para desenhar · Espaço para navegar · Esc para cancelar</span>
+            </div>
         </div>
 
         <aside class="sidebar right-sidebar">
@@ -367,6 +400,45 @@
                 <span id="cycleTimeRange"></span>
                 <span id="valueAddedTimeMetric"></span>
                 <span id="nonValueAddedTimeMetric"></span>
+            </div>
+
+            <div class="sidebar-section properties-section">
+                <div class="properties-heading">
+                    <div>
+                        <span class="eyebrow">Inspetor</span>
+                        <h2>Propriedades</h2>
+                    </div>
+                    <span id="selectionTypeBadge" class="selection-type-badge">Nada selecionado</span>
+                </div>
+                <div id="selectionEmptyState" class="property-empty-state">
+                    <i class="fas fa-arrow-pointer"></i>
+                    <p>Selecione uma máquina ou recurso para editar suas medidas.</p>
+                </div>
+                <form id="resourceInspectorForm" class="resource-inspector hidden">
+                    <label class="inspector-field inspector-field-wide">
+                        <span>Nome</span>
+                        <input id="inspectorResourceName" type="text" autocomplete="off">
+                    </label>
+                    <div class="inspector-grid">
+                        <label class="inspector-field">
+                            <span>Largura</span>
+                            <div class="unit-input"><input id="inspectorResourceWidth" type="number" min="1" step="1"><b>cm</b></div>
+                        </label>
+                        <label class="inspector-field">
+                            <span>Altura</span>
+                            <div class="unit-input"><input id="inspectorResourceHeight" type="number" min="1" step="1"><b>cm</b></div>
+                        </label>
+                    </div>
+                    <div class="inspector-field inspector-field-wide">
+                        <span>Orientação</span>
+                        <div class="rotation-control">
+                            <button type="button" data-rotate="-90" title="Girar 90° à esquerda"><i class="fas fa-rotate-left"></i></button>
+                            <output id="inspectorResourceRotation">0°</output>
+                            <button type="button" data-rotate="90" title="Girar 90° à direita"><i class="fas fa-rotate-right"></i></button>
+                        </div>
+                    </div>
+                    <button type="submit" class="inspector-apply-button"><i class="fas fa-check"></i> Aplicar medidas</button>
+                </form>
             </div>
 
             <div class="sidebar-section">

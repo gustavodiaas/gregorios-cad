@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 130" role="img" aria-label="Injetora plástica vista de cima">
+  <rect x="7" y="10" width="266" height="110" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <rect x="24" y="28" width="82" height="74" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <path d="M45 48h40v34H45z" fill="#f0fdf4" stroke="#22c55e" stroke-width="4"/>
+  <rect x="121" y="28" width="130" height="74" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="4"/>
+  <path d="M139 65h92M165 43v44M205 43v44" stroke="#94a3b8" stroke-width="4"/>
+</svg>

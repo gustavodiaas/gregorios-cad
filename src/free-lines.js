@@ -27,7 +27,8 @@ import {
     freeLineSnapIndicatorColor,
     freeLineSnapIndicatorRadius,
     freeLineClosureSnapRadius,
-    freeLineClosureGuideColor
+    freeLineClosureGuideColor,
+    pixelsPerCm
 } from './config.js';
 import { pointInPolygon } from './areas.js';
 import { movementAreas } from './state.js';
@@ -173,6 +174,10 @@ function drawShape(ctx, line, scale) {
     ctx.beginPath();
 
     switch (shapeType) {
+        case 'dimension': {
+            drawDimensionShape(ctx, sx, sy, ex, ey, scale);
+            return;
+        }
         case 'rectangle': {
             const x = Math.min(sx, ex);
             const y = Math.min(sy, ey);
@@ -204,6 +209,58 @@ function drawShape(ctx, line, scale) {
             break;
     }
     ctx.stroke();
+}
+
+function drawDimensionShape(ctx, sx, sy, ex, ey, scale) {
+    const dx = ex - sx;
+    const dy = ey - sy;
+    const length = Math.hypot(dx, dy);
+    if (length < 0.001) return;
+
+    const angle = Math.atan2(dy, dx);
+    const arrowSize = 9 / scale;
+    const text = `${Math.round((length / pixelsPerCm) * 10) / 10} cm`;
+    const previousStroke = ctx.strokeStyle;
+
+    ctx.save();
+    ctx.strokeStyle = '#007aff';
+    ctx.fillStyle = '#007aff';
+    ctx.lineWidth = 1.5 / scale;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(ex, ey);
+    ctx.stroke();
+
+    [
+        [sx, sy, angle],
+        [ex, ey, angle + Math.PI]
+    ].forEach(([x, y, direction]) => {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + Math.cos(direction - 0.55) * arrowSize, y + Math.sin(direction - 0.55) * arrowSize);
+        ctx.lineTo(x + Math.cos(direction + 0.55) * arrowSize, y + Math.sin(direction + 0.55) * arrowSize);
+        ctx.closePath();
+        ctx.fill();
+    });
+
+    const midX = (sx + ex) / 2;
+    const midY = (sy + ey) / 2;
+    const fontSize = 12 / scale;
+    ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const paddingX = 7 / scale;
+    const paddingY = 4 / scale;
+    const textWidth = ctx.measureText(text).width;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
+    ctx.fillRect(midX - textWidth / 2 - paddingX, midY - fontSize / 2 - paddingY, textWidth + paddingX * 2, fontSize + paddingY * 2);
+    ctx.strokeStyle = 'rgba(0, 122, 255, 0.28)';
+    ctx.strokeRect(midX - textWidth / 2 - paddingX, midY - fontSize / 2 - paddingY, textWidth + paddingX * 2, fontSize + paddingY * 2);
+    ctx.fillStyle = '#0a63c9';
+    ctx.fillText(text, midX, midY);
+    ctx.restore();
+    ctx.strokeStyle = previousStroke;
 }
 
 /**
@@ -418,6 +475,7 @@ function distanceToShape(px, py, line) {
             }
             return minDist;
         }
+        case 'dimension':
         case 'line':
         default:
             return distancePointToSegment(px, py, sx, sy, ex, ey);

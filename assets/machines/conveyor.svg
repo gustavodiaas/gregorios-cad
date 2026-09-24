@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 90" role="img" aria-label="Esteira transportadora vista de cima">
+  <rect x="6" y="10" width="288" height="70" rx="12" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <path d="M28 25v40M62 25v40M96 25v40M130 25v40M164 25v40M198 25v40M232 25v40M266 25v40" stroke="#94a3b8" stroke-width="5"/>
+  <path d="M34 45h220" stroke="#2563eb" stroke-width="4" stroke-dasharray="12 8"/>
+  <path d="m246 34 16 11-16 11" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

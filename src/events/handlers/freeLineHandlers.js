@@ -7,7 +7,7 @@ import {
     getIsDrawingFreeLine, setIsDrawingFreeLine,
     getFreeLineStartPoint, setFreeLineStartPoint,
     getFreeLinePreviewEnd, setFreeLinePreviewEnd,
-    getSelectedFreeLineId, setSelectedFreeLineId,
+    getSelectedFreeLineId, setSelectedFreeLineId, getFreeLineShapeMode,
     getIsEditingPolygon, setIsEditingPolygon, setEditingAreaId,
     getIsEditingResourcePolygon
 } from '../../state.js';
@@ -152,9 +152,10 @@ export function handleCreateFreeLineMouseUp(pos) {
     if (length >= 2) {
         const color = getCurrentResourceColor ? getCurrentResourceColor() : undefined;
         const parentAreaId = resolveFreeLineParentAreaId(startPoint, endPoint);
-        const newLine = createFreeLine(startPoint, endPoint, color, parentAreaId);
+        const shapeMode = getFreeLineShapeMode();
+        const newLine = createFreeLine(startPoint, endPoint, color, parentAreaId, shapeMode);
         if (newLine) {
-            saveStateToHistory('Criar linha livre');
+            saveStateToHistory(shapeMode === 'dimension' ? 'Criar cota' : 'Criar linha livre');
             addFreeLine(newLine);
             setSelectedFreeLineId(newLine.id);
             setSelectedAreaId(null);

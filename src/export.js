@@ -1047,6 +1047,19 @@ function drawExportFreeLines(ctx, freeLinesList, scale) {
         const ex = line.endPoint[0];
         const ey = line.endPoint[1];
 
+        if (shapeType === 'dimension') {
+            const lengthCm = Math.round((Math.hypot(ex - sx, ey - sy) / pixelsPerCm) * 10) / 10;
+            drawExportTickDimension(ctx, [sx, sy], [ex, ey], `${lengthCm} cm`, {
+                offset: 0,
+                arrowSize: dimensionTickSize,
+                color: '#007aff',
+                fontSize: dimensionFontSize,
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
+                lineWidth: Math.max(0.5, dimensionLineWidth)
+            });
+            continue;
+        }
+
         ctx.beginPath();
         switch (shapeType) {
             case 'rectangle': {

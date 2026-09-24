@@ -22,6 +22,9 @@ import { initializeFloorManager } from './floors.js';
 import { initializeProductPlanner as initializePlannerModule } from './product-planner.js'; // Sistema de planejador de produtos
 import { initializePlannerAnimator } from './planner-animator.js'; // Sistema de animação do planner
 import { initializeOptimizer } from './optimizer.js'; // Sistema de otimização de layout
+import { initializeWorkspaceTabs } from './ui-shell.js';
+import { initializeMachineLibrary } from './machine-library.js';
+import { initializeSelectionInspector } from './selection-inspector.js';
 
 export function initializeProductPlanner() {
     // Inicializar o módulo do planner primeiro
@@ -229,13 +232,15 @@ function initializeFreeLineShapeDropdown() {
         'line': 'Linha',
         'rectangle': 'Retângulo',
         'circle': 'Círculo',
-        'triangle': 'Triângulo'
+        'triangle': 'Triângulo',
+        'dimension': 'Cota'
     };
     const shapeIcons = {
         'line': 'fas fa-pen',
         'rectangle': 'far fa-square',
         'circle': 'far fa-circle',
-        'triangle': 'fas fa-play fa-rotate-270'
+        'triangle': 'fas fa-play fa-rotate-270',
+        'dimension': 'fas fa-ruler-combined'
     };
 
     // Toggle menu visibility
@@ -393,7 +398,7 @@ function main() {
     // Limpar seleção ao clicar em qualquer botão do menu principal, exceto o botão da paleta de cores
     const allMenuButtons = document.querySelectorAll('.tool-button, .theme-toggle, .action-button');
     allMenuButtons.forEach(btn => {
-        if (btn.id === 'colorPaletteBtn') return;
+        if (btn.id === 'colorPaletteBtn' || btn.id === 'toggleRightSidebarBtn') return;
         btn.addEventListener('click', () => {
             import('./state.js').then(state => state.clearAllSelections());
         });
@@ -530,6 +535,9 @@ function main() {
     initializeProductPlanner(); // Planejador de produtos
     initializePlannerAnimator(); // Sistema de animação do planner
     initializeOptimizer(); // Sistema de otimização de layout
+    initializeWorkspaceTabs(); // Navegação compacta da barra lateral
+    initializeMachineLibrary(); // Biblioteca SVG de máquinas
+    initializeSelectionInspector(); // Inspetor de medidas no estilo Visio
     
     // Verificar estado do NavMesh e aplicar classe active se necessário
     import('./drawing.js').then(({ getNavMeshVisualizationState }) => {

@@ -7,6 +7,15 @@
 // Cache de HTMLImageElement por resource id para evitar recriar a cada frame
 const imageCache = new Map();
 
+function resolveImageSource(source) {
+    if (!source) return '';
+    try {
+        return new URL(source, document.baseURI).href;
+    } catch (_error) {
+        return source;
+    }
+}
+
 /**
  * Lê uma imagem da área de transferência e aplica ao recurso.
  * @param {Object} resource - O recurso alvo
@@ -98,12 +107,13 @@ export function getResourceImage(resource) {
     if (!resource.imageDataUrl) return null;
 
     const cached = imageCache.get(resource.id);
-    if (cached && cached.src === resource.imageDataUrl && cached.complete) {
+    const resolvedSource = resolveImageSource(resource.imageDataUrl);
+    if (cached && cached.src === resolvedSource && cached.complete) {
         return cached;
     }
 
     // Se ainda não está no cache, iniciar carregamento (não bloqueia renderização)
-    if (!cached || cached.src !== resource.imageDataUrl) {
+    if (!cached || cached.src !== resolvedSource) {
         loadImageForResource(resource);
     }
 
@@ -126,7 +136,7 @@ function loadImageForResource(resource) {
             imageCache.delete(resource.id);
             reject(new Error('Falha ao carregar imagem do recurso'));
         };
-        img.src = resource.imageDataUrl;
+        img.src = resolveImageSource(resource.imageDataUrl);
     });
 }
 

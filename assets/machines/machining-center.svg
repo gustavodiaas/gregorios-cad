@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 180" role="img" aria-label="Centro de usinagem visto de cima">
+  <rect x="8" y="8" width="204" height="164" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <rect x="26" y="28" width="118" height="124" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <path d="M47 55h76v70H47z" fill="#eff6ff" stroke="#60a5fa" stroke-width="4"/>
+  <circle cx="85" cy="90" r="20" fill="none" stroke="#2563eb" stroke-width="5"/>
+  <rect x="158" y="28" width="36" height="82" rx="7" fill="#e2e8f0" stroke="#64748b" stroke-width="4"/>
+  <circle cx="176" cy="128" r="12" fill="#0f172a"/><circle cx="176" cy="128" r="5" fill="#f8fafc"/>
+</svg>
