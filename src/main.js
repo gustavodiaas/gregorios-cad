@@ -26,6 +26,14 @@ import { initializeWorkspaceTabs } from './ui-shell.js';
 import { initializeMachineLibrary } from './machine-library.js';
 import { initializeSelectionInspector } from './selection-inspector.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
+import {
+    MEASUREMENT_UNITS,
+    formatLength,
+    formatMeasurementInput,
+    getMeasurementUnit,
+    parseMeasurementInput,
+    setMeasurementUnit
+} from './measurement-units.js';
 
 export function initializeProductPlanner() {
     // Inicializar o módulo do planner primeiro
@@ -197,10 +205,15 @@ function initializeConnectionDropdown() {
         
         if (width === 'custom') {
             // Handle custom width
-            const customWidth = prompt('Digite a largura personalizada em cm:', getCurrentConnectionWidth());
-            if (customWidth && !isNaN(customWidth) && customWidth > 0) {
-                setCurrentConnectionWidth(parseInt(customWidth));
-                connectionBtnLabel.textContent = `Conexão (${getCurrentConnectionWidth()}cm)`;
+            const unit = getMeasurementUnit();
+            const customWidth = prompt(
+                `Digite a largura personalizada em ${unit.label.toLowerCase()}:`,
+                formatMeasurementInput(getCurrentConnectionWidth())
+            );
+            const widthCm = parseMeasurementInput(customWidth);
+            if (customWidth && Number.isFinite(widthCm) && widthCm > 0) {
+                setCurrentConnectionWidth(Math.round(widthCm));
+                connectionBtnLabel.textContent = `Conexão (${formatLength(getCurrentConnectionWidth())})`;
                 
                 // Atualizar opções de NavMesh para incluir nova largura
                 if (window.refreshNavMeshOptions) {
@@ -210,7 +223,7 @@ function initializeConnectionDropdown() {
         } else {
             // Handle predefined widths
             setCurrentConnectionWidth(parseInt(width));
-            connectionBtnLabel.textContent = item.textContent;
+            connectionBtnLabel.textContent = `${item.dataset.name || 'Conexão'} (${formatLength(parseInt(width))})`;
             item.classList.add('selected');
         }
         
@@ -539,6 +552,7 @@ function main() {
     initializeWorkspaceTabs(); // Navegação compacta da barra lateral
     initializeMachineLibrary(); // Biblioteca SVG de máquinas
     initializeSelectionInspector(); // Inspetor de medidas no estilo Visio
+    initializeMeasurementUnitSelector(); // Unidade global de entrada e exibição
     initializeSpaghettiDiagram(); // Janela de análise das distâncias
     
     // Verificar estado do NavMesh e aplicar classe active se necessário
@@ -580,6 +594,47 @@ function main() {
             setActiveTool(null);
         }
     });
+}
+
+function initializeMeasurementUnitSelector() {
+    const select = document.getElementById('measurementUnitSelect');
+    if (!select) return;
+
+    const refreshLabels = event => {
+        const unit = getMeasurementUnit();
+        select.value = unit.id;
+        document.querySelectorAll('[data-measurement-unit-symbol]').forEach(element => {
+            element.textContent = unit.symbol;
+        });
+
+        const passLevelLabel = document.getElementById('passLevelLabel');
+        if (passLevelLabel) passLevelLabel.textContent = `Nível de Passe (${unit.symbol}):`;
+        const passLevelInput = document.getElementById('passLevelInput');
+        if (passLevelInput?.value && event?.detail?.previousUnit) {
+            const valueCm = parseMeasurementInput(passLevelInput.value, event.detail.previousUnit.id);
+            if (Number.isFinite(valueCm)) passLevelInput.value = formatMeasurementInput(valueCm, unit.id);
+        }
+
+        const connectionLabel = document.getElementById('connectionBtnLabel');
+        if (connectionLabel) connectionLabel.textContent = `Conexão (${formatLength(getCurrentConnectionWidth())})`;
+        document.querySelectorAll('#connectionTypeMenu [data-width]').forEach(item => {
+            if (item.dataset.width === 'custom') return;
+            const name = item.dataset.name || item.textContent.split('(')[0].trim();
+            item.dataset.name = name;
+            item.textContent = `${name} (${formatLength(Number(item.dataset.width))})`;
+        });
+
+        Drawing.drawAll();
+        updateConnectionDistancesTable();
+    };
+
+    select.innerHTML = Object.values(MEASUREMENT_UNITS)
+        .map(unit => `<option value="${unit.id}">${unit.label}</option>`)
+        .join('');
+    select.value = getMeasurementUnit().id;
+    select.addEventListener('change', () => setMeasurementUnit(select.value));
+    window.addEventListener('measurement-unit-changed', refreshLabels);
+    refreshLabels();
 }
 
 function initializeSpaghettiDiagram() {

@@ -746,6 +746,25 @@ body {
     color: var(--ui-accent);
 }
 
+.measurement-unit-picker {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    pointer-events: auto;
+}
+
+.measurement-unit-picker select {
+    max-width: 112px;
+    padding: 0 18px 0 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    font-weight: 650;
+    cursor: pointer;
+    outline: none;
+}
+
 .statusbar-hint {
     padding-left: 12px;
     border-left: 1px solid var(--ui-divider);

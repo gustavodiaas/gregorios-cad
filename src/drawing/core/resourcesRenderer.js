@@ -23,6 +23,7 @@ import {
     resourceHoverColor,
     getGlobalShowDimensions
 } from '../../config.js';
+import { formatLength } from '../../measurement-units.js';
 import {
     drawAdjacentResourcesDimensions,
     drawInterResourceDimensions,
@@ -128,7 +129,7 @@ function drawResourceCreationPreview() {
     ctx.lineTo(finalX + finalWidth, yDimLineY + extensionScaled);
     ctx.stroke();
 
-    drawDimensionLine(finalX, yDimLineY, finalX + finalWidth, yDimLineY, `${previewWidthCm} cm`, 'below');
+    drawDimensionLine(finalX, yDimLineY, finalX + finalWidth, yDimLineY, formatLength(previewWidthCm), 'below');
 
     ctx.beginPath();
     ctx.moveTo(finalX + finalWidth, finalY);
@@ -137,7 +138,7 @@ function drawResourceCreationPreview() {
     ctx.lineTo(xDimLineX + extensionScaled, finalY + finalHeight);
     ctx.stroke();
 
-    drawDimensionLine(xDimLineX, finalY, xDimLineX, finalY + finalHeight, `${previewHeightCm} cm`, 'right');
+    drawDimensionLine(xDimLineX, finalY, xDimLineX, finalY + finalHeight, formatLength(previewHeightCm), 'right');
 
     ctx.restore();
 }
@@ -1024,7 +1025,7 @@ function drawResourceDimensionsImproved(resource) {
             }
             const segmentLengthCm = Math.round(segmentLength / pixelsPerCm * 10) / 10;
             if (segmentLengthCm >= 1 && dimensionDeclutter.shouldDrawByLOD(segmentLength)) {
-                const textValue = `${segmentLengthCm} cm`;
+                const textValue = formatLength(segmentLengthCm);
                 drawSegmentDimension(p1, p2, textValue, offsetVal, resource.vertices, false, i);
             }
         }
@@ -1040,14 +1041,14 @@ function drawResourceDimensionsImproved(resource) {
         if (widthCm >= 1) {
             const p1 = [x, y + height];
             const p2 = [x + width, y + height];
-            const textValue = `${widthCm} cm`;
+            const textValue = formatLength(widthCm);
             drawSegmentDimension(p1, p2, textValue, offsetVal, [], true, -1);
         }
 
         if (heightCm >= 1) {
             const p1 = [x + width, y];
             const p2 = [x + width, y + height];
-            const textValue = `${heightCm} cm`;
+            const textValue = formatLength(heightCm);
             drawSegmentDimension(p1, p2, textValue, offsetVal, [], true, -1);
         }
     }

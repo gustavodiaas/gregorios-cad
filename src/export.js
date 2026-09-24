@@ -35,6 +35,7 @@ import {
 import { calculateBoundingBox, rectangleToVertices } from './areas.js';
 import { computeResourceLabelGeometry } from './drawing.js';
 import { getResourceImage } from './resource-image.js';
+import { formatLength } from './measurement-units.js';
 
 /**
  * Configurações de exportação
@@ -463,7 +464,7 @@ function drawExportWallDimensions(ctx, wallsList, scale) {
         const lengthCm = Math.round((segmentLength / pixelsPerCm) * 10) / 10;
         if (lengthCm < 1) return; // Skip very small walls for cleaner output
 
-        const label = `${lengthCm} cm`;
+        const label = formatLength(lengthCm);
         drawExportTickDimension(ctx, [x1, y1], [x2, y2], label, {
             offset,
             arrowSize,
@@ -667,7 +668,7 @@ function drawExportResourceDimensions(ctx, resourcesList, scale) {
         if (widthCm >= 5) {
             const p1 = [bounds.x, bounds.y + bounds.height];
             const p2 = [bounds.x + bounds.width, bounds.y + bounds.height];
-            const text = `${widthCm} cm`;
+            const text = formatLength(widthCm);
             drawExportTickDimension(ctx, p1, p2, text, {
                 offset,
                 arrowSize,
@@ -681,7 +682,7 @@ function drawExportResourceDimensions(ctx, resourcesList, scale) {
         if (heightCm >= 5) {
             const p1 = [bounds.x + bounds.width, bounds.y];
             const p2 = [bounds.x + bounds.width, bounds.y + bounds.height];
-            const text = `${heightCm} cm`;
+            const text = formatLength(heightCm);
             drawExportTickDimension(ctx, p1, p2, text, {
                 offset,
                 arrowSize,
@@ -969,7 +970,7 @@ function drawExportRingDimensions(ctx, ringVertices, isHole = false, area = null
         
         // Só desenhar cotas para segmentos maiores que 10cm (reduce visual noise)
         if (segmentLengthCm >= 10) {
-            const textValue = `${segmentLengthCm} cm`;
+            const textValue = formatLength(segmentLengthCm);
             drawExportSingleSegmentDimension(ctx, p1, p2, textValue, dimensionOffset, ringVertices, isHole, i, scale, fontSizeBase, fontFamily);
         }
     }
@@ -1049,7 +1050,7 @@ function drawExportFreeLines(ctx, freeLinesList, scale) {
 
         if (shapeType === 'dimension') {
             const lengthCm = Math.round((Math.hypot(ex - sx, ey - sy) / pixelsPerCm) * 10) / 10;
-            drawExportTickDimension(ctx, [sx, sy], [ex, ey], `${lengthCm} cm`, {
+            drawExportTickDimension(ctx, [sx, sy], [ex, ey], formatLength(lengthCm), {
                 offset: 0,
                 arrowSize: dimensionTickSize,
                 color: '#007aff',

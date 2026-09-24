@@ -4,6 +4,7 @@
 import { toggleNavMeshVisualization, setNavMeshVisualWidth, getNavMeshVisualizationState } from './drawing.js';
 import { drawAll } from './drawing.js';
 import { getAvailableConnectionWidths, getConnectionWidthName } from './navMeshBaker.js';
+import { formatLength, onMeasurementUnitChange } from './measurement-units.js';
 
 /**
  * Atualiza as opções de largura de visualização dinamicamente
@@ -34,7 +35,7 @@ function updateNavMeshWidthOptions() {
         option.setAttribute('data-width', width);
         
         const widthName = getConnectionWidthName(width);
-        option.innerHTML = `${width}cm (${widthName})`;
+        option.innerHTML = `${formatLength(width)} (${widthName})`;
         
         // Marcar como selecionado: primeira opção se não há seleção atual, ou a atual se existe
         if ((currentSelectedWidth === null && index === 0) || width === currentSelectedWidth) {
@@ -135,6 +136,7 @@ export function initializeNavMeshControls() {
     
     // Inicializar opções de largura
     updateNavMeshWidthOptions();
+    onMeasurementUnitChange(updateNavMeshWidthOptions);
 
 }
 

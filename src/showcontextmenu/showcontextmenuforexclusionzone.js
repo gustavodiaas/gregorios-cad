@@ -1,7 +1,7 @@
 import { ensureContextMenuElement, hideContextMenu } from './showcontextmenuutils.js';
 import { activateExclusionEditing, deactivateExclusionEditing, getEditingExclusionHubId } from '../state.js';
 import { getExclusionEdgeDistances } from '../hub-exclusion-zones.js';
-import { pixelsPerCm } from '../config.js';
+import { formatLength, formatMeasurementInput, getMeasurementUnit, parseMeasurementInput } from '../measurement-units.js';
 
 /**
  * Exibe o menu de contexto para uma zona de exclusão de hub.
@@ -28,15 +28,16 @@ function showContextMenuForExclusionZone(hub, x, y, mouseEvent) {
             }
         },
         {
-            label: `Dimensões: ${widthCm} × ${depthCm} cm`,
+            label: `Dimensões: ${formatLength(Number(widthCm))} × ${formatLength(Number(depthCm))}`,
             action: () => {
+                const unit = getMeasurementUnit();
                 const input = prompt(
-                    `Dimensões individuais (far, near, right, left em cm):\n` +
-                    `Formato: far,near,right,left`,
-                    `${d.far.toFixed(0)},${d.near.toFixed(0)},${d.right.toFixed(0)},${d.left.toFixed(0)}`
+                    `Dimensões individuais (far, near, right, left em ${unit.label.toLowerCase()}):\n` +
+                    `Formato: far; near; right; left`,
+                    `${formatMeasurementInput(d.far)}; ${formatMeasurementInput(d.near)}; ${formatMeasurementInput(d.right)}; ${formatMeasurementInput(d.left)}`
                 );
                 if (!input) return;
-                const parts = input.split(/[,;]/).map(s => parseFloat(s.trim()));
+                const parts = input.split(/[;|]/).map(s => parseMeasurementInput(s.trim()));
                 if (parts.length >= 4 && parts.every(v => !isNaN(v))) {
                     hub.exclusionFar   = Math.max(20, parts[0]);
                     hub.exclusionNear  = Math.max(0,  parts[1]);

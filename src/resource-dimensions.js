@@ -23,6 +23,7 @@ import {
     pixelsPerCm,
     DIMENSION_SYSTEM
 } from './config.js';
+import { formatLength } from './measurement-units.js';
 
 // Estado para gerenciar visibilidade das cotas globais
 let globalDimensionsStateBeforeDrag = null;
@@ -148,7 +149,7 @@ function drawVirtualDimensionLine(ctx, distance, x1, y1, x2, y2, orientation, sc
     ctx.font = fontConfig.string;
 
     const distanceInCm = Math.round(distance / pixelsPerCm);
-    const text = `${distanceInCm}cm`;
+    const text = formatLength(distanceInCm);
     const textMetrics = ctx.measureText(text);
     const textWidth = textMetrics.width;
     const textHeight = fontConfig.size;

@@ -5,6 +5,7 @@ import { getHubById } from './hubs.js';
 import { openings as allOpenings, getOpeningDisplayName } from './openings.js';
 import { onStateAction } from './state/events.js';
 import { pixelsPerCm } from './config.js';
+import { convertFromCm, formatLength, getMeasurementUnit } from './measurement-units.js';
 
 let connectionAnalysisBodyElement = null;
 
@@ -36,7 +37,7 @@ export function updateConnectionDistancesTable() {
             <thead>
                 <tr>
                     <th>Recursos</th>
-                    <th>Distância (m)</th>
+                    <th>Distância (${getMeasurementUnit().symbol})</th>
                     <th>Total de Linhas</th>
                 </tr>
             </thead>
@@ -242,7 +243,9 @@ export function updateConnectionDistancesTable() {
         resourcesCell.textContent = pairKey;
         
         const distCell = document.createElement('td');
-        distCell.textContent = (group.totalDistance / pixelsPerCm / 100).toFixed(2);
+        distCell.textContent = convertFromCm(group.totalDistance / pixelsPerCm).toLocaleString('pt-BR', {
+            maximumFractionDigits: getMeasurementUnit().decimals
+        });
         
         const countCell = document.createElement('td');
         countCell.textContent = group.count;
@@ -258,7 +261,9 @@ export function updateConnectionDistancesTable() {
     
     // Atualizar totais na tabela
     if (newTotalDistanceElement) {
-        newTotalDistanceElement.textContent = (grandTotalDistance / pixelsPerCm / 100).toFixed(2);
+        newTotalDistanceElement.textContent = convertFromCm(grandTotalDistance / pixelsPerCm).toLocaleString('pt-BR', {
+            maximumFractionDigits: getMeasurementUnit().decimals
+        });
     }
     if (newTotalLinesElement) {
         newTotalLinesElement.textContent = grandTotalLines;
@@ -275,17 +280,17 @@ function updateConnectionMetrics(totalDistance, totalConnections) {
     const totalDistanceMetric = document.getElementById('totalDistanceMetric');
     const totalConnectionsMetric = document.getElementById('totalConnectionsMetric');
     const averageDistanceMetric = document.getElementById('averageDistanceMetric');
-    const totalMeters = totalDistance / pixelsPerCm / 100;
-    const averageMeters = totalConnections > 0 ? totalMeters / totalConnections : 0;
+    const totalCm = totalDistance / pixelsPerCm;
+    const averageCm = totalConnections > 0 ? totalCm / totalConnections : 0;
     if (totalDistanceMetric) {
-        totalDistanceMetric.textContent = `${totalMeters.toFixed(2).replace('.', ',')} m`;
+        totalDistanceMetric.textContent = formatLength(totalCm);
     }
     
     if (totalConnectionsMetric) {
         totalConnectionsMetric.textContent = totalConnections.toString();
     }
     if (averageDistanceMetric) {
-        averageDistanceMetric.textContent = `${averageMeters.toFixed(2).replace('.', ',')} m`;
+        averageDistanceMetric.textContent = formatLength(averageCm);
     }
 }
 

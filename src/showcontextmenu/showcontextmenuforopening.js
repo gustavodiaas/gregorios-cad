@@ -2,6 +2,7 @@ import { deleteOpening, calculateOpeningWidth, renameOpening, getOpeningDisplayN
 import { createHubForBoundaryOpening, getHubsForBoundaryOpening, removeHub, updateHubNamesForBoundaryOpening } from '../hubs.js';
 import { ensureContextMenuElement, hideContextMenu } from './showcontextmenuutils.js';
 import { drawAll } from '../drawing.js';
+import { formatLength } from '../measurement-units.js';
 
 /**
  * Exibe o menu de contexto para uma abertura.
@@ -41,7 +42,7 @@ export function showContextMenuForOpening(opening, x, y, mouseEvent) {
     
     // Info label
     const displayName = getOpeningDisplayName(opening);
-    const typeLabel = isBoundary ? `${displayName} (${openingWidth} cm)` : `Abertura (${openingWidth} cm)`;
+    const typeLabel = isBoundary ? `${displayName} (${formatLength(openingWidth)})` : `Abertura (${formatLength(openingWidth)})`;
     menuOptions.push({
         label: `ℹ️ ${typeLabel}`,
         action: () => { /* noop - info only */ },

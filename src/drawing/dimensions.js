@@ -27,6 +27,7 @@ import {
     getClosestPointsBetweenAreas, 
     rectangleToVertices} from '../areas.js';
 import { dimensionDeclutter } from './dimension-declutter.js';
+import { formatLength } from '../measurement-units.js';
 import {
     getClosestPointsBetweenResources
 } from '../merge_resources/resource_operations.js';
@@ -657,7 +658,7 @@ function drawRingDimensions(ringVertices, isHole = false, area = null) {
         if (!dimensionDeclutter.shouldDrawByLOD(segmentLength)) continue;
         
         const segmentLengthCm = Math.round(segmentLength / pixelsPerCm * 10) / 10;
-        const textValue = `${segmentLengthCm} cm`;
+        const textValue = formatLength(segmentLengthCm);
         
         // Sempre usar dimensão simples (não editável)
         drawSegmentDimension(p1, p2, textValue, offsetVal, ringVertices, isHole, i);
@@ -739,7 +740,7 @@ function drawAdjacentAreaDimension(area1, area2, proximity) {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             
-            const text = distance < 1 ? 'Encostadas' : `${Math.round(distance / pixelsPerCm * 10) / 10} cm`;
+            const text = distance < 1 ? 'Encostadas' : formatLength(distance / pixelsPerCm);
             const metrics = ctx.measureText(text);
             const padding = 2 / scale;
             
@@ -835,7 +836,7 @@ function drawAdjacentAreaDimension(area1, area2, proximity) {
     ctx.textBaseline = 'bottom';
     
     // Fundo semi-transparente para o texto
-    const text = `${distanceCm} cm`;
+    const text = formatLength(distanceCm);
     const metrics = ctx.measureText(text);
     const padding = 2 / scale;
     
@@ -1093,7 +1094,7 @@ function drawAdjacentResourceDimension(resource1, resource2, proximity) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    const text = `${Math.round(distance / pixelsPerCm * 10) / 10} cm`;
+    const text = formatLength(distance / pixelsPerCm);
     const metrics = ctx.measureText(text);
     const padding = 2 / scale;
     
@@ -1255,7 +1256,7 @@ const permanentDimensionsFractionation = {
             segments.push({
                 startPoint: [start.point[0], start.point[1]],
                 endPoint: [end.point[0], end.point[1]],
-                text: `${segmentCm} cm`,
+                text: formatLength(segmentCm),
                 offset: offsetVal_world
             });
         }

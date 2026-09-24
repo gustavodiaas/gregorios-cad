@@ -35,6 +35,7 @@ import { invalidateNavigationGraph } from '../navigation.js';
 import { layoutChangeNotifier } from '../core/layout-change-notifier.js';
 import { generateId, ID_PREFIXES } from '../utils/idGenerator.js';
 import { cloneHubsForResource } from '../hubs.js';
+import { formatMeasurementInput, getMeasurementUnit, parseMeasurementInput } from '../measurement-units.js';
 
 /**
  * Gera um nome adequado para recurso duplicado na cópia de área.
@@ -153,23 +154,6 @@ function promptAreaDimensions(area) {
         return;
     }
 
-    const formatValue = (value) => {
-        if (!Number.isFinite(value)) return '';
-        const hasFraction = Math.abs(value - Math.round(value)) > 1e-4;
-        return value.toLocaleString('pt-BR', {
-            minimumFractionDigits: hasFraction ? 2 : 0,
-            maximumFractionDigits: 2
-        });
-    };
-
-    const parseValue = (value) => {
-        if (typeof value !== 'string') return NaN;
-        const sanitized = value.trim().replace(/\s+/g, '').replace(',', '.');
-        if (sanitized === '') return NaN;
-        const parsed = Number(sanitized);
-        return Number.isFinite(parsed) ? parsed : NaN;
-    };
-
     try {
         const mainVertices = getMainVertices(area);
         const referenceVertices = (mainVertices && mainVertices.length >= 2)
@@ -180,14 +164,15 @@ function promptAreaDimensions(area) {
         const currentWidthCm = (bbox.width || area.width || 0) / pixelsPerCm;
         const currentHeightCm = (bbox.height || area.height || 0) / pixelsPerCm;
 
-        const widthInput = prompt('Digite a largura em cm:', formatValue(currentWidthCm));
+        const unit = getMeasurementUnit();
+        const widthInput = prompt(`Digite a largura em ${unit.label.toLowerCase()}:`, formatMeasurementInput(currentWidthCm));
         if (widthInput === null) return;
 
-        const heightInput = prompt('Digite a altura em cm:', formatValue(currentHeightCm));
+        const heightInput = prompt(`Digite a altura em ${unit.label.toLowerCase()}:`, formatMeasurementInput(currentHeightCm));
         if (heightInput === null) return;
 
-        const widthCm = parseValue(widthInput);
-        const heightCm = parseValue(heightInput);
+        const widthCm = parseMeasurementInput(widthInput);
+        const heightCm = parseMeasurementInput(heightInput);
 
         if (!Number.isFinite(widthCm) || widthCm <= 0) {
             alert('Valor de largura inválido. Informe um número maior que zero.');

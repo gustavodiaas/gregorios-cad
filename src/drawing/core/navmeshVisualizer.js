@@ -1,6 +1,7 @@
 import { getCtx, scale } from '../../state.js';
 import { calculateBoundingBox } from '../../areas.js';
 import { getNavMeshForWidth, SUPPORTED_CONNECTION_WIDTHS } from '../../navMeshBaker.js';
+import { formatLength } from '../../measurement-units.js';
 
 const NAVMESH_VISUAL_COLORS = {
     60: { fill: 'rgba(0, 255, 0, 0.6)', stroke: 'rgba(0, 200, 0, 0.8)', name: 'Pedestre' },
@@ -83,7 +84,7 @@ function drawNavMeshNodes(area) {
 
     ctx.fillStyle = 'white';
     ctx.font = `${fontSize}px Arial`;
-    ctx.fillText(`NavMesh ${navMeshVisualWidth}cm`, infoX, infoY);
+    ctx.fillText(`NavMesh ${formatLength(navMeshVisualWidth)}`, infoX, infoY);
     ctx.fillText(`Nós: ${navMesh.nodes.size} | Navegáveis: ${walkableCount}`, infoX, infoY + 15);
     if (stairWalkwayCount > 0) {
         ctx.fillStyle = 'rgba(255, 165, 0, 1)';

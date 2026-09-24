@@ -13,6 +13,7 @@ import { getHubVisualRadius, anchorToWorldCoordinates, getHubDisplayLabel } from
 import { registerConnectionForAnimation, pruneConnectionAnimations } from '../connections/connectionAnimations.js';
 import { findHubById } from '../hubs.js';
 import { migrateResourceToPolygonal } from '../resources.js';
+import { formatLength } from '../measurement-units.js';
 
 // ============================================================================
 // FALLBACK PULSE ANIMATION
@@ -131,7 +132,7 @@ function drawLiveConnectionDistance(ctx, connection) {
 
     const scale = Math.max(getScale(), 0.01);
     const last = points[points.length - 1];
-    const label = `${(lengthPx / pixelsPerCm / 100).toFixed(2).replace('.', ',')} m`;
+    const label = formatLength(lengthPx / pixelsPerCm);
     const fontSize = 12 / scale;
     const horizontalPadding = 9 / scale;
     const height = 25 / scale;

@@ -1,5 +1,5 @@
 // Funções para criação e manipulação de recursos
-import { 
+import {
     resources, 
     getSelectedResourceId, 
     setSelectedResourceId,
@@ -42,6 +42,7 @@ import { saveStateToHistory } from './history.js';
 import { generateId, ID_PREFIXES } from './utils/idGenerator.js';
 import { getHubsForResource, removeAllHubsFromResource, updateHubNamesForResource } from './hubs.js';
 import { findClosestEdgePoint, getPolygonCentroid as getHPCentroid } from './hub-placement-helper.js';
+import { formatMeasurementInput, getMeasurementUnit, parseMeasurementInput } from './measurement-units.js';
 
 /**
  * Calcula o centroide de um polígono
@@ -739,23 +740,6 @@ function isComplexResource(resource) {
     return true;
 }
 
-function formatDimensionValue(value) {
-    if (!Number.isFinite(value)) return '';
-    const hasFraction = Math.abs(value - Math.round(value)) > 1e-4;
-    return value.toLocaleString('pt-BR', {
-        minimumFractionDigits: hasFraction ? 2 : 0,
-        maximumFractionDigits: 2
-    });
-}
-
-function parseDimensionValue(value) {
-    if (typeof value !== 'string') return NaN;
-    const sanitized = value.trim().replace(/\s+/g, '').replace(',', '.');
-    if (sanitized === '') return NaN;
-    const parsed = Number(sanitized);
-    return Number.isFinite(parsed) ? parsed : NaN;
-}
-
 export function promptResourceDimensions(resource) {
     if (!resource) return;
 
@@ -779,14 +763,15 @@ export function promptResourceDimensions(resource) {
     const currentWidthCm = (bounds.width || resource.width || 0) / pixelsPerCm;
     const currentHeightCm = (bounds.height || resource.height || 0) / pixelsPerCm;
 
-    const widthInput = prompt('Digite a largura em cm:', formatDimensionValue(currentWidthCm));
+    const unit = getMeasurementUnit();
+    const widthInput = prompt(`Digite a largura em ${unit.label.toLowerCase()}:`, formatMeasurementInput(currentWidthCm));
     if (widthInput === null) return;
 
-    const heightInput = prompt('Digite a altura em cm:', formatDimensionValue(currentHeightCm));
+    const heightInput = prompt(`Digite a altura em ${unit.label.toLowerCase()}:`, formatMeasurementInput(currentHeightCm));
     if (heightInput === null) return;
 
-    const widthCm = parseDimensionValue(widthInput);
-    const heightCm = parseDimensionValue(heightInput);
+    const widthCm = parseMeasurementInput(widthInput);
+    const heightCm = parseMeasurementInput(heightInput);
 
     if (!Number.isFinite(widthCm) || widthCm <= 0) {
         alert('Valor de largura inválido. Informe um número maior que zero.');

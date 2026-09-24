@@ -78,6 +78,7 @@ import { drawFloorOverlay, drawNavigationGraph } from './drawing/core/overlays.j
 import { drawMovementArea, drawMovementAreaBorder } from './drawing/core/movementAreas.js';
 import { drawSmartGuides, renderAlignmentGuides } from './drawing/core/guides.js';
 import { getHubVisualRadius, getHubDisplayLabel, anchorToWorldCoordinates } from './connections/connectionUtils.js';
+import { formatLength } from './measurement-units.js';
 import {
     toggleNavMeshVisualization,
     setNavMeshVisualWidth,
@@ -270,7 +271,7 @@ function drawAll(redrawStatic = true) {
             ctx.lineTo(previewX + previewW, yDimLineY + extensionScaled);
             ctx.stroke();
 
-            drawDimensionLine(previewX, yDimLineY, previewX + previewW, yDimLineY, `${previewWidthCm} cm`, 'below');
+            drawDimensionLine(previewX, yDimLineY, previewX + previewW, yDimLineY, formatLength(previewWidthCm), 'below');
 
             ctx.beginPath();
             ctx.moveTo(previewX + previewW, previewY);
@@ -279,7 +280,7 @@ function drawAll(redrawStatic = true) {
             ctx.lineTo(xDimLineX + extensionScaled, previewY + previewH);
             ctx.stroke();
 
-            drawDimensionLine(xDimLineX, previewY, xDimLineX, previewY + previewH, `${previewHeightCm} cm`, 'right');
+            drawDimensionLine(xDimLineX, previewY, xDimLineX, previewY + previewH, formatLength(previewHeightCm), 'right');
         }
     }
 

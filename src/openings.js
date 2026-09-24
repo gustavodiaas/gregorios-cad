@@ -6,6 +6,7 @@ import { saveStateToHistory } from './history.js'; // Sistema de undo/redo
 import { pixelsPerCm, openingControlMinSize, openingControlMaxSize, openingTextOffsetMin, openingTextOffsetMax, getScaledSizeWithLimits, DIMENSION_SYSTEM, dimensionLineWidth, dimensionTickSize, getGlobalShowDimensions } from './config.js';
 import { generateId, ID_PREFIXES } from './utils/idGenerator.js';
 import { layoutChangeNotifier } from './core/layout-change-notifier.js';
+import { formatLength } from './measurement-units.js';
 // Estado global das aberturas
 let openings = [];
 let selectedOpeningId = null;
@@ -340,8 +341,8 @@ function drawVirtualOpening() {
     ctx.textBaseline = 'middle';
     // Mostrar "DOCA" para aberturas de borda
     const labelText = isBoundary 
-        ? `DOCA ${Math.round(virtualOpening.width)} cm`
-        : `${Math.round(virtualOpening.width)} cm`;
+        ? `DOCA ${formatLength(virtualOpening.width)}`
+        : formatLength(virtualOpening.width);
     ctx.fillText(labelText, midX, midY - scaledTextOffset);
     ctx.restore();
 
@@ -780,7 +781,7 @@ function drawOpening(opening) {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         const openingWidth = calculateOpeningWidth(opening);
-        ctx.fillText(`${Math.round(openingWidth)} cm`, midX, midY - scaledTextOffset);
+        ctx.fillText(formatLength(openingWidth), midX, midY - scaledTextOffset);
     }
     ctx.restore();
     if (getGlobalShowDimensions()) {
@@ -824,7 +825,7 @@ function drawOpeningDimensionLine(opening) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const openingWidthCm = calculateOpeningWidth(opening);
-    const widthText = `${Math.round(openingWidthCm * 10) / 10} cm`;
+    const widthText = formatLength(openingWidthCm);
     const midX = (startDim[0] + endDim[0]) / 2;
     const midY = (startDim[1] + endDim[1]) / 2;
     const textOffset = 8 / scale;

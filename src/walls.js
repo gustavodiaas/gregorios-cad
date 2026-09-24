@@ -13,6 +13,7 @@ import {
 import { syncBoundaryOpeningHubs, syncBoundaryOpeningHubsRotation } from './hubs.js';
 import { layoutChangeNotifier } from './core/layout-change-notifier.js';
 import { computeSubSegment, getRemainingSubSegments } from './utils/segment-split.js';
+import { formatLength } from './measurement-units.js';
 /**
  * Cria uma nova parede.
  * @param {Array} startPoint
@@ -439,7 +440,7 @@ function drawWallDimension(wall) {
             ctx.textBaseline = 'top';
         }
         // Texto da dimensão
-        const textValue = `${lengthCm} cm`;
+        const textValue = formatLength(lengthCm);
         ctx.fillText(textValue, 0, 0);
         ctx.restore();
     }
@@ -487,7 +488,7 @@ function drawWallPreview() {
         
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`${lengthCm} cm`, midX, midY - getScaledSizeWithLimits(10, scale, 5, 15));
+        ctx.fillText(formatLength(lengthCm), midX, midY - getScaledSizeWithLimits(10, scale, 5, 15));
     }
     // --- PREVIEW ANGLE INDICATORS ---
     if (rightAngleSnapEnabled) {
@@ -1337,7 +1338,7 @@ class AutoDivisionDimensionsSystem {
                     startPoint: [areaLeft, areaTop - 20],
                     endPoint: [wallX, areaTop - 20],
                     value: leftWidth,
-                    label: `${leftWidthCm} cm`,
+                    label: formatLength(leftWidthCm),
                     color: '#00C853', // Verde para divisões
                     side: 'left'
                 });
@@ -1352,7 +1353,7 @@ class AutoDivisionDimensionsSystem {
                     startPoint: [wallX, areaTop - 40],
                     endPoint: [areaRight, areaTop - 40],
                     value: rightWidth,
-                    label: `${rightWidthCm} cm`,
+                    label: formatLength(rightWidthCm),
                     color: '#00C853', // Verde para divisões
                     side: 'right'
                 });
@@ -1390,7 +1391,7 @@ class AutoDivisionDimensionsSystem {
                     startPoint: [areaLeft - 20, areaTop],
                     endPoint: [areaLeft - 20, wallY],
                     value: topHeight,
-                    label: `${topHeightCm} cm`,
+                    label: formatLength(topHeightCm),
                     color: '#00C853', // Verde para divisões
                     side: 'top'
                 });
@@ -1405,7 +1406,7 @@ class AutoDivisionDimensionsSystem {
                     startPoint: [areaLeft - 40, wallY],
                     endPoint: [areaLeft - 40, areaBottom],
                     value: bottomHeight,
-                    label: `${bottomHeightCm} cm`,
+                    label: formatLength(bottomHeightCm),
                     color: '#00C853', // Verde para divisões
                     side: 'bottom'
                 });
@@ -1762,7 +1763,7 @@ function calculateWallSnapDivisionDimensions(intersectionPoint, wall, t) {
             endPoint: [e1x, e1y],
             anchorStart: wall.startPoint,
             anchorEnd: intersectionPoint,
-            label: `${seg1Cm} cm`,
+            label: formatLength(seg1Cm),
             color: '#FF9800', // Laranja para preview
             value: seg1Length,
             side: 'first'
@@ -1780,7 +1781,7 @@ function calculateWallSnapDivisionDimensions(intersectionPoint, wall, t) {
             endPoint: [e2x, e2y],
             anchorStart: intersectionPoint,
             anchorEnd: wall.endPoint,
-            label: `${seg2Cm} cm`,
+            label: formatLength(seg2Cm),
             color: '#FF9800', // Laranja para preview
             value: seg2Length,
             side: 'second'

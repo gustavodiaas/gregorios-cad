@@ -6,6 +6,7 @@ import { rotateResource } from './merge_resources/rotateresource.js';
 import { saveStateToHistory } from './history.js';
 import { drawAll } from './drawing.js';
 import { showToast } from './ui-shell.js';
+import { formatMeasurementInput, parseMeasurementInput, onMeasurementUnitChange } from './measurement-units.js';
 
 function getSelectedResource() {
     const id = getSelectedResourceId();
@@ -38,8 +39,8 @@ export function initializeSelectionInspector() {
 
         const bounds = getBounds(resource);
         nameInput.value = resource.name || 'Recurso';
-        widthInput.value = String(Math.round((bounds.width / pixelsPerCm) * 10) / 10);
-        heightInput.value = String(Math.round((bounds.height / pixelsPerCm) * 10) / 10);
+        widthInput.value = formatMeasurementInput(bounds.width / pixelsPerCm);
+        heightInput.value = formatMeasurementInput(bounds.height / pixelsPerCm);
         rotationOutput.textContent = `${Math.round(resource.rotation || 0)}°`;
         if (badge) badge.textContent = resource.machineType ? 'Máquina SVG' : 'Recurso';
     };
@@ -48,8 +49,8 @@ export function initializeSelectionInspector() {
         event.preventDefault();
         const resource = getSelectedResource();
         if (!resource) return;
-        const widthCm = Number(widthInput.value);
-        const heightCm = Number(heightInput.value);
+        const widthCm = parseMeasurementInput(widthInput.value);
+        const heightCm = parseMeasurementInput(heightInput.value);
         if (!(widthCm > 0) || !(heightCm > 0)) {
             showToast('Informe medidas maiores que zero.', 'warning');
             return;
@@ -88,5 +89,6 @@ export function initializeSelectionInspector() {
 
     onStateAction('resource-selection/changed', render);
     onStateAction('selection/cleared', render);
+    onMeasurementUnitChange(render);
     render();
 }

@@ -24,6 +24,7 @@ import { pixelsPerCm } from './config.js';
 import { updateResourceCompatibilityProperties, getPolygonCentroid, migrateResourceToPolygonal } from './resources.js';
 import { collidesWithExclusionZones } from './hub-exclusion-zones.js';
 import { collidesWithStandaloneExclusionZones } from './exclusion-zones.js';
+import { getMeasurementUnit, parseMeasurementInput } from './measurement-units.js';
 
 // ============================================================================
 // CONSTANTES
@@ -819,7 +820,7 @@ export function initializeOptimizer() {
 
         // Ler parâmetros da UI
         const algorithm = algorithmSelect ? algorithmSelect.value : 'hill';
-        const stepSizeCm = passLevelInput ? parseFloat(passLevelInput.value) : 0;
+        const stepSizeCm = passLevelInput ? parseMeasurementInput(passLevelInput.value) : 0;
 
         // Validação: apenas Hill Climbing está implementado por enquanto
         if (algorithm !== 'hill') {
@@ -829,7 +830,7 @@ export function initializeOptimizer() {
 
         // Validação do step size
         if (!stepSizeCm || stepSizeCm <= 0) {
-            alert('Informe um Nível de Passe válido (maior que 0 cm).');
+            alert(`Informe um Nível de Passe válido (maior que 0 ${getMeasurementUnit().symbol}).`);
             return;
         }
 

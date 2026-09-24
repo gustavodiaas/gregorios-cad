@@ -25,6 +25,7 @@ import { isPointInAreaWithTolerance } from './events.js';
 import { generateId, ID_PREFIXES } from './utils/idGenerator.js';
 import { pointInPolygon } from './areas.js';
 import { pixelsPerCm } from './config.js';
+import { formatLength } from './measurement-units.js';
 
 // ============================================================================
 // CONSTANTES
@@ -686,7 +687,7 @@ export function drawExclusionZoneDimensions(zone) {
         ctx.stroke();
         // Text
         ctx.setLineDash([]);
-        const textW = `${widthCm} cm`;
+        const textW = formatLength(widthCm);
         const tw = ctx.measureText(textW).width;
         const tx = (minX + maxX) / 2;
         const ty = ly + fontSize * 0.8;
@@ -717,7 +718,7 @@ export function drawExclusionZoneDimensions(zone) {
         ctx.stroke();
         // Text
         ctx.setLineDash([]);
-        const textH = `${heightCm} cm`;
+        const textH = formatLength(heightCm);
         const th = ctx.measureText(textH).width;
         const txH = lx + fontSize * 0.8;
         const tyH = (minY + maxY) / 2;

@@ -12,6 +12,7 @@ import {
 } from './config.js';
 // Import utility functions from areas.js
 import { pointInPolygon } from './areas.js';
+import { formatLength } from './measurement-units.js';
 class VirtualDimensionsSystem {
     constructor() {
         this.virtualDimensions = [];
@@ -74,7 +75,7 @@ class VirtualDimensionsSystem {
                         startPoint: snapPoint,
                         endPoint: closestWallData.intersectionPoint,
                         value: closestWallData.distance,
-                        label: `${Math.round(closestWallData.distance / pixelsPerCm)} cm`,
+                        label: formatLength(closestWallData.distance / pixelsPerCm),
                         color: direction.color,
                         priority: this.getDirectionPriority(direction.name),
                         direction: direction.name,
@@ -364,7 +365,7 @@ class VirtualDimensionsSystem {
                     startPoint: snapPoint,
                     endPoint: closestPoint,
                     value: distance,
-                    label: `${Math.round(distance / pixelsPerCm)} cm`,
+                    label: formatLength(distance / pixelsPerCm),
                     color: virtualDimensionSecondaryColor,
                     priority: 1 + index,
                     targetWall: wall
@@ -449,7 +450,7 @@ class VirtualDimensionsSystem {
                     startPoint: snapPoint,
                     endPoint: closestIntersection,
                     value: closestDistance,
-                    label: `${Math.round(closestDistance / pixelsPerCm)} cm`,
+                    label: formatLength(closestDistance / pixelsPerCm),
                     color: direction.color,
                     priority: this.getDirectionPriority(direction.name),
                     direction: direction.name,
@@ -751,7 +752,7 @@ class VirtualDimensionsSystem {
             // 3. Se encontramos alguma interseção, criar a dimensão virtual
             if (closestIntersection && closestDistance < Infinity) {
                 // Formatar o label com a distância em cm
-                const label = `${Math.round(closestDistance / pixelsPerCm)} cm`;
+                const label = formatLength(closestDistance / pixelsPerCm);
                 // Criar objeto base da dimensão virtual
                 const dimensionBase = {
                     startPoint: point,

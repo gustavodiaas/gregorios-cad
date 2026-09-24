@@ -30,6 +30,7 @@ import {
     freeLineClosureGuideColor,
     pixelsPerCm
 } from './config.js';
+import { formatLength } from './measurement-units.js';
 import { pointInPolygon } from './areas.js';
 import { movementAreas } from './state.js';
 import { isPointInAreaWithTolerance } from './events.js';
@@ -219,7 +220,7 @@ function drawDimensionShape(ctx, sx, sy, ex, ey, scale) {
 
     const angle = Math.atan2(dy, dx);
     const arrowSize = 9 / scale;
-    const text = `${Math.round((length / pixelsPerCm) * 10) / 10} cm`;
+    const text = formatLength(length / pixelsPerCm);
     const previousStroke = ctx.strokeStyle;
 
     ctx.save();

@@ -7,6 +7,7 @@ import { drawAll } from './drawing.js';
 import { reloadResourceImages } from './resource-image.js';
 import { showToast } from './ui-shell.js';
 import { setActiveTool } from './active_tool.js';
+import { formatLength, onMeasurementUnitChange } from './measurement-units.js';
 
 export const MACHINE_LIBRARY = [
     { id: 'cnc-lathe', name: 'Torno CNC', category: 'Usinagem', widthCm: 320, heightCm: 190, icon: 'assets/machines/cnc-lathe.svg' },
@@ -93,7 +94,7 @@ export function initializeMachineLibrary() {
         grid.innerHTML = visible.map(machine => `
             <button type="button" class="machine-card" data-machine-id="${machine.id}" title="Inserir ${machine.name}">
                 <span class="machine-card-visual"><img src="${machine.icon}" alt=""></span>
-                <span class="machine-card-copy"><strong>${machine.name}</strong><small>${machine.widthCm} × ${machine.heightCm} cm</small></span>
+                <span class="machine-card-copy"><strong>${machine.name}</strong><small>${formatLength(machine.widthCm)} × ${formatLength(machine.heightCm)}</small></span>
                 <i class="fas fa-plus machine-card-add" aria-hidden="true"></i>
             </button>
         `).join('') || '<div class="library-empty">Nenhuma máquina encontrada.</div>';
@@ -107,6 +108,7 @@ export function initializeMachineLibrary() {
         render();
     });
     search.addEventListener('input', render);
+    onMeasurementUnitChange(render);
     grid.addEventListener('click', event => {
         const card = event.target.closest('[data-machine-id]');
         if (!card) return;
