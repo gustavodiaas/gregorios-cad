@@ -593,10 +593,21 @@ function initializeSpaghettiDiagram() {
 
     if (!openButton || !overlay || !panel) return;
 
+    openButton.setAttribute('aria-expanded', 'false');
+    openButton.setAttribute('aria-controls', 'spaghettiDiagramPanel');
+
+    const resizeWorkspace = () => {
+        requestAnimationFrame(() => window.resizeCanvas?.());
+        setTimeout(() => window.resizeCanvas?.(), 280);
+    };
+
     const close = () => {
         overlay.classList.remove('open');
         overlay.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('spaghetti-open');
+        openButton.classList.remove('active');
+        openButton.setAttribute('aria-expanded', 'false');
+        resizeWorkspace();
         openButton.focus();
     };
 
@@ -605,14 +616,14 @@ function initializeSpaghettiDiagram() {
         overlay.classList.add('open');
         overlay.setAttribute('aria-hidden', 'false');
         document.body.classList.add('spaghetti-open');
+        openButton.classList.add('active');
+        openButton.setAttribute('aria-expanded', 'true');
+        resizeWorkspace();
         requestAnimationFrame(() => closeButtons[0]?.focus());
     };
 
     openButton.addEventListener('click', open);
     closeButtons.forEach(button => button.addEventListener('click', close));
-    overlay.addEventListener('click', event => {
-        if (event.target === overlay) close();
-    });
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && overlay.classList.contains('open')) close();
     });
