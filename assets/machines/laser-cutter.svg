@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 150" role="img" aria-label="Máquina de corte a laser vista de cima">
+  <rect x="7" y="9" width="246" height="132" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <rect x="24" y="28" width="166" height="94" rx="7" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <path d="M44 44h126M44 62h126M44 80h126M44 98h126" stroke="#93c5fd" stroke-width="3"/>
+  <path d="M108 28v94" stroke="#2563eb" stroke-width="4"/>
+  <circle cx="108" cy="75" r="8" fill="#ef4444"/>
+  <rect x="204" y="30" width="32" height="54" rx="5" fill="#e2e8f0" stroke="#64748b" stroke-width="4"/>
+  <circle cx="220" cy="100" r="8" fill="#22c55e"/>
+</svg>

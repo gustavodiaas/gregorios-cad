@@ -571,6 +571,45 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    transition: width 220ms ease, min-width 220ms ease, border-radius 220ms ease;
+}
+
+.sidebar-collapse-toggle {
+    position: sticky;
+    top: 8px;
+    z-index: 12;
+    align-self: flex-end;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    min-height: 28px;
+    margin: 8px 10px -2px 0;
+    border: 1px solid rgba(15, 23, 42, 0.09);
+    border-radius: 9px;
+    color: #62626a;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    cursor: pointer;
+}
+
+.sidebar-collapse-toggle:hover {
+    color: var(--ui-accent);
+    border-color: rgba(0, 122, 255, 0.28);
+}
+
+.left-sidebar.collapsed {
+    width: 52px !important;
+    min-width: 52px;
+    overflow: hidden;
+}
+
+.left-sidebar.collapsed > :not(.sidebar-collapse-toggle) {
+    display: none !important;
+}
+
+.left-sidebar.collapsed .sidebar-collapse-toggle {
+    align-self: center;
+    margin: 10px 0 0;
 }
 
 .canvas-area {
@@ -922,6 +961,12 @@ body {
     font-size: 0.59rem;
 }
 
+.machine-card-copy small + small {
+    margin-top: 1px;
+    color: #6f6f76;
+    font-variant-numeric: tabular-nums;
+}
+
 .machine-card-add {
     position: absolute;
     right: 8px;
@@ -974,6 +1019,46 @@ body {
     border-radius: 11px;
     color: #7b7b82;
     background: rgba(118, 118, 128, 0.07);
+}
+
+.machine-catalog-reference {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 10px 0;
+    padding: 9px 10px;
+    border-radius: 10px;
+    color: #66666d;
+    background: rgba(0, 122, 255, 0.07);
+    font-size: 0.66rem;
+}
+
+.machine-catalog-reference i {
+    margin-right: 4px;
+    color: var(--ui-accent);
+}
+
+.machine-catalog-reference button {
+    padding: 5px 7px;
+    border: 0;
+    border-radius: 7px;
+    color: var(--ui-accent);
+    background: rgba(0, 122, 255, 0.1);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.dark-theme .sidebar-collapse-toggle {
+    color: #d1d1d6;
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(52, 52, 56, 0.92);
+}
+
+.dark-theme .machine-catalog-reference {
+    color: #c7c7cc;
+    background: rgba(10, 132, 255, 0.12);
 }
 
 .property-empty-state i {

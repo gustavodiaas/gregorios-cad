@@ -157,6 +157,9 @@
 
     <main class="app-content">
         <aside class="sidebar left-sidebar">
+            <button id="toggleLeftSidebarBtn" class="sidebar-collapse-toggle" type="button" aria-label="Recolher barra lateral" aria-expanded="true" title="Recolher barra lateral">
+                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+            </button>
             <!-- Handle de redimensionamento para sidebar esquerda -->
             <div class="resize-handle resize-handle-right" data-direction="right"></div>
             <div class="sidebar-workspace-tabs" role="tablist" aria-label="Painéis de criação">
@@ -290,7 +293,7 @@
                 </label>
                 <div id="machineCategoryFilters" class="library-filters" aria-label="Categorias"></div>
                 <div id="machineLibraryGrid" class="machine-library-grid"></div>
-                <p class="library-help"><i class="fas fa-circle-info"></i> Escolha uma máquina para inseri-la no centro da área ativa.</p>
+                <p class="library-help"><i class="fas fa-circle-info"></i> Insira a máquina e ajuste largura e altura no Inspetor, usando a unidade escolhida.</p>
             </section>
 
             <div class="sidebar-section draw-workspace-panel" style="position:relative;">
@@ -438,6 +441,10 @@
                             <span>Altura</span>
                             <div class="unit-input"><input id="inspectorResourceHeight" type="number" min="0.01" step="any"><b data-measurement-unit-symbol>cm</b></div>
                         </label>
+                    </div>
+                    <div id="machineCatalogReference" class="machine-catalog-reference hidden">
+                        <span><i class="fas fa-ruler-combined"></i> Tamanho de catálogo: <strong id="machineCatalogDimensions"></strong></span>
+                        <button id="resetMachineDimensionsBtn" type="button">Restaurar</button>
                     </div>
                     <div class="inspector-field inspector-field-wide">
                         <span>Orientação</span>

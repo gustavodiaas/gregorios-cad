@@ -22,7 +22,7 @@ import { initializeFloorManager } from './floors.js';
 import { initializeProductPlanner as initializePlannerModule } from './product-planner.js'; // Sistema de planejador de produtos
 import { initializePlannerAnimator } from './planner-animator.js'; // Sistema de animação do planner
 import { initializeOptimizer } from './optimizer.js'; // Sistema de otimização de layout
-import { initializeWorkspaceTabs } from './ui-shell.js';
+import { initializeLeftSidebarToggle, initializeWorkspaceTabs, setRightSidebarVisible } from './ui-shell.js';
 import { initializeMachineLibrary } from './machine-library.js';
 import { initializeSelectionInspector } from './selection-inspector.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
@@ -550,6 +550,7 @@ function main() {
     initializePlannerAnimator(); // Sistema de animação do planner
     initializeOptimizer(); // Sistema de otimização de layout
     initializeWorkspaceTabs(); // Navegação compacta da barra lateral
+    initializeLeftSidebarToggle(); // Recolher e expandir a barra lateral esquerda
     initializeMachineLibrary(); // Biblioteca SVG de máquinas
     initializeSelectionInspector(); // Inspetor de medidas no estilo Visio
     initializeMeasurementUnitSelector(); // Unidade global de entrada e exibição
@@ -688,44 +689,11 @@ function initializeSpaghettiDiagram() {
 // Função para inicializar o toggle do sidebar direito
 function initializeRightSidebarToggle() {
     const toggleBtn = document.getElementById('toggleRightSidebarBtn');
-    const rightSidebar = document.querySelector('.right-sidebar');
-    const toggleIcon = toggleBtn.querySelector('i');    // Estado inicial: sidebar oculto
-    let isHidden = true;
-    rightSidebar.classList.add('hidden');
-    toggleIcon.className = 'fas fa-eye'; // Ícone de "mostrar"
-    toggleBtn.title = 'Mostrar Menu Direito';
-    toggleBtn.classList.remove('active'); // Garantir que começa sem a classe active
-    
+    if (!toggleBtn) return;
+    setRightSidebarVisible(false);
+
     toggleBtn.addEventListener('click', () => {
-        isHidden = !isHidden;
-        if (isHidden) {
-            // Ocultar sidebar
-            rightSidebar.classList.add('hidden');
-            toggleIcon.className = 'fas fa-eye';
-            toggleBtn.title = 'Mostrar Menu Direito';
-            toggleBtn.classList.remove('active');
-        } else {
-            // Mostrar sidebar
-            rightSidebar.classList.remove('hidden');
-            toggleIcon.className = 'fas fa-eye-slash';
-            toggleBtn.title = 'Ocultar Menu Direito';
-            toggleBtn.classList.add('active');
-        }
-        // Sidebar é overlay (position fixed), canvas não precisa de resize
-        if (false) {
-            const container = document.getElementById('canvas-container');
-            if (container && globalCanvas) {
-                container.offsetHeight;
-                const newWidth = container.clientWidth;
-                const newHeight = container.clientHeight;
-                globalCanvas.width = newWidth;
-                globalCanvas.height = newHeight;
-                globalCanvas.style.width = newWidth + 'px';
-                globalCanvas.style.height = newHeight + 'px';
-                // Recentrar a vista após redimensionar o canvas
-                centerView();
-            }
-        } // fim if (false)
+        setRightSidebarVisible(document.querySelector('.right-sidebar')?.classList.contains('hidden'));
     });
 }
 // Função para inicializar o toggle do tema dark

@@ -6,7 +6,7 @@ import { rotateResource } from './merge_resources/rotateresource.js';
 import { saveStateToHistory } from './history.js';
 import { drawAll } from './drawing.js';
 import { showToast } from './ui-shell.js';
-import { formatMeasurementInput, parseMeasurementInput, onMeasurementUnitChange } from './measurement-units.js';
+import { formatLength, formatMeasurementInput, parseMeasurementInput, onMeasurementUnitChange } from './measurement-units.js';
 
 function getSelectedResource() {
     const id = getSelectedResourceId();
@@ -26,6 +26,9 @@ export function initializeSelectionInspector() {
     const widthInput = document.getElementById('inspectorResourceWidth');
     const heightInput = document.getElementById('inspectorResourceHeight');
     const rotationOutput = document.getElementById('inspectorResourceRotation');
+    const catalogReference = document.getElementById('machineCatalogReference');
+    const catalogDimensions = document.getElementById('machineCatalogDimensions');
+    const resetDimensionsButton = document.getElementById('resetMachineDimensionsBtn');
     if (!form || !empty || !nameInput || !widthInput || !heightInput || !rotationOutput) return;
 
     const render = () => {
@@ -34,6 +37,7 @@ export function initializeSelectionInspector() {
         empty.classList.toggle('hidden', Boolean(resource));
         if (!resource) {
             if (badge) badge.textContent = 'Nada selecionado';
+            catalogReference?.classList.add('hidden');
             return;
         }
 
@@ -43,6 +47,11 @@ export function initializeSelectionInspector() {
         heightInput.value = formatMeasurementInput(bounds.height / pixelsPerCm);
         rotationOutput.textContent = `${Math.round(resource.rotation || 0)}°`;
         if (badge) badge.textContent = resource.machineType ? 'Máquina SVG' : 'Recurso';
+        const hasCatalogSize = resource.machineType && resource.catalogWidthCm > 0 && resource.catalogHeightCm > 0;
+        catalogReference?.classList.toggle('hidden', !hasCatalogSize);
+        if (catalogDimensions && hasCatalogSize) {
+            catalogDimensions.textContent = `${formatLength(resource.catalogWidthCm)} × ${formatLength(resource.catalogHeightCm)}`;
+        }
     };
 
     form.addEventListener('submit', event => {
@@ -85,6 +94,24 @@ export function initializeSelectionInspector() {
             await rotateResource(resource, angle);
             render();
         });
+    });
+
+    resetDimensionsButton?.addEventListener('click', () => {
+        const resource = getSelectedResource();
+        if (!resource?.catalogWidthCm || !resource?.catalogHeightCm) return;
+        saveStateToHistory('Restaurar dimensões de catálogo');
+        const resized = resizeResource(
+            resource.id,
+            resource.catalogWidthCm * pixelsPerCm,
+            resource.catalogHeightCm * pixelsPerCm
+        );
+        if (!resized) {
+            showToast('O tamanho de catálogo não cabe na área atual.', 'warning');
+            return;
+        }
+        drawAll();
+        render();
+        showToast('Tamanho de catálogo restaurado.', 'success');
     });
 
     onStateAction('resource-selection/changed', render);
