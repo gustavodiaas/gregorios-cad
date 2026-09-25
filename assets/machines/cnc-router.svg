@@ -1,7 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 170" role="img" aria-label="Router CNC visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="10" width="224" height="150" rx="12" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="28" y="30" width="184" height="110" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="4"/>
-  <path d="M48 48h144M48 68h144M48 88h144M48 108h144M48 128h144" stroke="#94a3b8" stroke-width="3"/>
-  <path d="M66 38v94M174 38v94" stroke="#2563eb" stroke-width="5"/><circle cx="120" cy="86" r="12" fill="#f97316"/>
+  <g stroke="#334155">
+    <rect x="10" y="10" width="220" height="150" rx="8" fill="#eef1f4"/>
+    <rect x="24" y="25" width="192" height="120" fill="#f8fafc"/>
+    <path d="M42 25v120M60 25v120M78 25v120M96 25v120M114 25v120M132 25v120M150 25v120M168 25v120M186 25v120M204 25v120" fill="none" opacity=".65"/>
+    <rect x="18" y="64" width="204" height="20" rx="3" fill="#d7dde5"/>
+    <rect x="103" y="58" width="34" height="32" rx="3" fill="#94a3b8"/>
+    <circle cx="120" cy="74" r="7" fill="#475569"/>
+    <path d="M120 45v13M120 90v18" fill="none"/>
+    <rect x="14" y="18" width="12" height="134" fill="#d7dde5"/><rect x="214" y="18" width="12" height="134" fill="#d7dde5"/>
+  </g>
 </svg>

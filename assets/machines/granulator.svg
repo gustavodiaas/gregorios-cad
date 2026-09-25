@@ -1,7 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 150" role="img" aria-label="Granulador industrial visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="10" width="174" height="130" rx="13" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <path d="M34 30h122l-18 38H52Z" fill="#dcfce7" stroke="#16a34a" stroke-width="5"/>
-  <rect x="42" y="78" width="106" height="42" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="5"/>
-  <path d="m66 89 18 20 18-20 18 20" fill="none" stroke="#f97316" stroke-width="5" stroke-linejoin="round"/>
+  <g stroke="#334155">
+    <path d="M18 18h92l18 38-18 38H18z" fill="#eef1f4"/>
+    <path d="M30 30h68l13 26-13 26H30z" fill="#d7dde5"/>
+    <path d="M47 42l34 28M81 42L47 70M38 56h52" fill="none"/>
+    <circle cx="119" cy="56" r="10" fill="#94a3b8"/>
+    <rect x="128" y="35" width="48" height="42" rx="18" fill="#d7dde5"/><path d="M140 42v28M152 39v34M164 42v28" fill="none"/>
+    <rect x="35" y="94" width="58" height="42" rx="5" fill="#f8fafc"/><path d="M45 105h38M45 117h38" fill="none"/>
+    <path d="M64 94V82" fill="none"/>
+  </g>
 </svg>

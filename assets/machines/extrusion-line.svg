@@ -1,8 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 110" role="img" aria-label="Linha de extrusão vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="12" width="344" height="86" rx="12" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <path d="m28 28 48 27-48 27Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="4"/>
-  <rect x="78" y="32" width="150" height="46" rx="20" fill="#dbeafe" stroke="#2563eb" stroke-width="5"/>
-  <path d="M98 55h110M116 38v34M146 38v34M176 38v34" stroke="#60a5fa" stroke-width="4"/>
-  <rect x="238" y="28" width="94" height="54" rx="7" fill="#e2e8f0" stroke="#64748b" stroke-width="5"/>
+  <g stroke="#334155">
+    <rect x="8" y="30" width="344" height="58" rx="8" fill="#f8fafc"/>
+    <rect x="18" y="39" width="64" height="40" rx="15" fill="#d7dde5"/><path d="M30 47v24M43 43v32M56 43v32M69 47v24" fill="none"/>
+    <rect x="82" y="47" width="190" height="24" rx="12" fill="#eef1f4"/>
+    <path d="M92 59c12-13 24 13 36 0s24 13 36 0 24 13 36 0 24 13 36 0 24 13 36 0" fill="none"/>
+    <path d="M272 48h28l22 11-22 11h-28z" fill="#d7dde5"/>
+    <path d="M322 50h30v18h-30" fill="none"/>
+    <path d="M105 47L126 8h38l18 39" fill="#eef1f4"/><path d="M125 8h40l-8 22h-24z" fill="#d7dde5"/>
+    <circle cx="58" cy="91" r="7" fill="#475569"/><circle cx="286" cy="91" r="7" fill="#475569"/>
+  </g>
 </svg>

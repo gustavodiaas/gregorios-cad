@@ -1,7 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 110" role="img" aria-label="Bancada industrial vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="7" y="8" width="206" height="94" rx="12" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="23" y="24" width="174" height="62" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="4"/>
-  <path d="M45 38h130M45 54h130M45 70h75" stroke="#a78bfa" stroke-width="4"/>
-  <circle cx="180" cy="70" r="8" fill="#7c3aed"/>
+  <g stroke="#334155">
+    <rect x="8" y="12" width="204" height="86" rx="5" fill="#eef1f4"/>
+    <rect x="18" y="22" width="184" height="60" fill="#f8fafc"/>
+    <path d="M84 22v60M136 22v60" fill="none"/>
+    <rect x="24" y="30" width="48" height="44" rx="3" fill="#d7dde5"/>
+    <path d="M30 40h36M30 51h36M30 62h36" fill="none"/>
+    <path d="M95 34h30v36H95zM95 45h30M95 58h30" fill="none"/>
+    <path d="M153 33h32v16h-32zM161 49v20M177 49v20" fill="#d7dde5"/>
+    <circle cx="169" cy="41" r="5" fill="#475569"/>
+    <path d="M18 87h184M28 98v8M192 98v8" fill="none"/>
+  </g>
 </svg>

@@ -1,8 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 170" role="img" aria-label="Fresadora vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="10" width="204" height="150" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="30" y="30" width="160" height="50" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="5"/>
-  <path d="M48 45h124M48 64h124" stroke="#60a5fa" stroke-width="4"/>
-  <circle cx="110" cy="118" r="23" fill="#e2e8f0" stroke="#64748b" stroke-width="5"/>
-  <circle cx="110" cy="118" r="7" fill="#334155"/>
+  <g stroke="#334155">
+    <rect x="16" y="14" width="188" height="142" rx="9" fill="#eef1f4"/>
+    <rect x="30" y="49" width="160" height="72" rx="4" fill="#d7dde5"/>
+    <path d="M42 59h136M42 72h136M42 85h136M42 98h136M42 111h136" fill="none"/>
+    <rect x="89" y="34" width="42" height="102" rx="5" fill="#f8fafc"/>
+    <circle cx="110" cy="72" r="14" fill="#94a3b8"/><circle cx="110" cy="72" r="5" fill="#475569"/>
+    <path d="M110 86v35M98 121h24" fill="none"/>
+    <rect x="76" y="9" width="68" height="30" rx="12" fill="#d7dde5"/>
+    <path d="M26 136h168" fill="none"/>
+  </g>
 </svg>

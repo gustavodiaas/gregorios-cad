@@ -1,9 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 150" role="img" aria-label="Máquina de corte plasma vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="7" y="9" width="236" height="132" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="25" y="27" width="160" height="96" rx="6" fill="#ecfeff" stroke="#0891b2" stroke-width="4"/>
-  <path d="M45 35v80M70 35v80M95 35v80M120 35v80M145 35v80M170 35v80" stroke="#67e8f9" stroke-width="3"/>
-  <path d="M35 75h140" stroke="#0891b2" stroke-width="5"/>
-  <circle cx="112" cy="75" r="8" fill="#f97316"/>
-  <rect x="201" y="31" width="25" height="88" rx="5" fill="#e2e8f0" stroke="#64748b" stroke-width="4"/>
+  <g stroke="#334155">
+    <rect x="8" y="10" width="234" height="130" rx="7" fill="#eef1f4"/>
+    <rect x="20" y="22" width="210" height="106" fill="#f8fafc"/>
+    <path d="M30 22v106M42 22v106M54 22v106M66 22v106M78 22v106M90 22v106M102 22v106M114 22v106M126 22v106M138 22v106M150 22v106M162 22v106M174 22v106M186 22v106M198 22v106M210 22v106M222 22v106" fill="none" opacity=".65"/>
+    <rect x="15" y="60" width="220" height="16" fill="#d7dde5"/>
+    <rect x="112" y="52" width="28" height="32" rx="3" fill="#94a3b8"/>
+    <path d="M126 84v18M120 102l6 12 6-12M116 110l-6 6M136 110l6 6" fill="none"/>
+    <path d="M15 30h220M15 120h220" fill="none"/>
+  </g>
 </svg>

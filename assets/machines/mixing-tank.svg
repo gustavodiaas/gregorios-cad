@@ -1,7 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Tanque misturador visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <circle cx="90" cy="90" r="78" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <circle cx="90" cy="90" r="56" fill="#dbeafe" stroke="#2563eb" stroke-width="5"/>
-  <circle cx="90" cy="90" r="10" fill="#f97316"/>
-  <path d="M90 34v46M90 100v46M34 90h46M100 90h46" stroke="#64748b" stroke-width="7" stroke-linecap="round"/>
+  <g stroke="#334155">
+    <circle cx="90" cy="94" r="70" fill="#eef1f4"/>
+    <circle cx="90" cy="94" r="58" fill="#f8fafc"/><circle cx="90" cy="94" r="14" fill="#d7dde5"/>
+    <path d="M90 80c22-29 45-17 39 5-5 17-24 18-39 9M104 94c29 22 17 45-5 39-17-5-18-24-9-39M90 108c-22 29-45 17-39-5 5-17 24-18 39-9M76 94c-29-22-17-45 5-39 17 5 18 24 9 39" fill="#d7dde5"/>
+    <circle cx="90" cy="94" r="5" fill="#475569"/>
+    <rect x="71" y="5" width="38" height="28" rx="12" fill="#d7dde5"/><path d="M90 33v47" fill="none"/>
+    <circle cx="35" cy="45" r="8" fill="#f8fafc"/><circle cx="145" cy="140" r="8" fill="#f8fafc"/>
+  </g>
 </svg>

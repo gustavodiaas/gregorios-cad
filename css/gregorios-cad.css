@@ -457,7 +457,7 @@
     --ui-shadow: 0 18px 55px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.04);
     --left-sidebar-width: 304px;
     --right-sidebar-width: 324px;
-    --header-height: 64px;
+    --header-height: 0px;
     --footer-height: 32px;
     --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
 }
@@ -476,13 +476,7 @@ body {
 }
 
 .app-header {
-    position: relative;
-    padding: 0 16px;
-    background: rgba(255, 255, 255, 0.82);
-    border-bottom: 1px solid var(--ui-divider);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    display: none;
 }
 
 .brand-mark {
@@ -604,6 +598,87 @@ body {
     overflow-y: auto;
 }
 
+.sidebar-command-center {
+    flex: 0 0 auto;
+    padding: 10px 12px 12px;
+    border-bottom: 1px solid var(--ui-divider);
+}
+
+.sidebar-command-center > .eyebrow {
+    display: block;
+    margin: 0 3px 8px;
+}
+
+.sidebar-command-center .header-actions {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
+    padding: 0;
+    overflow: visible;
+}
+
+.sidebar-command-center .action-button,
+.sidebar-command-center .theme-toggle,
+.sidebar-command-center .zoom-indicator,
+.sidebar-command-center .speed-select {
+    width: 100%;
+    min-width: 0;
+    height: 34px;
+    min-height: 34px;
+    justify-content: center;
+    padding: 0;
+}
+
+.sidebar-command-center .action-button span {
+    display: none;
+}
+
+.sidebar-command-center .planner-controls-header {
+    display: contents;
+}
+
+.sidebar-command-center .simulation-timer {
+    grid-column: span 3;
+}
+
+.sidebar-command-center .dropdown-container {
+    min-width: 0;
+}
+
+.sidebar-command-center .dropdown-container > button {
+    width: 100%;
+}
+
+.canvas-brand-watermark {
+    position: absolute;
+    left: 22px;
+    bottom: 18px;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.2;
+    filter: grayscale(0.3);
+}
+
+.canvas-brand-watermark .logo-container {
+    gap: 9px;
+}
+
+.canvas-brand-watermark .brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    box-shadow: none;
+}
+
+.canvas-brand-watermark .logo {
+    font-size: 0.82rem;
+}
+
+.canvas-brand-watermark .brand-subtitle {
+    margin-top: 1px;
+    font-size: 0.56rem;
+}
+
 .cad-context-menu {
     min-width: 220px;
     padding: 0.4rem;
@@ -668,6 +743,25 @@ body {
 .left-sidebar.collapsed .workspace-tab span,
 .left-sidebar.collapsed .dropdown-menu {
     display: none !important;
+}
+
+.left-sidebar.collapsed .sidebar-command-center {
+    padding: 8px;
+}
+
+.left-sidebar.collapsed .sidebar-command-center > .eyebrow {
+    display: none;
+}
+
+.left-sidebar.collapsed .sidebar-command-center .header-actions {
+    grid-template-columns: 1fr;
+}
+
+.left-sidebar.collapsed .sidebar-command-center .action-button,
+.left-sidebar.collapsed .sidebar-command-center .theme-toggle,
+.left-sidebar.collapsed .sidebar-command-center .zoom-indicator,
+.left-sidebar.collapsed .sidebar-command-center .speed-select {
+    width: 48px;
 }
 
 .left-sidebar.collapsed .sidebar-collapse-toggle {

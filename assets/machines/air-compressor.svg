@@ -1,8 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 120" role="img" aria-label="Compressor de ar visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="10" width="204" height="100" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="28" y="34" width="118" height="52" rx="26" fill="#dbeafe" stroke="#2563eb" stroke-width="5"/>
-  <circle cx="174" cy="60" r="27" fill="#e2e8f0" stroke="#64748b" stroke-width="5"/>
-  <path d="M174 43v34M157 60h34" stroke="#334155" stroke-width="4"/>
-  <path d="M146 60h1" stroke="#2563eb" stroke-width="8" stroke-linecap="round"/>
+  <g stroke="#334155">
+    <rect x="12" y="35" width="196" height="58" rx="29" fill="#eef1f4"/>
+    <path d="M34 39v50M186 39v50" fill="none"/>
+    <rect x="65" y="14" width="70" height="42" rx="9" fill="#d7dde5"/>
+    <path d="M76 22v26M88 22v26M100 22v26M112 22v26M124 22v26" fill="none" opacity=".7"/>
+    <circle cx="153" cy="35" r="20" fill="#f8fafc"/><circle cx="153" cy="35" r="8" fill="#94a3b8"/>
+    <path d="M135 63h28v18h-28zM163 70h19" fill="none"/>
+    <circle cx="48" cy="94" r="8" fill="#475569"/><circle cx="174" cy="94" r="8" fill="#475569"/>
+  </g>
 </svg>

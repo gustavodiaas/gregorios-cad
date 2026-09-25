@@ -1,10 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 190" role="img" aria-label="Paletizadora vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="8" width="174" height="174" rx="16" fill="#f0fdf4" stroke="#16a34a" stroke-width="6" stroke-dasharray="10 6"/>
-  <rect x="25" y="110" width="58" height="52" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="4"/>
-  <path d="M35 121h38M35 135h38M35 149h38M44 114v44M64 114v44" stroke="#f59e0b" stroke-width="3"/>
-  <circle cx="115" cy="79" r="27" fill="#dcfce7" stroke="#16a34a" stroke-width="5"/>
-  <path d="M115 79 80 52m35 27 38 31" stroke="#334155" stroke-width="11" stroke-linecap="round"/>
-  <circle cx="80" cy="52" r="8" fill="#22c55e"/>
-  <circle cx="153" cy="110" r="8" fill="#22c55e"/>
+  <g stroke="#334155">
+    <rect x="7" y="7" width="176" height="176" rx="5" fill="none" stroke-dasharray="5 4"/>
+    <path d="M18 18h154v154H18z" fill="none" opacity=".6"/>
+    <rect x="104" y="104" width="60" height="60" fill="#eef1f4"/>
+    <path d="M124 104v60M144 104v60M104 124h60M104 144h60" fill="none"/>
+    <circle cx="67" cy="84" r="35" fill="#eef1f4"/><circle cx="67" cy="84" r="17" fill="#d7dde5"/>
+    <path d="M67 84l31-28 18 20-32 26z" fill="#d7dde5"/>
+    <circle cx="99" cy="56" r="10" fill="#f8fafc"/><path d="M107 50l24-19 12 14-28 17" fill="#eef1f4"/>
+    <rect x="18" y="132" width="64" height="28" rx="4" fill="#f8fafc"/><path d="M28 139v14M42 139v14M56 139v14M70 139v14" fill="none"/>
+  </g>
 </svg>

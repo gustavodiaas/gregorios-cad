@@ -1,7 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 140" role="img" aria-label="Guilhotina industrial vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="12" width="244" height="116" rx="12" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="24" y="28" width="212" height="30" rx="5" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
-  <path d="M32 76h196M48 70v38M212 70v38" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
-  <path d="m88 94 42 18 42-18" fill="none" stroke="#f97316" stroke-width="5"/>
+  <g stroke="#334155">
+    <rect x="10" y="16" width="240" height="108" rx="8" fill="#eef1f4"/>
+    <rect x="24" y="30" width="212" height="28" rx="4" fill="#d7dde5"/>
+    <path d="M30 51l198-14" fill="none"/>
+    <path d="M24 66h212M24 80h212" fill="none"/>
+    <path d="M42 80v30M82 80v30M122 80v30M162 80v30M202 80v30" fill="none" opacity=".7"/>
+    <rect x="24" y="108" width="212" height="8" fill="#d7dde5"/>
+    <circle cx="224" cy="43" r="7" fill="#94a3b8"/>
+    <path d="M32 16V7M228 16V7" fill="none"/>
+  </g>
 </svg>

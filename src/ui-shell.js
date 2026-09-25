@@ -41,6 +41,14 @@ export function initializeLeftSidebarToggle() {
     const toggle = document.getElementById('toggleLeftSidebarBtn');
     if (!sidebar || !toggle) return;
 
+    const commandCenter = document.getElementById('sidebarCommandCenter');
+    const headerActions = document.querySelector('.app-header .header-actions');
+    const watermark = document.getElementById('canvasBrandWatermark');
+    const brand = document.querySelector('.app-header .logo-container');
+    if (commandCenter && headerActions) commandCenter.appendChild(headerActions);
+    if (watermark && brand) watermark.appendChild(brand);
+    document.querySelector('.app-header')?.remove();
+
     const applyState = collapsed => {
         sidebar.classList.toggle('collapsed', collapsed);
         toggle.setAttribute('aria-expanded', String(!collapsed));

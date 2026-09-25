@@ -1,9 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 180" role="img" aria-label="Célula de solda vista de cima">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 180" role="img" aria-label="Célula robotizada de solda vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="8" width="174" height="164" rx="16" fill="#fff7ed" stroke="#c2410c" stroke-width="6" stroke-dasharray="10 6"/>
-  <circle cx="95" cy="90" r="30" fill="#ffedd5" stroke="#f97316" stroke-width="5"/>
-  <path d="M95 90 58 52M95 90l42-34M95 90l38 40" stroke="#334155" stroke-width="12" stroke-linecap="round"/>
-  <circle cx="58" cy="52" r="9" fill="#3b82f6"/>
-  <circle cx="137" cy="56" r="9" fill="#3b82f6"/>
-  <circle cx="133" cy="130" r="9" fill="#3b82f6"/>
+  <g stroke="#334155">
+    <rect x="7" y="7" width="176" height="166" rx="5" fill="none" stroke-dasharray="5 4"/>
+    <path d="M18 18h154v144H18z" fill="none" opacity=".65"/>
+    <rect x="104" y="48" width="55" height="82" rx="4" fill="#eef1f4"/>
+    <path d="M115 60h33v58h-33zM115 89h33M131 60v58" fill="none"/>
+    <circle cx="58" cy="103" r="29" fill="#eef1f4"/><circle cx="58" cy="103" r="13" fill="#d7dde5"/>
+    <path d="M58 103l29-31 17 17-30 29z" fill="#d7dde5"/>
+    <circle cx="88" cy="72" r="9" fill="#f8fafc"/>
+    <path d="M95 66l23-20 11 13-27 16M126 46l7-10M132 52l13-2M128 57l9 8" fill="none"/>
+    <path d="M18 142h52M70 142v20" fill="none"/>
+  </g>
 </svg>

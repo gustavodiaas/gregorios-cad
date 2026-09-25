@@ -1,8 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 160" role="img" aria-label="Prensa hidráulica vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="8" y="8" width="164" height="144" rx="14" fill="#fff7ed" stroke="#334155" stroke-width="6"/>
-  <rect x="28" y="25" width="124" height="110" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="5"/>
-  <rect x="55" y="48" width="70" height="64" rx="5" fill="#fff" stroke="#fb923c" stroke-width="4"/>
-  <path d="M90 34v92M42 80h96" stroke="#ea580c" stroke-width="4" stroke-dasharray="8 6"/>
-  <circle cx="151" cy="25" r="7" fill="#ef4444"/>
+  <g stroke="#334155">
+    <path d="M14 18h28v124H14zM138 18h28v124h-28z" fill="#d7dde5"/>
+    <rect x="42" y="26" width="96" height="108" rx="6" fill="#eef1f4"/>
+    <rect x="51" y="37" width="78" height="30" rx="4" fill="#d7dde5"/>
+    <circle cx="90" cy="52" r="10" fill="#94a3b8"/>
+    <path d="M90 62v23" fill="none"/>
+    <rect x="57" y="85" width="66" height="34" fill="#f8fafc"/><path d="M57 102h66M75 85v34M105 85v34" fill="none"/>
+    <path d="M42 18h96M42 142h96" fill="none"/>
+    <rect x="5" y="60" width="18" height="40" rx="3" fill="#eef1f4"/>
+  </g>
 </svg>

@@ -1,8 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 130" role="img" aria-label="Injetora plástica vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <rect x="7" y="10" width="266" height="110" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="24" y="28" width="82" height="74" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
-  <path d="M45 48h40v34H45z" fill="#f0fdf4" stroke="#22c55e" stroke-width="4"/>
-  <rect x="121" y="28" width="130" height="74" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="4"/>
-  <path d="M139 65h92M165 43v44M205 43v44" stroke="#94a3b8" stroke-width="4"/>
+  <g stroke="#334155">
+    <rect x="8" y="18" width="264" height="98" rx="9" fill="#eef1f4"/>
+    <rect x="20" y="31" width="94" height="72" rx="6" fill="#d7dde5"/>
+    <path d="M34 40h66M34 94h66M40 40v54M94 40v54" fill="none"/>
+    <rect x="53" y="48" width="28" height="38" fill="#f8fafc"/><path d="M67 48v38" fill="none"/>
+    <rect x="114" y="54" width="106" height="26" rx="13" fill="#f8fafc"/>
+    <path d="M125 67c9-10 18 10 27 0s18 10 27 0 18 10 27 0" fill="none"/>
+    <path d="M119 54l-16-15M119 80l-16 15" fill="none"/>
+    <path d="M154 54l18-39h30l14 39" fill="#d7dde5"/><path d="M172 15h30l-7 21h-16z" fill="#f8fafc"/>
+    <rect x="220" y="44" width="40" height="46" rx="18" fill="#d7dde5"/><path d="M232 50v34M244 47v40" fill="none"/>
+  </g>
 </svg>
