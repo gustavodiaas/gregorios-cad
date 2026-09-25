@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 150" role="img" aria-label="Retificadora plana vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="10" y="14" width="200" height="122" rx="8" fill="#eef1f4"/>
-    <rect x="24" y="52" width="140" height="64" rx="4" fill="#d7dde5"/>
+    <rect x="10" y="14" width="200" height="122" rx="8" fill="none"/>
+    <rect x="24" y="52" width="140" height="64" rx="4" fill="none"/>
     <path d="M34 62h120M34 74h120M34 86h120M34 98h120M34 110h120" fill="none"/>
     <path d="M42 52v64M62 52v64M82 52v64M102 52v64M122 52v64M142 52v64" fill="none" opacity=".65"/>
-    <rect x="154" y="27" width="40" height="94" rx="5" fill="#d7dde5"/>
-    <circle cx="154" cy="66" r="22" fill="#f8fafc"/><circle cx="154" cy="66" r="6" fill="#475569"/>
+    <rect x="154" y="27" width="40" height="94" rx="5" fill="none"/>
+    <circle cx="154" cy="66" r="22" fill="none"/><circle cx="154" cy="66" r="6" fill="none"/>
     <path d="M154 88v29M142 117h24" fill="none"/>
-    <rect x="116" y="16" width="76" height="20" rx="8" fill="#d7dde5"/>
+    <rect x="116" y="16" width="76" height="20" rx="8" fill="none"/>
   </g>
 </svg>

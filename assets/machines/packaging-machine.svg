@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 130" role="img" aria-label="Embaladora vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="8" y="17" width="244" height="96" rx="8" fill="#eef1f4"/>
-    <rect x="20" y="48" width="220" height="36" rx="5" fill="#f8fafc"/>
+    <rect x="8" y="17" width="244" height="96" rx="8" fill="none"/>
+    <rect x="20" y="48" width="220" height="36" rx="5" fill="none"/>
     <path d="M34 49v34M50 49v34M66 49v34M82 49v34M178 49v34M194 49v34M210 49v34M226 49v34" fill="none"/>
-    <circle cx="104" cy="34" r="17" fill="#d7dde5"/><circle cx="156" cy="34" r="17" fill="#d7dde5"/>
-    <circle cx="104" cy="34" r="5" fill="#475569"/><circle cx="156" cy="34" r="5" fill="#475569"/>
+    <circle cx="104" cy="34" r="17" fill="none"/><circle cx="156" cy="34" r="17" fill="none"/>
+    <circle cx="104" cy="34" r="5" fill="none"/><circle cx="156" cy="34" r="5" fill="none"/>
     <path d="M104 51l16 16M156 51l-16 16" fill="none"/>
-    <rect x="112" y="44" width="36" height="44" rx="3" fill="#d7dde5"/><path d="M112 65h36M123 44v44M137 44v44" fill="none"/>
+    <rect x="112" y="44" width="36" height="44" rx="3" fill="none"/><path d="M112 65h36M123 44v44M137 44v44" fill="none"/>
     <path d="M130 88v18M118 106h24" fill="none"/>
   </g>
 </svg>

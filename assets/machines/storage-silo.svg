@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Silo de armazenagem visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <circle cx="90" cy="90" r="72" fill="#eef1f4"/>
-    <circle cx="90" cy="90" r="62" fill="#f8fafc"/>
-    <circle cx="90" cy="90" r="20" fill="#d7dde5"/>
+    <circle cx="90" cy="90" r="72" fill="none"/>
+    <circle cx="90" cy="90" r="62" fill="none"/>
+    <circle cx="90" cy="90" r="20" fill="none"/>
     <path d="M90 28v42M90 110v42M28 90h42M110 90h42" fill="none"/>
     <path d="M46 46l30 30M134 46l-30 30M46 134l30-30M134 134l-30-30" fill="none" opacity=".7"/>
-    <circle cx="90" cy="90" r="6" fill="#475569"/>
-    <rect x="74" y="7" width="32" height="22" rx="4" fill="#d7dde5"/>
-    <circle cx="35" cy="35" r="7" fill="#f8fafc"/><circle cx="145" cy="145" r="7" fill="#f8fafc"/>
+    <circle cx="90" cy="90" r="6" fill="none"/>
+    <rect x="74" y="7" width="32" height="22" rx="4" fill="none"/>
+    <circle cx="35" cy="35" r="7" fill="none"/><circle cx="145" cy="145" r="7" fill="none"/>
   </g>
 </svg>

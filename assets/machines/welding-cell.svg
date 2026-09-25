@@ -3,11 +3,11 @@
   <g stroke="#334155">
     <rect x="7" y="7" width="176" height="166" rx="5" fill="none" stroke-dasharray="5 4"/>
     <path d="M18 18h154v144H18z" fill="none" opacity=".65"/>
-    <rect x="104" y="48" width="55" height="82" rx="4" fill="#eef1f4"/>
+    <rect x="104" y="48" width="55" height="82" rx="4" fill="none"/>
     <path d="M115 60h33v58h-33zM115 89h33M131 60v58" fill="none"/>
-    <circle cx="58" cy="103" r="29" fill="#eef1f4"/><circle cx="58" cy="103" r="13" fill="#d7dde5"/>
-    <path d="M58 103l29-31 17 17-30 29z" fill="#d7dde5"/>
-    <circle cx="88" cy="72" r="9" fill="#f8fafc"/>
+    <circle cx="58" cy="103" r="29" fill="none"/><circle cx="58" cy="103" r="13" fill="none"/>
+    <path d="M58 103l29-31 17 17-30 29z" fill="none"/>
+    <circle cx="88" cy="72" r="9" fill="none"/>
     <path d="M95 66l23-20 11 13-27 16M126 46l7-10M132 52l13-2M128 57l9 8" fill="none"/>
     <path d="M18 142h52M70 142v20" fill="none"/>
   </g>

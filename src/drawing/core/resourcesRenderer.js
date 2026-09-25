@@ -478,6 +478,7 @@ function drawResource(resource, isSelected = false, isHovered = false) {
     const migratedResource = migrateResourceToPolygonal(resource);
     const stairResource = isStairResource(resource);
     const operatorResource = resource?.type === 'operator';
+    const machineResource = Boolean(resource?.machineType);
     const bb = getResourceBoundsForRendering(migratedResource, resource);
 
     ctx.save();
@@ -493,14 +494,16 @@ function drawResource(resource, isSelected = false, isHovered = false) {
     if (operatorResource) {
         drawOperatorResource(ctx, bb, resource, isSelected, isHovered);
     } else if (migratedResource.vertices && migratedResource.vertices.length > 0) {
-        ctx.fillStyle = fillColor;
         ctx.beginPath();
         ctx.moveTo(migratedResource.vertices[0][0], migratedResource.vertices[0][1]);
         for (let i = 1; i < migratedResource.vertices.length; i++) {
             ctx.lineTo(migratedResource.vertices[i][0], migratedResource.vertices[i][1]);
         }
         ctx.closePath();
-        ctx.fill();
+        if (!machineResource) {
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+        }
 
         // Desenhar imagem colada (clipped ao polígono, com rotação)
         const resourceImg = getResourceImage(resource);
@@ -555,14 +558,16 @@ function drawResource(resource, isSelected = false, isHovered = false) {
         } else if (isHovered) {
             ctx.strokeStyle = resourceHoverColor;
             ctx.lineWidth = 2.5 / getScale();
-        } else {
+        } else if (!machineResource) {
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.lineWidth = 1 / getScale();
         }
-        ctx.stroke();
+        if (isSelected || isHovered || !machineResource) ctx.stroke();
     } else {
-        ctx.fillStyle = fillColor;
-        ctx.fillRect(resource.x, resource.y, resource.width, resource.height);
+        if (!machineResource) {
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(resource.x, resource.y, resource.width, resource.height);
+        }
 
         // Desenhar imagem colada (retangular)
         const resourceImgRect = getResourceImage(resource);
@@ -581,11 +586,13 @@ function drawResource(resource, isSelected = false, isHovered = false) {
         } else if (isHovered) {
             ctx.strokeStyle = resourceHoverColor;
             ctx.lineWidth = 2.5 / getScale();
-        } else {
+        } else if (!machineResource) {
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.lineWidth = 1 / getScale();
         }
-        ctx.strokeRect(resource.x, resource.y, resource.width, resource.height);
+        if (isSelected || isHovered || !machineResource) {
+            ctx.strokeRect(resource.x, resource.y, resource.width, resource.height);
+        }
     }
 
     if (stairResource) {

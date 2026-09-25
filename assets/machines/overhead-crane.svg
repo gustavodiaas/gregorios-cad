@@ -5,15 +5,15 @@
     <path d="M18 11v12M382 11v12M18 67v12M382 67v12"/>
     <path d="M48 12v11M48 67v11M104 12v11M104 67v11M296 12v11M296 67v11M352 12v11M352 67v11" opacity=".65"/>
   </g>
-  <g fill="#f4c542" stroke="#7c5b00">
+  <g fill="none" stroke="#7c5b00">
     <rect x="178" y="14" width="10" height="62" rx="1"/>
     <rect x="212" y="14" width="10" height="62" rx="1"/>
     <rect x="169" y="10" width="62" height="14" rx="2"/>
     <rect x="169" y="66" width="62" height="14" rx="2"/>
   </g>
-  <g fill="#eef1f4" stroke="#334155">
+  <g fill="none" stroke="#334155">
     <rect x="174" y="34" width="52" height="22" rx="3"/>
-    <circle cx="200" cy="45" r="7" fill="#d7dce2"/>
+    <circle cx="200" cy="45" r="7" fill="none"/>
   </g>
   <g fill="none" stroke="#334155">
     <path d="M200 38v14M193 45h14"/>

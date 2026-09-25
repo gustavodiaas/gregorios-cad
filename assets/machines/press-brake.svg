@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 130" role="img" aria-label="Dobradeira vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="8" y="18" width="244" height="94" rx="8" fill="#eef1f4"/>
-    <rect x="22" y="28" width="216" height="28" rx="4" fill="#d7dde5"/>
+    <rect x="8" y="18" width="244" height="94" rx="8" fill="none"/>
+    <rect x="22" y="28" width="216" height="28" rx="4" fill="none"/>
     <path d="M32 42h196M44 28v28M216 28v28" fill="none"/>
     <path d="M22 66h216M22 78h216" fill="none"/>
     <path d="M36 72l12 6 12-6 12 6 12-6 12 6 12-6 12 6 12-6 12 6 12-6 12 6 12-6 12 6 12-6 12 6" fill="none"/>
     <path d="M62 78v38M198 78v38M48 116h28M184 116h28" fill="none"/>
-    <rect x="22" y="89" width="216" height="13" fill="#f8fafc"/>
+    <rect x="22" y="89" width="216" height="13" fill="none"/>
   </g>
 </svg>

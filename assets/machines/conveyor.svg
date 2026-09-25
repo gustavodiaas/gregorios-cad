@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 90" role="img" aria-label="Esteira transportadora vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="8" y="12" width="284" height="66" rx="8" fill="#eef1f4"/>
+    <rect x="8" y="12" width="284" height="66" rx="8" fill="none"/>
     <path d="M28 13v64M48 13v64M68 13v64M88 13v64M108 13v64M128 13v64M148 13v64M168 13v64M188 13v64M208 13v64M228 13v64M248 13v64M268 13v64" fill="none"/>
     <path d="M82 45h125" fill="none"/><path d="M194 34l18 11-18 11" fill="none"/>
-    <circle cx="22" cy="45" r="10" fill="#d7dde5"/><circle cx="278" cy="45" r="10" fill="#d7dde5"/>
-    <rect x="8" y="7" width="284" height="10" rx="3" fill="#d7dde5"/><rect x="8" y="73" width="284" height="10" rx="3" fill="#d7dde5"/>
+    <circle cx="22" cy="45" r="10" fill="none"/><circle cx="278" cy="45" r="10" fill="none"/>
+    <rect x="8" y="7" width="284" height="10" rx="3" fill="none"/><rect x="8" y="73" width="284" height="10" rx="3" fill="none"/>
   </g>
 </svg>

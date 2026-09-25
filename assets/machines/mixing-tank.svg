@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Tanque misturador visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <circle cx="90" cy="94" r="70" fill="#eef1f4"/>
-    <circle cx="90" cy="94" r="58" fill="#f8fafc"/><circle cx="90" cy="94" r="14" fill="#d7dde5"/>
-    <path d="M90 80c22-29 45-17 39 5-5 17-24 18-39 9M104 94c29 22 17 45-5 39-17-5-18-24-9-39M90 108c-22 29-45 17-39-5 5-17 24-18 39-9M76 94c-29-22-17-45 5-39 17 5 18 24 9 39" fill="#d7dde5"/>
-    <circle cx="90" cy="94" r="5" fill="#475569"/>
-    <rect x="71" y="5" width="38" height="28" rx="12" fill="#d7dde5"/><path d="M90 33v47" fill="none"/>
-    <circle cx="35" cy="45" r="8" fill="#f8fafc"/><circle cx="145" cy="140" r="8" fill="#f8fafc"/>
+    <circle cx="90" cy="94" r="70" fill="none"/>
+    <circle cx="90" cy="94" r="58" fill="none"/><circle cx="90" cy="94" r="14" fill="none"/>
+    <path d="M90 80c22-29 45-17 39 5-5 17-24 18-39 9M104 94c29 22 17 45-5 39-17-5-18-24-9-39M90 108c-22 29-45 17-39-5 5-17 24-18 39-9M76 94c-29-22-17-45 5-39 17 5 18 24 9 39" fill="none"/>
+    <circle cx="90" cy="94" r="5" fill="none"/>
+    <rect x="71" y="5" width="38" height="28" rx="12" fill="none"/><path d="M90 33v47" fill="none"/>
+    <circle cx="35" cy="45" r="8" fill="none"/><circle cx="145" cy="140" r="8" fill="none"/>
   </g>
 </svg>

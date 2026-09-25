@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 110" role="img" aria-label="Bancada industrial vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="8" y="12" width="204" height="86" rx="5" fill="#eef1f4"/>
-    <rect x="18" y="22" width="184" height="60" fill="#f8fafc"/>
+    <rect x="8" y="12" width="204" height="86" rx="5" fill="none"/>
+    <rect x="18" y="22" width="184" height="60" fill="none"/>
     <path d="M84 22v60M136 22v60" fill="none"/>
-    <rect x="24" y="30" width="48" height="44" rx="3" fill="#d7dde5"/>
+    <rect x="24" y="30" width="48" height="44" rx="3" fill="none"/>
     <path d="M30 40h36M30 51h36M30 62h36" fill="none"/>
     <path d="M95 34h30v36H95zM95 45h30M95 58h30" fill="none"/>
-    <path d="M153 33h32v16h-32zM161 49v20M177 49v20" fill="#d7dde5"/>
-    <circle cx="169" cy="41" r="5" fill="#475569"/>
+    <path d="M153 33h32v16h-32zM161 49v20M177 49v20" fill="none"/>
+    <circle cx="169" cy="41" r="5" fill="none"/>
     <path d="M18 87h184M28 98v8M192 98v8" fill="none"/>
   </g>
 </svg>

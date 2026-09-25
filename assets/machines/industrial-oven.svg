@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 180" role="img" aria-label="Forno industrial visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="12" y="12" width="196" height="156" rx="8" fill="#eef1f4"/>
-    <rect x="30" y="28" width="160" height="116" rx="4" fill="#f8fafc"/>
+    <rect x="12" y="12" width="196" height="156" rx="8" fill="none"/>
+    <rect x="30" y="28" width="160" height="116" rx="4" fill="none"/>
     <path d="M50 28v116M170 28v116" fill="none"/>
     <path d="M64 45h92M64 65h92M64 85h92M64 105h92M64 125h92" fill="none" opacity=".75"/>
     <path d="M30 144l-22 22M190 144l22 22" fill="none"/>
     <path d="M30 144a31 31 0 0 0-22 22M190 144a31 31 0 0 1 22 22" fill="none" stroke-dasharray="3 3"/>
-    <rect x="84" y="7" width="52" height="16" rx="3" fill="#d7dde5"/>
-    <circle cx="110" cy="15" r="5" fill="#94a3b8"/>
+    <rect x="84" y="7" width="52" height="16" rx="3" fill="none"/>
+    <circle cx="110" cy="15" r="5" fill="none"/>
   </g>
 </svg>

@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 150" role="img" aria-label="Máquina de corte a laser vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="8" y="10" width="244" height="130" rx="10" fill="#eef1f4"/>
-    <rect x="22" y="25" width="176" height="100" rx="4" fill="#f8fafc"/>
+    <rect x="8" y="10" width="244" height="130" rx="10" fill="none"/>
+    <rect x="22" y="25" width="176" height="100" rx="4" fill="none"/>
     <path d="M34 25v100M46 25v100M58 25v100M70 25v100M82 25v100M94 25v100M106 25v100M118 25v100M130 25v100M142 25v100M154 25v100M166 25v100M178 25v100" fill="none" opacity=".55"/>
-    <rect x="18" y="66" width="184" height="15" fill="#d7dde5"/>
-    <rect x="105" y="59" width="26" height="29" rx="3" fill="#94a3b8"/>
-    <circle cx="118" cy="74" r="5" fill="#475569"/><path d="M118 74l-8 18M106 92h8" fill="none"/>
-    <rect x="207" y="25" width="32" height="100" rx="4" fill="#d7dde5"/><circle cx="223" cy="44" r="7" fill="#f8fafc"/>
+    <rect x="18" y="66" width="184" height="15" fill="none"/>
+    <rect x="105" y="59" width="26" height="29" rx="3" fill="none"/>
+    <circle cx="118" cy="74" r="5" fill="none"/><path d="M118 74l-8 18M106 92h8" fill="none"/>
+    <rect x="207" y="25" width="32" height="100" rx="4" fill="none"/><circle cx="223" cy="44" r="7" fill="none"/>
     <path d="M213 62h20M213 72h20M213 82h20" fill="none"/>
   </g>
 </svg>

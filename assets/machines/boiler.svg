@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 140" role="img" aria-label="Caldeira industrial vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="34" y="30" width="214" height="80" rx="40" fill="#eef1f4"/>
+    <rect x="34" y="30" width="214" height="80" rx="40" fill="none"/>
     <path d="M68 35v70M214 35v70" fill="none"/>
-    <circle cx="54" cy="70" r="25" fill="#d7dde5"/><circle cx="54" cy="70" r="10" fill="#94a3b8"/>
+    <circle cx="54" cy="70" r="25" fill="none"/><circle cx="54" cy="70" r="10" fill="none"/>
     <path d="M79 70h28M107 51v38" fill="none"/>
-    <circle cx="236" cy="70" r="18" fill="#f8fafc"/><circle cx="236" cy="70" r="5" fill="#475569"/>
-    <circle cx="145" cy="51" r="7" fill="#f8fafc"/><circle cx="175" cy="51" r="7" fill="#f8fafc"/>
+    <circle cx="236" cy="70" r="18" fill="none"/><circle cx="236" cy="70" r="5" fill="none"/>
+    <circle cx="145" cy="51" r="7" fill="none"/><circle cx="175" cy="51" r="7" fill="none"/>
     <path d="M121 101h78M126 110v12M194 110v12" fill="none"/>
-    <rect x="132" y="8" width="26" height="28" rx="4" fill="#d7dde5"/>
+    <rect x="132" y="8" width="26" height="28" rx="4" fill="none"/>
   </g>
 </svg>

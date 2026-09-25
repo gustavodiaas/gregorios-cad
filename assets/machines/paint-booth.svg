@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" role="img" aria-label="Cabine de pintura vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="8" y="10" width="234" height="160" rx="6" fill="#eef1f4"/>
-    <rect x="26" y="24" width="198" height="132" fill="#f8fafc"/>
+    <rect x="8" y="10" width="234" height="160" rx="6" fill="none"/>
+    <rect x="26" y="24" width="198" height="132" fill="none"/>
     <path d="M42 24v132M55 24v132M68 24v132" fill="none" opacity=".7"/>
     <path d="M182 24v132M195 24v132M208 24v132" fill="none" opacity=".7"/>
-    <rect x="92" y="56" width="66" height="68" rx="16" fill="#d7dde5"/>
+    <rect x="92" y="56" width="66" height="68" rx="16" fill="none"/>
     <path d="M104 68h42v44h-42zM113 56v68M137 56v68" fill="none"/>
     <path d="M90 156L58 178M160 156l32 22" fill="none"/>
     <path d="M90 156a40 40 0 0 1-32 22M160 156a40 40 0 0 0 32 22" fill="none" stroke-dasharray="3 3"/>
-    <circle cx="125" cy="35" r="8" fill="#94a3b8"/>
+    <circle cx="125" cy="35" r="8" fill="none"/>
   </g>
 </svg>

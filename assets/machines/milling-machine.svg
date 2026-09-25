@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 170" role="img" aria-label="Fresadora vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="16" y="14" width="188" height="142" rx="9" fill="#eef1f4"/>
-    <rect x="30" y="49" width="160" height="72" rx="4" fill="#d7dde5"/>
+    <rect x="16" y="14" width="188" height="142" rx="9" fill="none"/>
+    <rect x="30" y="49" width="160" height="72" rx="4" fill="none"/>
     <path d="M42 59h136M42 72h136M42 85h136M42 98h136M42 111h136" fill="none"/>
-    <rect x="89" y="34" width="42" height="102" rx="5" fill="#f8fafc"/>
-    <circle cx="110" cy="72" r="14" fill="#94a3b8"/><circle cx="110" cy="72" r="5" fill="#475569"/>
+    <rect x="89" y="34" width="42" height="102" rx="5" fill="none"/>
+    <circle cx="110" cy="72" r="14" fill="none"/><circle cx="110" cy="72" r="5" fill="none"/>
     <path d="M110 86v35M98 121h24" fill="none"/>
-    <rect x="76" y="9" width="68" height="30" rx="12" fill="#d7dde5"/>
+    <rect x="76" y="9" width="68" height="30" rx="12" fill="none"/>
     <path d="M26 136h168" fill="none"/>
   </g>
 </svg>

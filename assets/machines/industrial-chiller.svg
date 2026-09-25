@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 140" role="img" aria-label="Chiller industrial visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="8" y="12" width="244" height="116" rx="10" fill="#eef1f4"/>
-    <circle cx="74" cy="55" r="32" fill="#f8fafc"/><circle cx="186" cy="55" r="32" fill="#f8fafc"/>
-    <path d="M74 31c13 11 13 37 0 48-13-11-13-37 0-48zM50 55c11-13 37-13 48 0-11 13-37 13-48 0z" fill="#d7dde5"/>
-    <path d="M186 31c13 11 13 37 0 48-13-11-13-37 0-48zM162 55c11-13 37-13 48 0-11 13-37 13-48 0z" fill="#d7dde5"/>
-    <circle cx="74" cy="55" r="5" fill="#475569"/><circle cx="186" cy="55" r="5" fill="#475569"/>
-    <rect x="26" y="96" width="156" height="20" rx="4" fill="#d7dde5"/><path d="M40 101v10M56 101v10M72 101v10M88 101v10M104 101v10M120 101v10M136 101v10M152 101v10M168 101v10" fill="none"/>
+    <rect x="8" y="12" width="244" height="116" rx="10" fill="none"/>
+    <circle cx="74" cy="55" r="32" fill="none"/><circle cx="186" cy="55" r="32" fill="none"/>
+    <path d="M74 31c13 11 13 37 0 48-13-11-13-37 0-48zM50 55c11-13 37-13 48 0-11 13-37 13-48 0z" fill="none"/>
+    <path d="M186 31c13 11 13 37 0 48-13-11-13-37 0-48zM162 55c11-13 37-13 48 0-11 13-37 13-48 0z" fill="none"/>
+    <circle cx="74" cy="55" r="5" fill="none"/><circle cx="186" cy="55" r="5" fill="none"/>
+    <rect x="26" y="96" width="156" height="20" rx="4" fill="none"/><path d="M40 101v10M56 101v10M72 101v10M88 101v10M104 101v10M120 101v10M136 101v10M152 101v10M168 101v10" fill="none"/>
     <path d="M204 96h28v20h-28M218 96V82" fill="none"/>
   </g>
 </svg>

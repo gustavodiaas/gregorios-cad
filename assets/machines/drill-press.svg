@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 120" role="img" aria-label="Furadeira de coluna vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="12" y="14" width="116" height="94" rx="10" fill="#eef1f4"/>
-    <circle cx="70" cy="78" r="26" fill="#f8fafc"/><path d="M44 78h52M70 52v52" fill="none"/>
-    <circle cx="70" cy="78" r="6" fill="#475569"/>
-    <rect x="61" y="24" width="18" height="48" rx="5" fill="#d7dde5"/>
-    <rect x="43" y="12" width="54" height="32" rx="12" fill="#d7dde5"/>
-    <circle cx="70" cy="28" r="9" fill="#94a3b8"/><path d="M70 37v25" fill="none"/>
-    <path d="M97 25h20v14H97" fill="#f8fafc"/>
+    <rect x="12" y="14" width="116" height="94" rx="10" fill="none"/>
+    <circle cx="70" cy="78" r="26" fill="none"/><path d="M44 78h52M70 52v52" fill="none"/>
+    <circle cx="70" cy="78" r="6" fill="none"/>
+    <rect x="61" y="24" width="18" height="48" rx="5" fill="none"/>
+    <rect x="43" y="12" width="54" height="32" rx="12" fill="none"/>
+    <circle cx="70" cy="28" r="9" fill="none"/><path d="M70 37v25" fill="none"/>
+    <path d="M97 25h20v14H97" fill="none"/>
   </g>
 </svg>

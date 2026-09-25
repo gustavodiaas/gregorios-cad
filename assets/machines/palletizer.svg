@@ -3,11 +3,11 @@
   <g stroke="#334155">
     <rect x="7" y="7" width="176" height="176" rx="5" fill="none" stroke-dasharray="5 4"/>
     <path d="M18 18h154v154H18z" fill="none" opacity=".6"/>
-    <rect x="104" y="104" width="60" height="60" fill="#eef1f4"/>
+    <rect x="104" y="104" width="60" height="60" fill="none"/>
     <path d="M124 104v60M144 104v60M104 124h60M104 144h60" fill="none"/>
-    <circle cx="67" cy="84" r="35" fill="#eef1f4"/><circle cx="67" cy="84" r="17" fill="#d7dde5"/>
-    <path d="M67 84l31-28 18 20-32 26z" fill="#d7dde5"/>
-    <circle cx="99" cy="56" r="10" fill="#f8fafc"/><path d="M107 50l24-19 12 14-28 17" fill="#eef1f4"/>
-    <rect x="18" y="132" width="64" height="28" rx="4" fill="#f8fafc"/><path d="M28 139v14M42 139v14M56 139v14M70 139v14" fill="none"/>
+    <circle cx="67" cy="84" r="35" fill="none"/><circle cx="67" cy="84" r="17" fill="none"/>
+    <path d="M67 84l31-28 18 20-32 26z" fill="none"/>
+    <circle cx="99" cy="56" r="10" fill="none"/><path d="M107 50l24-19 12 14-28 17" fill="none"/>
+    <rect x="18" y="132" width="64" height="28" rx="4" fill="none"/><path d="M28 139v14M42 139v14M56 139v14M70 139v14" fill="none"/>
   </g>
 </svg>

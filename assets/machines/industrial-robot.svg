@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Robô industrial visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <circle cx="72" cy="104" r="47" fill="#eef1f4"/>
-    <circle cx="72" cy="104" r="28" fill="#d7dde5"/><circle cx="72" cy="104" r="10" fill="#475569"/>
-    <path d="M72 104L103 68l24 18-31 36z" fill="#d7dde5"/>
-    <circle cx="104" cy="68" r="14" fill="#f8fafc"/>
-    <path d="M104 68l30-30 17 17-34 27z" fill="#eef1f4"/>
-    <circle cx="142" cy="46" r="10" fill="#f8fafc"/>
+    <circle cx="72" cy="104" r="47" fill="none"/>
+    <circle cx="72" cy="104" r="28" fill="none"/><circle cx="72" cy="104" r="10" fill="none"/>
+    <path d="M72 104L103 68l24 18-31 36z" fill="none"/>
+    <circle cx="104" cy="68" r="14" fill="none"/>
+    <path d="M104 68l30-30 17 17-34 27z" fill="none"/>
+    <circle cx="142" cy="46" r="10" fill="none"/>
     <path d="M150 39l20-10M150 53l20 10M163 32l7 10M163 60l7-10" fill="none"/>
     <path d="M25 104a47 47 0 0 1 47-47" fill="none" stroke-dasharray="4 4"/>
   </g>

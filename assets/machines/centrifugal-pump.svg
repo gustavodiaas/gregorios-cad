@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 110" role="img" aria-label="Bomba centrífuga vista de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="12" y="20" width="196" height="78" rx="8" fill="#f8fafc"/>
-    <rect x="24" y="34" width="82" height="50" rx="22" fill="#d7dde5"/>
+    <rect x="12" y="20" width="196" height="78" rx="8" fill="none"/>
+    <rect x="24" y="34" width="82" height="50" rx="22" fill="none"/>
     <path d="M38 43v32M50 39v40M62 37v44M74 39v40M86 43v32" fill="none"/>
-    <rect x="106" y="51" width="18" height="16" fill="#94a3b8"/>
-    <path d="M153 28c27 0 43 17 43 36s-15 30-34 30c-22 0-36-12-36-29 0-15 12-25 28-25 14 0 23 8 23 19 0 9-7 15-15 15-7 0-12-4-12-10 0-5 4-8 9-8" fill="#eef1f4"/>
-    <circle cx="159" cy="56" r="6" fill="#475569"/><path d="M196 48h18v18h-18M153 28V12" fill="none"/>
+    <rect x="106" y="51" width="18" height="16" fill="none"/>
+    <path d="M153 28c27 0 43 17 43 36s-15 30-34 30c-22 0-36-12-36-29 0-15 12-25 28-25 14 0 23 8 23 19 0 9-7 15-15 15-7 0-12-4-12-10 0-5 4-8 9-8" fill="none"/>
+    <circle cx="159" cy="56" r="6" fill="none"/><path d="M196 48h18v18h-18M153 28V12" fill="none"/>
   </g>
 </svg>

@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" role="img" aria-label="AGV industrial visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="22" y="22" width="196" height="76" rx="22" fill="#eef1f4"/>
-    <rect x="48" y="34" width="144" height="52" rx="8" fill="#f8fafc"/>
-    <circle cx="72" cy="60" r="13" fill="#d7dde5"/><circle cx="168" cy="60" r="13" fill="#d7dde5"/>
-    <path d="M104 45l25 15-25 15z" fill="#94a3b8"/>
+    <rect x="22" y="22" width="196" height="76" rx="22" fill="none"/>
+    <rect x="48" y="34" width="144" height="52" rx="8" fill="none"/>
+    <circle cx="72" cy="60" r="13" fill="none"/><circle cx="168" cy="60" r="13" fill="none"/>
+    <path d="M104 45l25 15-25 15z" fill="none"/>
     <path d="M41 34v52M199 34v52" fill="none"/>
-    <rect x="48" y="16" width="28" height="8" rx="3" fill="#475569"/><rect x="164" y="16" width="28" height="8" rx="3" fill="#475569"/>
-    <rect x="48" y="96" width="28" height="8" rx="3" fill="#475569"/><rect x="164" y="96" width="28" height="8" rx="3" fill="#475569"/>
+    <rect x="48" y="16" width="28" height="8" rx="3" fill="none"/><rect x="164" y="16" width="28" height="8" rx="3" fill="none"/>
+    <rect x="48" y="96" width="28" height="8" rx="3" fill="none"/><rect x="164" y="96" width="28" height="8" rx="3" fill="none"/>
   </g>
 </svg>

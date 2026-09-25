@@ -803,6 +803,7 @@ function drawExportResources(ctx, resources, scale) {
 
     renderOrder.forEach(resource => {
         if (!resource.visible) return;
+        const machineResource = Boolean(resource.machineType);
         
         // Cor do recurso
         ctx.fillStyle = resource.color || '#ff6b35';
@@ -816,7 +817,7 @@ function drawExportResources(ctx, resources, scale) {
                 ctx.lineTo(resource.vertices[i][0], resource.vertices[i][1]);
             }
             ctx.closePath();
-            ctx.fill();
+            if (!machineResource) ctx.fill();
             
             // Desenhar imagem colada (clipped ao polígono)
             const resourceImg = getResourceImage(resource);
@@ -868,12 +869,14 @@ function drawExportResources(ctx, resources, scale) {
             }
             
             // Borda do recurso
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.lineWidth = getScaledLineWidth(1, 0.2);
-            ctx.stroke();
+            if (!machineResource) {
+                ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.lineWidth = getScaledLineWidth(1, 0.2);
+                ctx.stroke();
+            }
         } else {
             // Fallback para recursos retangulares
-            ctx.fillRect(resource.x, resource.y, resource.width, resource.height);
+            if (!machineResource) ctx.fillRect(resource.x, resource.y, resource.width, resource.height);
             
             // Desenhar imagem colada (retangular)
             const resourceImgRect = getResourceImage(resource);
@@ -886,9 +889,11 @@ function drawExportResources(ctx, resources, scale) {
                 ctx.restore();
             }
             
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.lineWidth = getScaledLineWidth(1, 0.2);
-            ctx.strokeRect(resource.x, resource.y, resource.width, resource.height);
+            if (!machineResource) {
+                ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.lineWidth = getScaledLineWidth(1, 0.2);
+                ctx.strokeRect(resource.x, resource.y, resource.width, resource.height);
+            }
         }
         
         // Nome do recurso com sistema adaptativo

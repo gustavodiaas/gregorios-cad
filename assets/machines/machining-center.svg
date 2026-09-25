@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 180" role="img" aria-label="Centro de usinagem visto de cima">
   <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <g stroke="#334155">
-    <rect x="10" y="10" width="200" height="160" rx="10" fill="#eef1f4"/>
-    <rect x="25" y="25" width="138" height="130" rx="5" fill="#f8fafc"/>
-    <rect x="48" y="53" width="92" height="74" rx="4" fill="#d7dde5"/>
+    <rect x="10" y="10" width="200" height="160" rx="10" fill="none"/>
+    <rect x="25" y="25" width="138" height="130" rx="5" fill="none"/>
+    <rect x="48" y="53" width="92" height="74" rx="4" fill="none"/>
     <path d="M58 67h72M58 80h72M58 93h72M58 106h72" fill="none"/>
-    <circle cx="94" cy="90" r="16" fill="#f8fafc"/><circle cx="94" cy="90" r="5" fill="#475569"/>
-    <path d="M94 25v49" fill="none"/><rect x="79" y="28" width="30" height="22" rx="3" fill="#94a3b8"/>
-    <rect x="170" y="24" width="26" height="132" rx="5" fill="#d7dde5"/><circle cx="183" cy="42" r="6" fill="#f8fafc"/>
+    <circle cx="94" cy="90" r="16" fill="none"/><circle cx="94" cy="90" r="5" fill="none"/>
+    <path d="M94 25v49" fill="none"/><rect x="79" y="28" width="30" height="22" rx="3" fill="none"/>
+    <rect x="170" y="24" width="26" height="132" rx="5" fill="none"/><circle cx="183" cy="42" r="6" fill="none"/>
     <path d="M176 59h14M176 70h14M176 81h14" fill="none"/>
   </g>
 </svg>
