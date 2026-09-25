@@ -45,7 +45,12 @@ function drawAllResources() {
     const hoveredResourceId = getHoveredResourceId();
     const selectedResourceSet = new Set(selectedResourceIds);
 
-    resources.forEach(resource => {
+    const renderOrder = [
+        ...resources.filter(resource => resource.machineType !== 'overhead-crane'),
+        ...resources.filter(resource => resource.machineType === 'overhead-crane')
+    ];
+
+    renderOrder.forEach(resource => {
         if (resource._plannerHidden) {
             return;
         }

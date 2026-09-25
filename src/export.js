@@ -796,7 +796,12 @@ function drawExportResources(ctx, resources, scale) {
     ctx.save();
     const viewScale = getExportViewScale();
     
-    resources.forEach(resource => {
+    const renderOrder = [
+        ...resources.filter(resource => resource.machineType !== 'overhead-crane'),
+        ...resources.filter(resource => resource.machineType === 'overhead-crane')
+    ];
+
+    renderOrder.forEach(resource => {
         if (!resource.visible) return;
         
         // Cor do recurso

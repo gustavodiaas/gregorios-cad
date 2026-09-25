@@ -458,7 +458,7 @@
     --left-sidebar-width: 304px;
     --right-sidebar-width: 324px;
     --header-height: 0px;
-    --footer-height: 32px;
+    --footer-height: 0px;
     --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
 }
 
@@ -610,11 +610,62 @@ body {
 }
 
 .sidebar-command-center .header-actions {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     padding: 0;
     overflow: visible;
+}
+
+.project-command-group > h3 {
+    margin: 0 3px 7px;
+    color: #85858c;
+    font-size: 0.6rem;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.project-command-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.project-command-grid > .planner-controls-header {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.4fr;
+    gap: 6px;
+}
+
+.project-command-grid .action-button,
+.project-command-grid .theme-toggle,
+.project-command-grid .zoom-indicator,
+.project-command-grid .speed-select {
+    width: 100%;
+}
+
+.project-command-grid .action-button,
+.project-command-grid .theme-toggle {
+    height: 50px;
+    min-height: 50px;
+    flex-direction: column;
+    gap: 3px;
+    padding: 5px 3px;
+}
+
+.project-command-grid .action-button .project-command-label,
+.project-command-grid .theme-toggle .project-command-label {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    color: inherit;
+    font-size: 0.55rem;
+    font-weight: 650;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .sidebar-command-center .action-button,
@@ -634,7 +685,10 @@ body {
 }
 
 .sidebar-command-center .planner-controls-header {
-    display: contents;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
 }
 
 .sidebar-command-center .simulation-timer {
@@ -677,6 +731,22 @@ body {
 .canvas-brand-watermark .brand-subtitle {
     margin-top: 1px;
     font-size: 0.56rem;
+}
+
+.canvas-dedication-watermark {
+    position: absolute;
+    right: 22px;
+    bottom: 56px;
+    z-index: 3;
+    color: #334155;
+    font-size: 0.58rem;
+    letter-spacing: 0.01em;
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+.canvas-dedication-watermark strong {
+    font-weight: 700;
 }
 
 .cad-context-menu {
@@ -877,6 +947,19 @@ body {
 }
 
 .left-sidebar.collapsed .sidebar-command-center .header-actions {
+    gap: 7px;
+}
+
+.left-sidebar.collapsed .project-command-group > h3 {
+    display: none;
+}
+
+.left-sidebar.collapsed .project-command-label {
+    display: none !important;
+}
+
+.left-sidebar.collapsed .project-command-grid,
+.left-sidebar.collapsed .project-command-grid > .planner-controls-header {
     grid-template-columns: 1fr;
 }
 
@@ -938,7 +1021,7 @@ body {
     top: 0;
     z-index: 8;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 4px;
     margin: 12px 12px 4px;
     padding: 4px;
@@ -951,14 +1034,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 7px;
+    gap: 5px;
     min-height: 32px;
-    padding: 0 10px;
+    padding: 0 7px;
     border: 0;
     border-radius: 9px;
     color: #65656b;
     background: transparent;
-    font-size: 0.76rem;
+    font-size: 0.7rem;
     font-weight: 600;
     cursor: pointer;
 }

@@ -383,7 +383,11 @@ const updateNavMeshWithObstacles = (area, navMesh) => {
 
     // Separar escadas e construir seus walkways ANTES de processar obstáculos
     const stairResources = resourcesInArea.filter(isStairResource);
-    const nonBlockingResources = resourcesInArea.filter(res => !isStairResource(res) && res?.type !== 'operator');
+    const nonBlockingResources = resourcesInArea.filter(res =>
+        !isStairResource(res)
+        && res?.type !== 'operator'
+        && res?.machineType !== 'overhead-crane'
+    );
     
     // Construir mapa de nós de walkway de escadas para verificação rápida
     const stairWalkwayKeysSet = new Set();

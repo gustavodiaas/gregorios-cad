@@ -169,8 +169,11 @@
                 <button class="workspace-tab" type="button" data-workspace="machines" role="tab" aria-selected="false">
                     <i class="fas fa-industry"></i><span>Máquinas</span>
                 </button>
+                <button class="workspace-tab" type="button" data-workspace="project" role="tab" aria-selected="false">
+                    <i class="fas fa-sliders"></i><span>Projeto</span>
+                </button>
             </div>
-            <section id="sidebarCommandCenter" class="sidebar-section sidebar-command-center" aria-label="Comandos do projeto">
+            <section id="sidebarCommandCenter" class="sidebar-section sidebar-command-center project-workspace-panel workspace-hidden" aria-label="Comandos do projeto">
                 <span class="eyebrow">Projeto</span>
             </section>
             <div class="sidebar-section draw-workspace-panel tools-section">
@@ -323,6 +326,7 @@
 
         <div id="canvas-container" class="canvas-area">
             <div id="canvasBrandWatermark" class="canvas-brand-watermark" aria-hidden="true"></div>
+            <div class="canvas-dedication-watermark" aria-hidden="true">Uma dedicatória a <strong>Gregório Wachter</strong>, idealizador deste projeto.</div>
             <div class="floor-controls">
                 <div class="floor-tabs-wrapper">
                     <div id="floorTabs" class="floor-tabs"></div>
@@ -594,10 +598,6 @@
             </div>
         </aside>
     </main>
-
-    <footer class="app-footer">
-        <span>Uma dedicatória a <strong>Gregório Wachter</strong>, idealizador deste projeto.</span>
-    </footer>
 
     <div id="spaghettiDiagramOverlay" class="spaghetti-overlay" aria-hidden="true">
         <section id="spaghettiDiagramPanel" class="spaghetti-panel" role="complementary" aria-labelledby="spaghettiDiagramTitle">

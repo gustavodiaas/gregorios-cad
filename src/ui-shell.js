@@ -46,6 +46,7 @@ export function initializeLeftSidebarToggle() {
     const watermark = document.getElementById('canvasBrandWatermark');
     const brand = document.querySelector('.app-header .logo-container');
     if (commandCenter && headerActions) commandCenter.appendChild(headerActions);
+    if (headerActions) organizeProjectCommands(headerActions);
     if (watermark && brand) watermark.appendChild(brand);
     document.querySelector('.app-header')?.remove();
 
@@ -74,22 +75,97 @@ export function initializeLeftSidebarToggle() {
     toggle.addEventListener('click', () => applyState(!sidebar.classList.contains('collapsed')));
 }
 
+function organizeProjectCommands(headerActions) {
+    const commandLabels = {
+        saveLayoutBtn: 'Salvar',
+        loadLayoutBtn: 'Carregar',
+        exportImgBtn: 'Exportar',
+        undoBtn: 'Desfazer',
+        redoBtn: 'Refazer',
+        centerViewBtn: 'Centralizar',
+        toggleAllDimensionsBtn: 'Cotas',
+        toggleRightSidebarBtn: 'Propriedades',
+        colorPaletteBtn: 'Cores',
+        toggleNavMeshBtn: 'Malha',
+        toggleThemeBtn: 'Tema',
+        openSpaghettiDiagramBtn: 'Fluxos',
+        openProductPlannerBtn: 'Roteiro',
+        headerPlayBtn: 'Executar',
+        headerStopBtn: 'Parar'
+    };
+
+    const addReadableLabels = item => {
+        const buttons = item.matches('button') ? [item] : Array.from(item.querySelectorAll('button'));
+        buttons.forEach(button => {
+            const labelText = commandLabels[button.id];
+            if (!labelText) return;
+            let label = Array.from(button.children).find(child => child.tagName === 'SPAN');
+            if (!label) {
+                label = document.createElement('span');
+                button.appendChild(label);
+            }
+            label.classList.add('project-command-label');
+            label.textContent = labelText;
+        });
+    };
+
+    const definitions = [
+        {
+            title: 'Arquivo',
+            selectors: ['#saveLayoutBtn', '#loadLayoutBtn', '#exportImgBtn']
+        },
+        {
+            title: 'Edição e visualização',
+            selectors: ['#undoBtn', '#redoBtn', '.zoom-indicator', '#centerViewBtn', '#toggleAllDimensionsBtn', '#toggleRightSidebarBtn', '#colorPaletteBtn', '#toggleNavMeshBtn', '#toggleThemeBtn']
+        },
+        {
+            title: 'Análise e simulação',
+            selectors: ['#openSpaghettiDiagramBtn', '#openProductPlannerBtn', '.planner-controls-header']
+        }
+    ];
+
+    const resolveItem = selector => {
+        const element = headerActions.querySelector(selector);
+        if (!element) return null;
+        return element.closest('.dropdown-container') || element;
+    };
+
+    definitions.forEach(definition => {
+        const group = document.createElement('section');
+        group.className = 'project-command-group';
+        group.innerHTML = `<h3>${definition.title}</h3><div class="project-command-grid"></div>`;
+        const grid = group.querySelector('.project-command-grid');
+        const moved = new Set();
+        definition.selectors.forEach(selector => {
+            const item = resolveItem(selector);
+            if (!item || moved.has(item)) return;
+            moved.add(item);
+            addReadableLabels(item);
+            grid.appendChild(item);
+        });
+        headerActions.appendChild(group);
+    });
+}
+
 export function initializeWorkspaceTabs() {
     const tabs = Array.from(document.querySelectorAll('.workspace-tab'));
     const drawPanels = Array.from(document.querySelectorAll('.draw-workspace-panel'));
     const machinePanel = document.getElementById('machineLibraryPanel');
+    const projectPanels = Array.from(document.querySelectorAll('.project-workspace-panel'));
 
     if (!tabs.length || !machinePanel) return;
 
     const activate = (workspace) => {
         const showMachines = workspace === 'machines';
+        const showProject = workspace === 'project';
         tabs.forEach(tab => {
             const active = tab.dataset.workspace === workspace;
             tab.classList.toggle('active', active);
             tab.setAttribute('aria-selected', String(active));
         });
-        drawPanels.forEach(panel => panel.classList.toggle('workspace-hidden', showMachines));
+        drawPanels.forEach(panel => panel.classList.toggle('workspace-hidden', showMachines || showProject));
         machinePanel.classList.toggle('hidden', !showMachines);
+        projectPanels.forEach(panel => panel.classList.toggle('workspace-hidden', !showProject));
     };
 
     tabs.forEach(tab => tab.addEventListener('click', () => activate(tab.dataset.workspace || 'draw')));

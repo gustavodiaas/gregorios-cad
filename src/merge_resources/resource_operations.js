@@ -86,6 +86,7 @@ export function canMoveResourceTo(resourceToMove, potentialVertices, options = {
     if (!resourceToMove || !potentialVertices) return false;
 
     const movingIsOperator = resourceToMove?.type === 'operator';
+    const movingIsOverheadCrane = resourceToMove?.machineType === 'overhead-crane';
 
     const ignoreResourceIds = Array.isArray(options.ignoreResourceIds)
         ? new Set(options.ignoreResourceIds.filter(id => id !== null && id !== undefined))
@@ -122,10 +123,17 @@ export function canMoveResourceTo(resourceToMove, potentialVertices, options = {
         return true;
     }
 
+    // A ponte rolante ocupa um plano aéreo: respeita os limites da área,
+    // mas não colide com máquinas, recursos ou zonas no piso.
+    if (movingIsOverheadCrane) {
+        return true;
+    }
+
     for (let otherResource of resources) {
         if (otherResource.id === resourceToMove.id) continue;
         if (ignoreResourceIds.has(otherResource.id)) continue;
         if (otherResource?.type === 'operator') continue;
+        if (otherResource?.machineType === 'overhead-crane') continue;
         
         const otherResourceMigrated = migrateResourceToPolygonal(otherResource);
         if (checkResourceOverlap(potentialVertices, otherResourceMigrated.vertices)) {

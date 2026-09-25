@@ -384,8 +384,11 @@ function findAreaContainingPoint(x, y) {
  * @returns {object|null} - O recurso encontrado ou null
  */
 export function findResourceAtPosition(x, y) {
-    for (let i = resources.length - 1; i >= 0; i--) {
-        const resource = resources[i];
+    const hitOrder = [
+        ...resources.filter(resource => resource.machineType !== 'overhead-crane').reverse(),
+        ...resources.filter(resource => resource.machineType === 'overhead-crane').reverse()
+    ];
+    for (const resource of hitOrder) {
         if (resource._plannerHidden) continue;
         if (resource.visible === false) continue;
         

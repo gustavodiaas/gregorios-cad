@@ -859,6 +859,7 @@ function lineIntersectsWalls(start, end) {
 function lineIntersectsResources(start, end) {
     // Com a nova abordagem, todos os recursos são obstáculos, pois o A* opera externamente
     for (const resource of resources) {
+        if (resource?.machineType === 'overhead-crane') continue;
         if (lineIntersectsResource(start, end, resource)) {
             return true;
         }
@@ -1170,6 +1171,7 @@ function isNavigable(worldPos, area) {
     // Com a nova abordagem, todos os recursos são obstáculos, pois o A* opera externamente
     const tolerance = 5; // Pequena margem de segurança
     for (const resource of resources) {
+        if (resource?.machineType === 'overhead-crane') continue;
         if (isPointNearResource(worldPos, resource, tolerance)) {
             return false;
         }
