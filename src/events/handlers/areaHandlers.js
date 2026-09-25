@@ -15,7 +15,7 @@ import {
     setRotationStartAngle, setRotationCenter, setVerticesBeforeRotation,
     setHoveredResizeHandle, getHoveredResizeHandle,
     resources, walls,
-    getConnections,
+    getConnections, getScale,
     setOriginalAreaResourcesBeforeRotation,
     setOriginalAreaWallsBeforeRotation,
     setOriginalAreaConnectionsBeforeRotation,
@@ -30,6 +30,33 @@ import { getMidpointAtPos, getMidpointCursor, getHandleAtPos, getHandleCursor, c
 import { snapToGrid, getAlignmentGuides } from '../mouseUtils.js';
 import { updateAreaPosition, calculateMaxAllowedMovement } from '../utils/movementUtils.js';
 import { calculateBoundingBox } from '../../areas.js';
+
+const AREA_DRAG_EDGE_TOLERANCE_PX = 14;
+
+function distanceToSegment(point, start, end) {
+    const dx = end[0] - start[0];
+    const dy = end[1] - start[1];
+    const lengthSquared = dx * dx + dy * dy;
+    const t = lengthSquared > 0
+        ? Math.max(0, Math.min(1, ((point.x - start[0]) * dx + (point.y - start[1]) * dy) / lengthSquared))
+        : 0;
+    return Math.hypot(point.x - (start[0] + dx * t), point.y - (start[1] + dy * t));
+}
+
+function isPointNearAreaBoundary(area, point) {
+    const vertices = area?.vertices?.length >= 2
+        ? area.vertices
+        : [
+            [area.x, area.y],
+            [area.x + area.width, area.y],
+            [area.x + area.width, area.y + area.height],
+            [area.x, area.y + area.height]
+        ];
+    const tolerance = AREA_DRAG_EDGE_TOLERANCE_PX / Math.max(getScale(), 0.1);
+    return vertices.some((vertex, index) => (
+        distanceToSegment(point, vertex, vertices[(index + 1) % vertices.length]) <= tolerance
+    ));
+}
 
 /**
  * Manipula o clique para criar área
@@ -168,8 +195,8 @@ export function handleAreaClick(clickedArea, pos) {
         }
     }
     
-    if (selectedAreaId === clickedArea.id && !clickedArea.locked) {
-        // Área já selecionada - iniciar arraste
+    if (selectedAreaId === clickedArea.id && !clickedArea.locked && isPointNearAreaBoundary(clickedArea, pos)) {
+        // A área inteira só pode ser movida pela borda, evitando arrastes acidentais do layout.
         saveStateToHistory('Mover área');
         setIsDragging(true);
         setOffsetX(pos.x - clickedArea.x);
@@ -302,13 +329,13 @@ export function handleAreaCursor(pos, hoveredArea, { getIsCtrlPressed, getCurren
                 setHoveredMidpointIndex(null);
                 drawAll();
             }
-            canvas.style.cursor = selectedAreaId === hoveredArea.id ? 'grab' : 'pointer';
+            canvas.style.cursor = selectedAreaId === hoveredArea.id && isPointNearAreaBoundary(hoveredArea, pos) ? 'grab' : 'pointer';
         }
     } else {
         // Limpar hover quando não está em modo de edição
         if (getHoveredResizeHandle() !== null) {
             setHoveredResizeHandle(null);
         }
-        canvas.style.cursor = selectedAreaId === hoveredArea.id ? 'grab' : 'pointer';
+        canvas.style.cursor = selectedAreaId === hoveredArea.id && isPointNearAreaBoundary(hoveredArea, pos) ? 'grab' : 'pointer';
     }
 }

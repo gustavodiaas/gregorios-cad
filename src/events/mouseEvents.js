@@ -89,6 +89,29 @@ import { getHubsForResource } from '../hubs.js';
 import { calculatePolygonCentroid } from '../navigation.js';
 import { layoutChangeNotifier } from '../core/layout-change-notifier.js';
 
+let isSpaceNavigationPressed = false;
+let isDedicatedPanGesture = false;
+
+function isEditableTarget(target) {
+    return target instanceof HTMLElement && Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
+}
+
+function startDedicatedPan(e) {
+    const canvas = getCanvas();
+    isDedicatedPanGesture = true;
+    setIsPanning(true);
+    setPanStart({ x: e.clientX, y: e.clientY });
+    canvas.style.cursor = 'grabbing';
+}
+
+function stopDedicatedPan() {
+    if (!isDedicatedPanGesture) return false;
+    isDedicatedPanGesture = false;
+    setIsPanning(false);
+    getCanvas().style.cursor = isSpaceNavigationPressed ? 'grab' : 'default';
+    return true;
+}
+
 // Importar handlers modulares
 import {
     handleAreaClick,
@@ -219,13 +242,29 @@ export function initializeMouseEvents() {
     });
 
     // Mouse down: Delegates to current tool
-    canvas.addEventListener('mousedown', (e) => getCurrentToolInstance().onMouseDown(e));
+    canvas.addEventListener('mousedown', (e) => {
+        if (e.button === 1 || (e.button === 0 && isSpaceNavigationPressed)) {
+            e.preventDefault();
+            startDedicatedPan(e);
+            return;
+        }
+        getCurrentToolInstance().onMouseDown(e);
+    });
     
     // Mouse move: Delegates to current tool
-    canvas.addEventListener('mousemove', (e) => getCurrentToolInstance().onMouseMove(e));
+    canvas.addEventListener('mousemove', (e) => {
+        if (isDedicatedPanGesture) {
+            handlePanMove(e);
+            return;
+        }
+        getCurrentToolInstance().onMouseMove(e);
+    });
     
     // Mouse up: Delegates to current tool
-    canvas.addEventListener('mouseup', (e) => getCurrentToolInstance().onMouseUp(e));
+    canvas.addEventListener('mouseup', (e) => {
+        if (stopDedicatedPan()) return;
+        getCurrentToolInstance().onMouseUp(e);
+    });
     
     // Double click: Finaliza conexões
     canvas.addEventListener('dblclick', handleDoubleClick);
@@ -250,7 +289,28 @@ export function initializeMouseEvents() {
     }, { passive: false });
     
     // Document mouseup para capturar mouseup mesmo quando o mouse sai do canvas
-    document.addEventListener('mouseup', handleDocumentMouseUp);
+    document.addEventListener('mouseup', (e) => {
+        stopDedicatedPan();
+        handleDocumentMouseUp(e);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code !== 'Space' || isEditableTarget(e.target)) return;
+        e.preventDefault();
+        isSpaceNavigationPressed = true;
+        if (!isPanning) canvas.style.cursor = 'grab';
+    });
+
+    document.addEventListener('keyup', (e) => {
+        if (e.code !== 'Space') return;
+        isSpaceNavigationPressed = false;
+        if (!isDedicatedPanGesture && !isPanning) canvas.style.cursor = 'default';
+    });
+
+    window.addEventListener('blur', () => {
+        isSpaceNavigationPressed = false;
+        stopDedicatedPan();
+    });
 }
 
 /**

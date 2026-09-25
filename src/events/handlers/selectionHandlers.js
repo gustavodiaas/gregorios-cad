@@ -172,9 +172,9 @@ export function handleEmptySpaceClick(pos, e) {
         }
     }
     
-    setIsPanning(true);
-    setPanStart({ x: e.clientX, y: e.clientY });
-    canvas.style.cursor = 'grabbing';
+    // O botão esquerdo apenas limpa a seleção. Para navegar, use Espaço + arrastar,
+    // botão do meio ou botão direito, evitando confundir o fundo com a área inteira.
+    canvas.style.cursor = 'default';
     drawAll();
 }
 

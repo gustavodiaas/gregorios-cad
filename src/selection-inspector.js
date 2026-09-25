@@ -5,7 +5,7 @@ import { calculatePolygonBounds, resizeResource } from './resources.js';
 import { rotateResource } from './merge_resources/rotateresource.js';
 import { saveStateToHistory } from './history.js';
 import { drawAll } from './drawing.js';
-import { showToast } from './ui-shell.js';
+import { setRightSidebarVisible, showToast } from './ui-shell.js';
 import { formatLength, formatMeasurementInput, parseMeasurementInput, onMeasurementUnitChange } from './measurement-units.js';
 
 function getSelectedResource() {
@@ -29,6 +29,7 @@ export function initializeSelectionInspector() {
     const catalogReference = document.getElementById('machineCatalogReference');
     const catalogDimensions = document.getElementById('machineCatalogDimensions');
     const resetDimensionsButton = document.getElementById('resetMachineDimensionsBtn');
+    const closeButton = document.getElementById('closeRightSidebarBtn');
     if (!form || !empty || !nameInput || !widthInput || !heightInput || !rotationOutput) return;
 
     const render = () => {
@@ -83,6 +84,7 @@ export function initializeSelectionInspector() {
         drawAll();
         render();
         showToast('Medidas atualizadas.', 'success');
+        setRightSidebarVisible(false);
     });
 
     form.querySelectorAll('[data-rotate]').forEach(button => {
@@ -112,6 +114,11 @@ export function initializeSelectionInspector() {
         drawAll();
         render();
         showToast('Tamanho de catálogo restaurado.', 'success');
+    });
+
+    closeButton?.addEventListener('click', () => setRightSidebarVisible(false));
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') setRightSidebarVisible(false);
     });
 
     onStateAction('resource-selection/changed', render);

@@ -236,7 +236,17 @@ export function handleResourceClick(clickedResource, pos) {
         return;
     }
 
-    if (alreadySelected && !clickedResource.locked) {
+    if (!alreadySelected) {
+        setResourceSelection([clickedResource.id], { primaryId: clickedResource.id });
+    }
+
+    setSelectedAreaId(null);
+    setSelectedWallId(null);
+    setSelectedOpeningId(null);
+    setSelectedFreeLineId(null);
+    setSelectedExclusionZoneId(null);
+
+    if (!clickedResource.locked) {
         const dragState = createResourceDragState(clickedResource.id);
         if (!dragState.movableResourceIds.length) {
             return; // Nada para mover (todos bloqueados)
@@ -262,7 +272,6 @@ export function handleResourceClick(clickedResource, pos) {
         setActiveResourceDragState(dragState);
         canvas.style.cursor = 'grabbing';
     } else {
-        setResourceSelection([clickedResource.id], { primaryId: clickedResource.id });
         setSelectedAreaId(null);
         setSelectedWallId(null);
         setSelectedOpeningId(null);
