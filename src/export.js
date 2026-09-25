@@ -817,6 +817,9 @@ function drawExportResources(ctx, resources, scale) {
             const resourceImg = getResourceImage(resource);
             if (resourceImg) {
                 ctx.save();
+                if (resource.machineType && resource.machineType !== 'overhead-crane') {
+                    ctx.filter = 'grayscale(1) contrast(1.08)';
+                }
                 ctx.beginPath();
                 ctx.moveTo(resource.vertices[0][0], resource.vertices[0][1]);
                 for (let i = 1; i < resource.vertices.length; i++) {
@@ -870,7 +873,12 @@ function drawExportResources(ctx, resources, scale) {
             // Desenhar imagem colada (retangular)
             const resourceImgRect = getResourceImage(resource);
             if (resourceImgRect) {
+                ctx.save();
+                if (resource.machineType && resource.machineType !== 'overhead-crane') {
+                    ctx.filter = 'grayscale(1) contrast(1.08)';
+                }
                 ctx.drawImage(resourceImgRect, resource.x, resource.y, resource.width, resource.height);
+                ctx.restore();
             }
             
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';

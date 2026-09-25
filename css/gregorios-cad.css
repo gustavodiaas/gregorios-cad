@@ -598,18 +598,64 @@ body {
 }
 
 .left-sidebar.collapsed {
-    width: 52px !important;
-    min-width: 52px;
-    overflow: hidden;
+    width: 66px !important;
+    min-width: 66px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-.left-sidebar.collapsed > :not(.sidebar-collapse-toggle) {
+.left-sidebar.collapsed .machine-library-section,
+.left-sidebar.collapsed .optimization-section,
+.left-sidebar.collapsed #shapeSelector,
+.left-sidebar.collapsed .resize-handle,
+.left-sidebar.collapsed .section-title,
+.left-sidebar.collapsed .tool-group-label,
+.left-sidebar.collapsed .tool-button span,
+.left-sidebar.collapsed .tool-button .dropdown-arrow,
+.left-sidebar.collapsed .workspace-tab span,
+.left-sidebar.collapsed .dropdown-menu {
     display: none !important;
 }
 
 .left-sidebar.collapsed .sidebar-collapse-toggle {
     align-self: center;
     margin: 10px 0 0;
+}
+
+.left-sidebar.collapsed .sidebar-workspace-tabs {
+    position: static;
+    grid-template-columns: 1fr;
+    margin: 8px;
+    padding: 3px;
+}
+
+.left-sidebar.collapsed .workspace-tab {
+    min-height: 38px;
+    padding: 0;
+    font-size: 0.9rem;
+}
+
+.left-sidebar.collapsed .tools-section {
+    display: block !important;
+    padding: 6px 8px 12px;
+    border: 0;
+}
+
+.left-sidebar.collapsed .tool-buttons {
+    gap: 5px;
+}
+
+.left-sidebar.collapsed .tool-button,
+.left-sidebar.collapsed .tool-button-group > .tool-button {
+    justify-content: center;
+    width: 48px;
+    min-height: 42px;
+    padding: 0;
+}
+
+.left-sidebar.collapsed .tool-button i:first-child {
+    width: auto;
+    font-size: 0.9rem;
 }
 
 .canvas-area {
@@ -673,6 +719,19 @@ body {
 
 .tool-buttons {
     gap: 5px;
+}
+
+.tool-group-label {
+    margin: 10px 4px 4px;
+    color: #96969d;
+    font-size: 0.58rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.tool-group-label:first-child {
+    margin-top: 0;
 }
 
 .tool-button {
@@ -983,7 +1042,15 @@ body {
 .machine-card-visual img {
     max-width: 88%;
     max-height: 64px;
+    filter: grayscale(1) contrast(1.08) drop-shadow(0 3px 4px rgba(15, 23, 42, 0.08));
+}
+
+.machine-card[data-machine-id="overhead-crane"] .machine-card-visual img {
     filter: drop-shadow(0 3px 4px rgba(15, 23, 42, 0.08));
+}
+
+.optimization-section {
+    display: none;
 }
 
 .machine-card-copy {
@@ -1054,6 +1121,15 @@ body {
 
 .properties-section {
     padding-bottom: 16px;
+}
+
+.inspector-data-heading {
+    margin: 14px 0 8px;
+    color: #85858c;
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
 }
 
 .property-empty-state {

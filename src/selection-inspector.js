@@ -26,6 +26,9 @@ export function initializeSelectionInspector() {
     const widthInput = document.getElementById('inspectorResourceWidth');
     const heightInput = document.getElementById('inspectorResourceHeight');
     const rotationOutput = document.getElementById('inspectorResourceRotation');
+    const manufacturerInput = document.getElementById('inspectorManufacturer');
+    const serialNumberInput = document.getElementById('inspectorSerialNumber');
+    const cycleTimeInput = document.getElementById('inspectorCycleTime');
     const catalogReference = document.getElementById('machineCatalogReference');
     const catalogDimensions = document.getElementById('machineCatalogDimensions');
     const resetDimensionsButton = document.getElementById('resetMachineDimensionsBtn');
@@ -46,6 +49,9 @@ export function initializeSelectionInspector() {
         nameInput.value = resource.name || 'Recurso';
         widthInput.value = formatMeasurementInput(bounds.width / pixelsPerCm);
         heightInput.value = formatMeasurementInput(bounds.height / pixelsPerCm);
+        if (manufacturerInput) manufacturerInput.value = resource.manufacturer || '';
+        if (serialNumberInput) serialNumberInput.value = resource.serialNumber || '';
+        if (cycleTimeInput) cycleTimeInput.value = resource.cycleTimeSeconds ?? '';
         rotationOutput.textContent = `${Math.round(resource.rotation || 0)}°`;
         if (badge) badge.textContent = resource.machineType ? 'Máquina SVG' : 'Recurso';
         const hasCatalogSize = resource.machineType && resource.catalogWidthCm > 0 && resource.catalogHeightCm > 0;
@@ -71,6 +77,9 @@ export function initializeSelectionInspector() {
         const oldVertices = resource.vertices?.map(vertex => [...vertex]);
         const oldGeometry = { x: resource.x, y: resource.y, width: resource.width, height: resource.height };
         resource.name = nameInput.value.trim() || oldName || 'Recurso';
+        resource.manufacturer = manufacturerInput?.value.trim() || '';
+        resource.serialNumber = serialNumberInput?.value.trim() || '';
+        resource.cycleTimeSeconds = Math.max(0, Number(cycleTimeInput?.value) || 0);
         const resized = resizeResource(resource.id, widthCm * pixelsPerCm, heightCm * pixelsPerCm);
         if (!resized) {
             resource.name = oldName;

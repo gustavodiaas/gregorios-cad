@@ -1,6 +1,9 @@
-import { movementAreas, setSelectedResourceId, setIsEditingResourcePolygon, setEditingResourceId } from './state.js';
+import {
+    movementAreas, setSelectedResourceId, setIsEditingResourcePolygon, setEditingResourceId,
+    getCanvas, getScale, getOffsetXCanvas, getOffsetYCanvas
+} from './state.js';
 import { createResource } from './resources.js';
-import { calculateBoundingBox } from './areas.js';
+import { calculateBoundingBox, pointInPolygon, rectangleToVertices } from './areas.js';
 import { pixelsPerCm } from './config.js';
 import { saveStateToHistory } from './history.js';
 import { drawAll } from './drawing.js';
@@ -44,13 +47,20 @@ export const MACHINE_LIBRARY = [
     { id: 'granulator', name: 'Granulador', category: 'Reciclagem', widthCm: 220, heightCm: 180, icon: 'assets/machines/granulator.svg', tags: 'triturador moinho reciclagem plástico' }
 ];
 
-function getInsertionArea() {
+function getInsertionArea(point = null) {
     if (!movementAreas.length) return null;
+    if (point) {
+        const areaAtPoint = movementAreas.find(area => {
+            const vertices = area.vertices || rectangleToVertices(area.x, area.y, area.width, area.height);
+            return area.visible !== false && pointInPolygon([point.x, point.y], vertices);
+        });
+        if (areaAtPoint) return areaAtPoint;
+    }
     return movementAreas.find(area => area && area.visible !== false) || movementAreas[0];
 }
 
-async function insertMachine(definition) {
-    const area = getInsertionArea();
+async function insertMachine(definition, placement = null) {
+    const area = getInsertionArea(placement);
     if (!area) {
         showToast('Crie uma área de movimentação antes de inserir máquinas.', 'warning');
         return;
@@ -67,8 +77,12 @@ async function insertMachine(definition) {
     const fitScale = Math.min(1, (bounds.width * 0.72) / desiredWidth, (bounds.height * 0.72) / desiredHeight);
     const width = Math.max(20, desiredWidth * fitScale);
     const height = Math.max(20, desiredHeight * fitScale);
-    const x = bounds.x + (bounds.width - width) / 2;
-    const y = bounds.y + (bounds.height - height) / 2;
+    const x = placement
+        ? Math.max(bounds.x, Math.min(placement.x - width / 2, bounds.x + bounds.width - width))
+        : bounds.x + (bounds.width - width) / 2;
+    const y = placement
+        ? Math.max(bounds.y, Math.min(placement.y - height / 2, bounds.y + bounds.height - height))
+        : bounds.y + (bounds.height - height) / 2;
 
     saveStateToHistory(`Inserir ${definition.name}`);
     const resource = createResource(x, y, '#f8fafc', width, height);
@@ -120,7 +134,7 @@ export function initializeMachineLibrary() {
 
         if (count) count.textContent = String(visible.length);
         grid.innerHTML = visible.map(machine => `
-            <button type="button" class="machine-card" data-machine-id="${machine.id}" title="Inserir ${machine.name}">
+            <button type="button" class="machine-card" data-machine-id="${machine.id}" draggable="true" title="Clique ou arraste ${machine.name} para o layout">
                 <span class="machine-card-visual"><img src="${machine.icon}" alt=""></span>
                 <span class="machine-card-copy"><strong>${machine.name}</strong><small>${machine.category}</small><small>${formatLength(machine.widthCm)} × ${formatLength(machine.heightCm)}</small></span>
                 <i class="fas fa-plus machine-card-add" aria-hidden="true"></i>
@@ -138,6 +152,10 @@ export function initializeMachineLibrary() {
     search.addEventListener('input', render);
     openLibraryButton?.addEventListener('click', () => {
         setActiveTool(null);
+        const leftSidebar = document.querySelector('.left-sidebar');
+        if (leftSidebar?.classList.contains('collapsed')) {
+            document.getElementById('toggleLeftSidebarBtn')?.click();
+        }
         document.querySelector('.workspace-tab[data-workspace="machines"]')?.click();
         requestAnimationFrame(() => search.focus());
     });
@@ -147,6 +165,33 @@ export function initializeMachineLibrary() {
         if (!card) return;
         const definition = MACHINE_LIBRARY.find(machine => machine.id === card.dataset.machineId);
         if (definition) insertMachine(definition);
+    });
+    grid.addEventListener('dragstart', event => {
+        const card = event.target.closest('[data-machine-id]');
+        if (!card || !event.dataTransfer) return;
+        event.dataTransfer.effectAllowed = 'copy';
+        event.dataTransfer.setData('application/x-gregorios-machine', card.dataset.machineId);
+    });
+
+    const canvas = getCanvas();
+    canvas?.addEventListener('dragover', event => {
+        if (Array.from(event.dataTransfer?.types || []).includes('application/x-gregorios-machine')) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy';
+        }
+    });
+    canvas?.addEventListener('drop', event => {
+        const machineId = event.dataTransfer?.getData('application/x-gregorios-machine');
+        if (!machineId) return;
+        event.preventDefault();
+        const definition = MACHINE_LIBRARY.find(machine => machine.id === machineId);
+        if (!definition) return;
+        const rect = canvas.getBoundingClientRect();
+        const placement = {
+            x: (event.clientX - rect.left - getOffsetXCanvas()) / getScale(),
+            y: (event.clientY - rect.top - getOffsetYCanvas()) / getScale()
+        };
+        insertMachine(definition, placement);
     });
 
     render();

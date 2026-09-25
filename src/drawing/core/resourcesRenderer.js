@@ -501,6 +501,9 @@ function drawResource(resource, isSelected = false, isHovered = false) {
         const resourceImg = getResourceImage(resource);
         if (resourceImg) {
             ctx.save();
+            if (resource.machineType && resource.machineType !== 'overhead-crane') {
+                ctx.filter = 'grayscale(1) contrast(1.08)';
+            }
             ctx.beginPath();
             ctx.moveTo(migratedResource.vertices[0][0], migratedResource.vertices[0][1]);
             for (let i = 1; i < migratedResource.vertices.length; i++) {
@@ -559,7 +562,12 @@ function drawResource(resource, isSelected = false, isHovered = false) {
         // Desenhar imagem colada (retangular)
         const resourceImgRect = getResourceImage(resource);
         if (resourceImgRect) {
+            ctx.save();
+            if (resource.machineType && resource.machineType !== 'overhead-crane') {
+                ctx.filter = 'grayscale(1) contrast(1.08)';
+            }
             ctx.drawImage(resourceImgRect, resource.x, resource.y, resource.width, resource.height);
+            ctx.restore();
         }
 
         if (isSelected) {
