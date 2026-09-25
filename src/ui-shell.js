@@ -15,6 +15,46 @@ export function showToast(message, tone = 'default') {
     window.cadToastTimer = setTimeout(() => toast.classList.remove('visible'), 2600);
 }
 
+export function showConfirmDialog({ title, message, confirmLabel = 'Confirmar', cancelLabel = 'Cancelar', danger = false }) {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay cad-confirm-overlay';
+        overlay.style.display = 'flex';
+        overlay.innerHTML = `
+            <div class="modal-content cad-confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="cadConfirmTitle">
+                <div class="modal-header">
+                    <i class="fas fa-file-circle-plus" aria-hidden="true"></i>
+                    <h3 id="cadConfirmTitle" class="modal-title"></h3>
+                </div>
+                <div class="modal-body"><p></p></div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-button secondary" data-action="cancel"></button>
+                    <button type="button" class="modal-button ${danger ? 'danger' : 'primary'}" data-action="confirm"></button>
+                </div>
+            </div>`;
+        overlay.querySelector('.modal-title').textContent = title;
+        overlay.querySelector('.modal-body p').textContent = message;
+        overlay.querySelector('[data-action="cancel"]').textContent = cancelLabel;
+        overlay.querySelector('[data-action="confirm"]').textContent = confirmLabel;
+
+        const finish = result => {
+            document.removeEventListener('keydown', onKeyDown);
+            overlay.remove();
+            resolve(result);
+        };
+        const onKeyDown = event => {
+            if (event.key === 'Escape') finish(false);
+        };
+        overlay.addEventListener('click', event => {
+            if (event.target === overlay || event.target.closest('[data-action="cancel"]')) finish(false);
+            if (event.target.closest('[data-action="confirm"]')) finish(true);
+        });
+        document.addEventListener('keydown', onKeyDown);
+        document.body.appendChild(overlay);
+        overlay.querySelector('[data-action="cancel"]').focus();
+    });
+}
+
 const LEFT_SIDEBAR_STORAGE_KEY = 'gregorios-cad-left-sidebar-collapsed';
 
 export function mountSidebarPopover(trigger, panel) {
@@ -113,6 +153,7 @@ export function initializeLeftSidebarToggle() {
 
 function organizeProjectCommands(headerActions) {
     const commandLabels = {
+        newLayoutBtn: 'Novo layout',
         saveLayoutBtn: 'Salvar',
         loadLayoutBtn: 'Carregar',
         exportImgBtn: 'Exportar',
@@ -155,17 +196,22 @@ function organizeProjectCommands(headerActions) {
         {
             title: 'Arquivo',
             icon: 'fa-folder-open',
-            selectors: ['#saveLayoutBtn', '#loadLayoutBtn', '#exportImgBtn']
+            selectors: ['#newLayoutBtn', '#saveLayoutBtn', '#loadLayoutBtn', '#exportImgBtn']
         },
         {
-            title: 'Edição e visualização',
-            icon: 'fa-sliders',
-            selectors: ['#undoBtn', '#redoBtn', '.zoom-indicator', '#centerViewBtn', '#toggleAllDimensionsBtn', '#toggleRightSidebarBtn', '#colorPaletteBtn', '#toggleNavMeshBtn', '#toggleThemeBtn']
+            title: 'Edição',
+            icon: 'fa-pen-to-square',
+            selectors: ['#undoBtn', '#redoBtn']
+        },
+        {
+            title: 'Visualização',
+            icon: 'fa-eye',
+            selectors: ['.zoom-indicator', '#centerViewBtn', '#toggleAllDimensionsBtn', '#toggleRightSidebarBtn', '#colorPaletteBtn', '#toggleThemeBtn']
         },
         {
             title: 'Análise e simulação',
             icon: 'fa-chart-line',
-            selectors: ['#openSpaghettiDiagramBtn', '#openProductPlannerBtn', '.planner-controls-header']
+            selectors: ['#openSpaghettiDiagramBtn', '#openProductPlannerBtn', '#toggleNavMeshBtn', '.planner-controls-header']
         }
     ];
 

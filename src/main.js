@@ -428,7 +428,7 @@ async function main() {
     // Limpar seleção ao clicar em qualquer botão do menu principal, exceto o botão da paleta de cores
     const allMenuButtons = document.querySelectorAll('.tool-button, .theme-toggle, .action-button');
     allMenuButtons.forEach(btn => {
-        if (btn.id === 'colorPaletteBtn' || btn.id === 'toggleRightSidebarBtn') return;
+        if (btn.id === 'colorPaletteBtn' || btn.id === 'toggleRightSidebarBtn' || btn.id === 'newLayoutBtn') return;
         btn.addEventListener('click', () => {
             import('./state.js').then(state => state.clearAllSelections());
         });

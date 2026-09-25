@@ -753,6 +753,17 @@ body {
     grid-column: 1 / -1;
 }
 
+.sidebar-command-center #newLayoutBtn,
+.sidebar-command-center #toggleNavMeshBtn {
+    grid-column: 1 / -1;
+}
+
+.sidebar-command-center #newLayoutBtn {
+    color: #9a3412;
+    background: rgba(249, 115, 22, 0.08);
+    border-color: rgba(249, 115, 22, 0.18);
+}
+
 .sidebar-command-center .planner-controls-header {
     grid-column: 1 / -1;
     display: grid;
@@ -1934,6 +1945,20 @@ body {
 .dark-theme .project-panel-heading p,
 .dark-theme .sidebar-command-center .zoom-indicator .project-command-label {
     color: #a9a9b0;
+}
+
+.modal-button.danger {
+    color: #fff;
+    background: #c2413a;
+    border-color: #c2413a;
+}
+
+.modal-button.danger:hover {
+    background: #a93630;
+}
+
+.cad-confirm-dialog {
+    width: min(430px, calc(100vw - 32px));
 }
 
 .dark-theme .canvas-area {

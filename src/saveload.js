@@ -14,6 +14,8 @@ import {
     setExclusionZones,
     getFloorsSnapshot,
     applyFloorsSnapshot,
+    createFloor,
+    clearAllSelections,
     getCurrentFloorId
 } from './state.js';
 import { openings, setSelectedOpeningId } from './openings.js';
@@ -22,10 +24,12 @@ import { drawAll } from './drawing.js';
 import { ensureAllAreasHaveNavMesh } from './navMeshBaker.js';
 import { refreshNavMeshOptions } from './navmesh-controls.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
-import { syncHubRegistryWithResources, serializeHubs, loadHubs } from './hubs.js';
-import { serializePathCache, loadPathCache } from './planner-path-cache.js';
+import { clearAllHubs, syncHubRegistryWithResources, serializeHubs, loadHubs } from './hubs.js';
+import { clearPathCache, serializePathCache, loadPathCache } from './planner-path-cache.js';
 import { resetPlannerData } from './product-planner.js';
 import { reloadResourceImages } from './resource-image.js';
+import { showConfirmDialog, showToast } from './ui-shell.js';
+import { setActiveTool } from './active_tool.js';
 
 const AUTO_SAVE_KEY = 'gregorios-cad-autosave-v1';
 const AUTO_SAVE_DELAY_MS = 650;
@@ -773,8 +777,21 @@ function showNotification(message, type = 'info', duration = 3000) {
  * Inicializa os event listeners para os botões de salvar/carregar
  */
 export function initializeSaveLoad() {
+    const newBtn = document.getElementById('newLayoutBtn');
     const saveBtn = document.getElementById('saveLayoutBtn');
     const loadBtn = document.getElementById('loadLayoutBtn');
+
+    if (newBtn) {
+        newBtn.addEventListener('click', async () => {
+            const confirmed = await showConfirmDialog({
+                title: 'Criar novo layout?',
+                message: 'Todo o desenho atual, pavimentos e roteiro serão apagados. Salve o arquivo antes se quiser manter uma cópia.',
+                confirmLabel: 'Apagar e começar',
+                danger: true
+            });
+            if (confirmed) createNewLayout();
+        });
+    }
     
     if (saveBtn) {
         saveBtn.addEventListener('click', saveLayout);
@@ -787,6 +804,33 @@ export function initializeSaveLoad() {
     } else {
         console.warn('⚠️  Botão Carregar não encontrado');
     }
+}
+
+export function createNewLayout() {
+    clearTimeout(autoSaveTimer);
+    applyFloorsSnapshot([]);
+    createFloor({ name: 'Térreo', makeActive: true });
+    clearAllSelections('new-layout');
+    clearAllHubs({ includeConnection: true });
+    clearPathCache();
+    resetPlannerData();
+    setActiveTool(null);
+    try {
+        localStorage.removeItem('plannerData');
+        localStorage.removeItem(AUTO_SAVE_KEY);
+    } catch {
+        // O novo layout continua funcional mesmo sem armazenamento local.
+    }
+    window.nextAreaId = 1;
+    window.nextWallId = 1;
+    window.nextResourceId = 1;
+    window.nextOpeningId = 1;
+    refreshNavMeshOptions();
+    updateConnectionDistancesTable();
+    resetHistoryToCurrentState('Novo layout');
+    drawAll();
+    persistLayoutToBrowser();
+    showToast('Novo layout criado.', 'success');
 }
 
 export function persistLayoutToBrowser() {

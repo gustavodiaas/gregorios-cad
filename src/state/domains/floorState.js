@@ -343,6 +343,7 @@ export function getFloorsSnapshot() {
  * @param {EntityId|null} [activeFloor=null] - ID do pavimento a ativar após aplicação
  */
 export function applyFloorsSnapshot(snapshot, activeFloor = null) {
+    overlayVisibleFloorIds.clear();
     if (!Array.isArray(snapshot) || snapshot.length === 0) {
         floors = [];
         currentFloorId = null;
