@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 90" role="img" aria-label="Ponte rolante de duas vigas vista de cima">
-  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
-  <g fill="none" stroke="#334155">
+  <style>[stroke]{stroke-width:.25mm!important;stroke-opacity:.58!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#c9a227">
     <path d="M12 15.5h376M12 19.5h376M12 70.5h376M12 74.5h376"/>
     <path d="M18 11v12M382 11v12M18 67v12M382 67v12"/>
     <path d="M48 12v11M48 67v11M104 12v11M104 67v11M296 12v11M296 67v11M352 12v11M352 67v11" opacity=".65"/>
   </g>
-  <g fill="none" stroke="#7c5b00">
+  <g fill="none" stroke="#c9a227">
     <rect x="178" y="14" width="10" height="62" rx="1"/>
     <rect x="212" y="14" width="10" height="62" rx="1"/>
     <rect x="169" y="10" width="62" height="14" rx="2"/>
     <rect x="169" y="66" width="62" height="14" rx="2"/>
   </g>
-  <g fill="none" stroke="#334155">
+  <g fill="none" stroke="#c9a227">
     <rect x="174" y="34" width="52" height="22" rx="3"/>
     <circle cx="200" cy="45" r="7" fill="none"/>
   </g>
-  <g fill="none" stroke="#334155">
+  <g fill="none" stroke="#c9a227">
     <path d="M200 38v14M193 45h14"/>
     <path d="M200 52v10c0 5 8 5 8 0"/>
     <path d="M164 28l5-4 5 4M236 62l-5 4-5-4" opacity=".75"/>
