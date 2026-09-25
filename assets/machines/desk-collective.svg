@@ -1,11 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" role="img" aria-label="Mesa coletiva vista de cima">
-  <rect x="8" y="8" width="284" height="104" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="22" y="22" width="256" height="76" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="4"/>
-  <line x1="118" y1="22" x2="118" y2="98" stroke="#0284c7" stroke-width="3" stroke-dasharray="6 4"/>
-  <line x1="182" y1="22" x2="182" y2="98" stroke="#0284c7" stroke-width="3" stroke-dasharray="6 4"/>
-  <rect x="36" y="32" width="66" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="133" y="32" width="34" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="196" y="32" width="66" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="36" y="66" width="66" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="196" y="66" width="66" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#334155">
+    <rect x="12" y="10" width="276" height="100" rx="8"/>
+    <rect x="24" y="22" width="252" height="76" rx="4"/>
+    <line x1="116" y1="22" x2="116" y2="98" stroke-dasharray="5 4"/>
+    <line x1="184" y1="22" x2="184" y2="98" stroke-dasharray="5 4"/>
+    <rect x="36" y="32" width="62" height="18" rx="3"/>
+    <rect x="130" y="32" width="30" height="18" rx="3"/>
+    <rect x="196" y="32" width="62" height="18" rx="3"/>
+    <rect x="36" y="68" width="62" height="18" rx="3"/>
+    <rect x="196" y="68" width="62" height="18" rx="3"/>
+  </g>
 </svg>

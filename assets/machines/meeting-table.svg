@@ -1,10 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 180" role="img" aria-label="Mesa de reunião vista de cima">
-  <rect x="8" y="8" width="264" height="164" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
-  <rect x="30" y="30" width="220" height="120" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="4"/>
-  <rect x="50" y="44" width="36" height="24" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="106" y="44" width="36" height="24" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="162" y="44" width="36" height="24" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="50" y="112" width="36" height="24" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="106" y="112" width="36" height="24" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
-  <rect x="162" y="112" width="36" height="24" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#334155">
+    <rect x="12" y="12" width="256" height="156" rx="10"/>
+    <rect x="28" y="28" width="224" height="124" rx="6"/>
+    <rect x="48" y="40" width="36" height="22" rx="3"/>
+    <rect x="104" y="40" width="36" height="22" rx="3"/>
+    <rect x="160" y="40" width="36" height="22" rx="3"/>
+    <rect x="48" y="118" width="36" height="22" rx="3"/>
+    <rect x="104" y="118" width="36" height="22" rx="3"/>
+    <rect x="160" y="118" width="36" height="22" rx="3"/>
+    <rect x="28" y="70" width="20" height="40" rx="3"/>
+    <rect x="232" y="70" width="20" height="40" rx="3"/>
+  </g>
 </svg>
