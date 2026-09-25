@@ -463,6 +463,10 @@
                         <span>Tempo de ciclo (s)</span>
                         <input id="inspectorCycleTime" type="number" min="0" step="0.01" placeholder="0">
                     </label>
+                    <label class="inspector-field inspector-field-wide">
+                        <span>Estoque inicial</span>
+                        <input id="inspectorInitialStock" type="number" min="0" step="1" placeholder="0">
+                    </label>
                     <div class="inspector-field inspector-field-wide">
                         <span>Orientação</span>
                         <div class="rotation-control">
@@ -623,78 +627,6 @@
                 <button id="closeSpaghettiDiagramFooterBtn" class="spaghetti-done" type="button">Concluído</button>
             </footer>
         </section>
-    </div>
-
-    <!-- Context Menu -->
-    <div id="contextMenu" class="context-menu">
-        <div id="renameOption" class="menu-item">
-            <i class="fas fa-edit"></i>
-            <span>Renomear</span>
-        </div>
-        <div id="rotateOption" class="menu-item">
-            <i class="fas fa-sync"></i>
-            <span>Rotacionar 90°</span>
-        </div>
-        <div id="copyOption" class="menu-item">
-            <i class="fas fa-copy"></i>
-            <span>Copiar</span>
-        </div>
-        <div id="pasteOption" class="menu-item">
-            <i class="fas fa-paste"></i>
-            <span>Colar</span>
-        </div>
-        <div id="showDimensionsOption" class="menu-item">
-            <i class="fas fa-ruler-combined"></i>
-            <span>Mostrar Cotas</span>
-        </div>
-        <div id="lockOption" class="menu-item">
-            <i class="fas fa-lock"></i>
-            <span>Bloquear</span>
-        </div>
-        <div id="unlockOption" class="menu-item">
-            <i class="fas fa-unlock"></i>
-            <span>Desbloquear</span>
-        </div>
-        <div id="mergeAreasOption" class="menu-item">
-            <i class="fas fa-object-group"></i>
-            <span>Unir Áreas</span>
-        </div>
-        <div id="editPolygonOption" class="menu-item">
-            <i class="fas fa-edit"></i>
-            <span>Editar Medidas</span>
-        </div>
-        <div id="editWallLengthOption" class="menu-item">
-            <i class="fas fa-ruler"></i>
-            <span>Editar Comprimento</span>
-        </div>
-        <div id="splitWallOption" class="menu-item">
-            <i class="fas fa-cut"></i>
-            <span>Dividir Parede</span>
-        </div>
-        <div id="extendWallOption" class="menu-item">
-            <i class="fas fa-arrows-alt-h"></i>
-            <span>Estender Parede</span>
-        </div>
-        <div id="attachOrbitalOption" class="menu-item">
-            <i class="fas fa-link"></i>
-            <span>Anexar ao Recurso</span>
-        </div>
-        <div id="allowConnectionPassOption" class="menu-item">
-            <i class="fas fa-route"></i>
-            <span>Permitir Passagem de Conexão</span>
-        </div>
-        <div id="allowOrbitalPassOption" class="menu-item">
-            <i class="fas fa-circle-notch"></i>
-            <span>Permitir Passagem de Zona de Exclusão</span>
-        </div>
-        <div id="deleteZonesOption" class="menu-item">
-            <i class="fas fa-trash-alt"></i>
-            <span>Apagar Zonas de Exclusão</span>
-        </div>
-        <div id="deleteOption" class="menu-item">
-            <i class="fas fa-trash"></i>
-            <span>Excluir</span>
-        </div>
     </div>
 
     <!-- Modal para entrada de texto -->

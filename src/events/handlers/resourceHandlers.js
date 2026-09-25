@@ -50,7 +50,6 @@ import { getAreaAtPos } from '../mouseUtils.js';
 import { calculatePolygonCentroid } from '../../navigation.js';
 import { findClosestEdgePoint, getPolygonCentroid as getHPCentroid } from '../../hub-placement-helper.js';
 import { updateNavMeshWithObstacles } from '../../navMeshBaker.js';
-import { setRightSidebarVisible } from '../../ui-shell.js';
 
 // Throttle para atualização de NavMesh durante arraste (evita overhead em cada mousemove)
 let _lastNavMeshUpdateTime = 0;
@@ -246,22 +245,6 @@ export function handleResourceClick(clickedResource, pos) {
     setSelectedOpeningId(null);
     setSelectedFreeLineId(null);
     setSelectedExclusionZoneId(null);
-    setRightSidebarVisible(true);
-
-    // Máquinas e recursos selecionados entram diretamente no modo de edição.
-    // Assim, cantos e pontos médios das arestas ficam disponíveis para resize,
-    // mantendo o quadro de propriedades como alternativa para medidas exatas.
-    if (!clickedResource.locked) {
-        if (getIsEditingPolygon()) {
-            setIsEditingPolygon(false);
-            setEditingAreaId(null);
-        }
-        setIsEditingResourcePolygon(true);
-        setEditingResourceId(clickedResource.id);
-        setActiveResourceResizeHandle(null);
-        setHoveredResourceResizeHandle(null);
-        drawAll();
-    }
 
     if (!clickedResource.locked) {
         const dragState = createResourceDragState(clickedResource.id);

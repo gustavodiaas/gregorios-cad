@@ -604,6 +604,59 @@ body {
     overflow-y: auto;
 }
 
+.cad-context-menu {
+    min-width: 220px;
+    padding: 0.4rem;
+    overflow: hidden;
+    color: var(--text-color);
+    background: color-mix(in srgb, var(--bg-light) 96%, transparent);
+    border: 1px solid var(--border-color);
+    border-radius: 0.85rem;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16);
+    font-family: inherit;
+    font-size: 0.82rem;
+    backdrop-filter: blur(18px);
+}
+
+.cad-context-menu-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.65rem 0.75rem;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 0.55rem;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.cad-context-menu-item:hover {
+    color: var(--primary-color);
+    background: var(--primary-subtle);
+}
+
+.cad-context-menu-item i {
+    width: 1rem;
+    text-align: center;
+}
+
+.cad-context-menu-item.danger {
+    color: #c2413a;
+}
+
+.cad-context-menu-item.danger:hover {
+    background: rgba(194, 65, 58, 0.1);
+}
+
+.cad-context-menu-separator {
+    height: 1px;
+    margin: 0.35rem 0.25rem;
+    background: var(--border-color);
+}
+
 .left-sidebar.collapsed .machine-library-section,
 .left-sidebar.collapsed .optimization-section,
 .left-sidebar.collapsed #shapeSelector,

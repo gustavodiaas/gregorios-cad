@@ -1,7 +1,7 @@
 import { resources, getSelectedResourceId } from './state.js';
 import { onStateAction } from './state/events.js';
 import { pixelsPerCm } from './config.js';
-import { calculatePolygonBounds, resizeResource } from './resources.js';
+import { calculatePolygonBounds, resizeResource, stopResourcePolygonEditing } from './resources.js';
 import { rotateResource } from './merge_resources/rotateresource.js';
 import { saveStateToHistory } from './history.js';
 import { drawAll } from './drawing.js';
@@ -29,11 +29,18 @@ export function initializeSelectionInspector() {
     const manufacturerInput = document.getElementById('inspectorManufacturer');
     const serialNumberInput = document.getElementById('inspectorSerialNumber');
     const cycleTimeInput = document.getElementById('inspectorCycleTime');
+    const initialStockInput = document.getElementById('inspectorInitialStock');
     const catalogReference = document.getElementById('machineCatalogReference');
     const catalogDimensions = document.getElementById('machineCatalogDimensions');
     const resetDimensionsButton = document.getElementById('resetMachineDimensionsBtn');
     const closeButton = document.getElementById('closeRightSidebarBtn');
     if (!form || !empty || !nameInput || !widthInput || !heightInput || !rotationOutput) return;
+
+    const closeInspector = () => {
+        setRightSidebarVisible(false);
+        stopResourcePolygonEditing();
+        drawAll();
+    };
 
     const render = () => {
         const resource = getSelectedResource();
@@ -52,6 +59,7 @@ export function initializeSelectionInspector() {
         if (manufacturerInput) manufacturerInput.value = resource.manufacturer || '';
         if (serialNumberInput) serialNumberInput.value = resource.serialNumber || '';
         if (cycleTimeInput) cycleTimeInput.value = resource.cycleTimeSeconds ?? '';
+        if (initialStockInput) initialStockInput.value = resource.initialStock ?? 0;
         rotationOutput.textContent = `${Math.round(resource.rotation || 0)}°`;
         if (badge) badge.textContent = resource.machineType ? 'Máquina SVG' : 'Recurso';
         const hasCatalogSize = resource.machineType && resource.catalogWidthCm > 0 && resource.catalogHeightCm > 0;
@@ -80,6 +88,7 @@ export function initializeSelectionInspector() {
         resource.manufacturer = manufacturerInput?.value.trim() || '';
         resource.serialNumber = serialNumberInput?.value.trim() || '';
         resource.cycleTimeSeconds = Math.max(0, Number(cycleTimeInput?.value) || 0);
+        resource.initialStock = Math.max(0, Math.floor(Number(initialStockInput?.value) || 0));
         const resized = resizeResource(resource.id, widthCm * pixelsPerCm, heightCm * pixelsPerCm);
         if (!resized) {
             resource.name = oldName;
@@ -93,7 +102,7 @@ export function initializeSelectionInspector() {
         drawAll();
         render();
         showToast('Medidas atualizadas.', 'success');
-        setRightSidebarVisible(false);
+        closeInspector();
     });
 
     form.querySelectorAll('[data-rotate]').forEach(button => {
@@ -125,9 +134,9 @@ export function initializeSelectionInspector() {
         showToast('Tamanho de catálogo restaurado.', 'success');
     });
 
-    closeButton?.addEventListener('click', () => setRightSidebarVisible(false));
+    closeButton?.addEventListener('click', closeInspector);
     document.addEventListener('keydown', event => {
-        if (event.key === 'Escape') setRightSidebarVisible(false);
+        if (event.key === 'Escape') closeInspector();
     });
 
     onStateAction('resource-selection/changed', render);
