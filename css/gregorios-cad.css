@@ -603,51 +603,57 @@ body {
 .sidebar-command-center {
     flex: 1 1 auto;
     min-height: 0;
-    padding: 12px;
+    padding: 14px 16px;
     overflow-x: hidden;
     overflow-y: auto;
     border-bottom: 0;
 }
 
 .project-panel-heading {
-    margin: 1px 3px 13px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 14px;
 }
 
 .project-panel-heading .eyebrow {
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
-.project-panel-heading p {
-    margin: 0;
-    color: #85858c;
-    font-size: 0.68rem;
-    line-height: 1.4;
+.project-panel-heading h2 {
+    margin: 4px 0 0;
+    color: #1c1c1e;
+    font-size: 1.02rem;
+    letter-spacing: -0.025em;
 }
 
 .layout-title-field {
-    margin: 0 2px 14px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--ui-divider);
+    margin: 0 0 10px;
+    padding: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .layout-title-field label {
     display: block;
-    margin-bottom: 7px;
-    color: #6f6f76;
-    font-size: 0.61rem;
+    margin: 0 2px 8px;
+    color: #96969d;
+    font-size: 0.58rem;
     font-weight: 750;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
 .layout-title-field input {
     width: 100%;
-    height: 39px;
+    height: 40px;
     padding: 0 11px;
     color: #25252a;
-    background: rgba(255, 255, 255, 0.88);
-    border: 1px solid var(--ui-divider);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(15, 23, 42, 0.11);
     border-radius: 10px;
     outline: none;
     font: 600 0.75rem Inter, sans-serif;
@@ -660,7 +666,7 @@ body {
 
 .layout-title-field small {
     display: block;
-    margin-top: 6px;
+    margin: 7px 2px 1px;
     color: #8b8b92;
     font-size: 0.62rem;
     line-height: 1.35;
@@ -762,23 +768,22 @@ body {
 }
 
 .project-command-group {
-    padding: 2px 2px 12px;
-    border: 0;
-    border-bottom: 1px solid var(--ui-divider);
-    border-radius: 0;
-    background: transparent;
+    padding: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .project-command-group:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.07);
 }
 
 .project-command-heading {
     display: flex;
     align-items: center;
     gap: 7px;
-    margin: 0 2px 9px;
+    margin: 0 2px 7px;
 }
 
 .project-command-heading > i {
@@ -787,10 +792,10 @@ body {
 
 .project-command-heading > h3 {
     margin: 0;
-    color: #6f6f76;
-    font-size: 0.61rem;
+    color: #96969d;
+    font-size: 0.58rem;
     font-weight: 750;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
@@ -816,12 +821,33 @@ body {
 
 .project-command-grid .action-button,
 .project-command-grid .theme-toggle {
-    height: 40px;
-    min-height: 40px;
+    height: 44px;
+    min-height: 44px;
     justify-content: flex-start;
     flex-direction: row;
     gap: 8px;
-    padding: 0 10px;
+    padding: 7px 9px;
+    color: #29292d;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.project-command-grid .action-button:hover,
+.project-command-grid .theme-toggle:hover {
+    background: rgba(118, 118, 128, 0.08);
+    border-color: transparent;
+}
+
+.project-command-grid .action-button > i:first-child,
+.project-command-grid .theme-toggle > i:first-child,
+.project-command-grid .zoom-indicator > i:first-child {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 21px;
+    color: #55555c;
 }
 
 .project-command-grid .action-button .project-command-label,
@@ -830,9 +856,9 @@ body {
     max-width: 100%;
     overflow: hidden;
     color: inherit;
-    font-size: 0.62rem;
-    font-weight: 650;
-    line-height: 1;
+    font-size: 0.68rem;
+    font-weight: 550;
+    line-height: 1.2;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -843,8 +869,8 @@ body {
 .sidebar-command-center .speed-select {
     width: 100%;
     min-width: 0;
-    height: 40px;
-    min-height: 40px;
+    height: 44px;
+    min-height: 44px;
     justify-content: center;
     padding: 0;
 }
@@ -866,7 +892,12 @@ body {
 .sidebar-command-center .zoom-indicator {
     justify-content: flex-start;
     gap: 7px;
-    padding: 0 10px;
+    padding: 7px 9px;
+    color: #29292d;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    box-shadow: none;
 }
 
 .sidebar-command-center .zoom-indicator .project-command-label {
@@ -889,6 +920,12 @@ body {
     color: #9a3412;
     background: rgba(249, 115, 22, 0.08);
     border-color: rgba(249, 115, 22, 0.18);
+}
+
+.sidebar-command-center #exportImgBtn {
+    color: #fff;
+    background: var(--ui-accent);
+    border-color: var(--ui-accent);
 }
 
 .sidebar-command-center .planner-controls-header {
@@ -1182,6 +1219,7 @@ body {
 }
 
 .left-sidebar.collapsed .project-panel-heading,
+.left-sidebar.collapsed .layout-title-field,
 .left-sidebar.collapsed .project-command-heading {
     display: none;
 }
@@ -2052,6 +2090,7 @@ body {
 .dark-theme .logo,
 .dark-theme .workspace-tab.active,
 .dark-theme .library-heading h2,
+.dark-theme .project-panel-heading h2,
 .dark-theme .properties-heading h2,
 .dark-theme .machine-card,
 .dark-theme .inspector-field input {
@@ -2067,7 +2106,7 @@ body {
 }
 
 .dark-theme .project-command-heading > h3,
-.dark-theme .project-panel-heading p,
+.dark-theme .layout-title-field label,
 .dark-theme .sidebar-command-center .zoom-indicator .project-command-label {
     color: #a9a9b0;
 }
@@ -2112,6 +2151,13 @@ body {
     border-color: rgba(255, 255, 255, 0.08);
 }
 
+.dark-theme .layout-title-field,
+.dark-theme .project-command-group {
+    color: #e7e7eb;
+    background: rgba(255, 255, 255, 0.028);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
 .dark-theme .tool-button {
     color: #e2e2e7;
     background: transparent;
@@ -2134,19 +2180,30 @@ body {
 
 .dark-theme .sidebar-command-center .action-button,
 .dark-theme .sidebar-command-center .theme-toggle,
-.dark-theme .sidebar-command-center .zoom-indicator,
+.dark-theme .sidebar-command-center .zoom-indicator {
+    color: #ededf0;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
 .dark-theme .sidebar-command-center .speed-select {
     color: #ededf0;
     background: #2a2a2f;
     border-color: rgba(255, 255, 255, 0.09);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .dark-theme .sidebar-command-center .action-button:hover,
 .dark-theme .sidebar-command-center .theme-toggle:hover {
     color: #fff;
-    background: #34343a;
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: transparent;
+}
+
+.dark-theme .project-command-grid .action-button > i:first-child,
+.dark-theme .project-command-grid .theme-toggle > i:first-child,
+.dark-theme .project-command-grid .zoom-indicator > i:first-child {
+    color: #a9a9b2;
 }
 
 .dark-theme .sidebar-command-center .theme-toggle.active {
