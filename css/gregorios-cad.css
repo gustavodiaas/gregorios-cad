@@ -570,14 +570,14 @@ body {
 
 .sidebar-collapse-toggle {
     position: absolute;
-    top: 14px;
-    right: 11px;
+    top: 50%;
+    right: 0;
     z-index: 12;
     align-self: flex-end;
     display: grid;
     place-items: center;
-    width: 28px;
-    min-height: 28px;
+    width: 20px;
+    min-height: 48px;
     margin: 0;
     border: 1px solid rgba(15, 23, 42, 0.09);
     border-radius: 9px;
@@ -590,6 +590,7 @@ body {
 .sidebar-collapse-toggle:hover {
     color: var(--ui-accent);
     border-color: rgba(0, 122, 255, 0.28);
+    opacity: 1;
 }
 
 .left-sidebar.collapsed {
@@ -815,7 +816,7 @@ body {
 .canvas-brand-watermark .brand-mark {
     width: 32px;
     height: 32px;
-    border-radius: 9px;
+    border-radius: 10px 0 0 10px;
     box-shadow: none;
 }
 
@@ -871,6 +872,8 @@ body {
     font: inherit;
     text-align: left;
     cursor: pointer;
+    opacity: 0.72;
+    transform: translateY(-50%);
 }
 
 .cad-context-menu-item:hover {
@@ -1072,6 +1075,11 @@ body {
     position: static;
     align-self: center;
     margin: 10px 0 0;
+    width: 28px;
+    min-height: 28px;
+    border-radius: 9px;
+    opacity: 1;
+    transform: none;
 }
 
 .left-sidebar.collapsed .sidebar-workspace-tabs {
@@ -1095,6 +1103,10 @@ body {
 
 .left-sidebar.collapsed .tool-buttons {
     gap: 5px;
+}
+
+.left-sidebar.collapsed .tool-cluster {
+    display: contents;
 }
 
 .left-sidebar.collapsed .tool-button,
@@ -1122,7 +1134,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
-    margin: 12px 50px 6px 12px;
+    margin: 12px 12px 6px;
     padding: 4px;
     border-radius: 12px;
     background: rgba(118, 118, 128, 0.12);
@@ -1146,7 +1158,7 @@ body {
 }
 
 .left-sidebar:not(.collapsed) .workspace-tab > i {
-    display: none;
+    display: inline-block;
 }
 
 .workspace-tab.active {
@@ -1174,11 +1186,26 @@ body {
 }
 
 .tool-buttons {
-    gap: 5px;
+    gap: 10px;
+}
+
+.tool-cluster {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    padding: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.tool-cluster .tool-group-label,
+.tool-cluster .tool-button-wide {
+    grid-column: 1 / -1;
 }
 
 .tool-group-label {
-    margin: 10px 4px 4px;
+    margin: 0 2px 3px;
     color: #96969d;
     font-size: 0.58rem;
     font-weight: 750;
@@ -1191,15 +1218,50 @@ body {
 }
 
 .tool-button {
-    min-height: 40px;
-    gap: 11px;
-    padding: 0 12px;
+    min-height: 44px;
+    gap: 8px;
+    padding: 7px 9px;
     border: 1px solid transparent;
     border-radius: 10px;
     color: #29292d;
     background: transparent;
-    font-size: 0.81rem;
+    font-size: 0.72rem;
     font-weight: 500;
+    line-height: 1.2;
+}
+
+.tool-cluster > .tool-button:not(.tool-button-wide) {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.tool-cluster > .tool-button:not(.tool-button-wide) i:first-child {
+    width: auto;
+}
+
+.sidebar-floating-popover {
+    z-index: 2147483000 !important;
+    margin: 0 !important;
+}
+
+.dropdown-menu.sidebar-floating-popover {
+    right: auto;
+    max-height: 0;
+}
+
+.dropdown-menu.sidebar-floating-popover.open {
+    max-height: min(320px, 55vh);
+    overflow-y: auto;
+}
+
+.dropdown-content.sidebar-floating-popover.sidebar-popover-open {
+    display: block;
+}
+
+.dark-theme .tool-cluster {
+    border-color: rgba(255, 255, 255, 0.07);
+    background: rgba(52, 52, 56, 0.46);
 }
 
 .tool-button i:first-child {
@@ -1428,11 +1490,14 @@ body {
 }
 
 .library-filters {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
     margin: 11px -2px 12px;
     padding: 2px;
-    overflow-x: auto;
+    max-height: 112px;
+    overflow-x: hidden;
+    overflow-y: auto;
     scrollbar-width: none;
 }
 
@@ -1449,6 +1514,8 @@ body {
     font-size: 0.66rem;
     font-weight: 600;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     cursor: pointer;
 }
 

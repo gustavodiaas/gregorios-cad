@@ -10,6 +10,7 @@ import {
     getSelectedFreeLineId
 } from './state.js';
 import { updateFreeLineColor } from './free-lines.js';
+import { mountSidebarPopover, positionSidebarPopover } from './ui-shell.js';
 
 // Estado das cores selecionadas (ambas usam a mesma cor)
 let currentColor = '#38A169'; // Verde padrão
@@ -25,12 +26,14 @@ export function initializeColorPalette() {
         console.warn('Elementos da paleta de cores não encontrados');
         return;
     }
+    mountSidebarPopover(colorPaletteBtn, colorPaletteDropdown);
     
     // Toggle do dropdown
     colorPaletteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         const isVisible = colorPaletteDropdown.style.display === 'block';
         colorPaletteDropdown.style.display = isVisible ? 'none' : 'block';
+        if (!isVisible) positionSidebarPopover(colorPaletteBtn, colorPaletteDropdown);
     });
     
     // Fechar dropdown ao clicar fora

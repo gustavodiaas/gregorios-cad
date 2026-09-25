@@ -17,6 +17,42 @@ export function showToast(message, tone = 'default') {
 
 const LEFT_SIDEBAR_STORAGE_KEY = 'gregorios-cad-left-sidebar-collapsed';
 
+export function mountSidebarPopover(trigger, panel) {
+    if (!trigger || !panel) return;
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    panel.setAttribute('role', 'listbox');
+    panel.querySelectorAll('.dropdown-item').forEach(item => {
+        item.setAttribute('role', 'option');
+        item.tabIndex = 0;
+        item.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                item.click();
+            }
+        });
+    });
+    panel.classList.add('sidebar-floating-popover');
+    if (panel.parentElement !== document.body) document.body.appendChild(panel);
+}
+
+export function positionSidebarPopover(trigger, panel) {
+    if (!trigger || !panel) return;
+    const rect = trigger.getBoundingClientRect();
+    const margin = 8;
+    const width = Math.max(rect.width, Math.min(286, window.innerWidth - margin * 2));
+    panel.style.position = 'fixed';
+    panel.style.right = 'auto';
+    panel.style.width = `${width}px`;
+    panel.style.left = `${Math.max(margin, Math.min(rect.left, window.innerWidth - width - margin))}px`;
+    panel.style.top = `${rect.bottom + 6}px`;
+    requestAnimationFrame(() => {
+        const panelRect = panel.getBoundingClientRect();
+        if (panelRect.bottom > window.innerHeight - margin) {
+            panel.style.top = `${Math.max(margin, rect.top - panelRect.height - 6)}px`;
+        }
+    });
+}
+
 function notifyWorkspaceResize() {
     requestAnimationFrame(() => {
         if (typeof window.resizeCanvas === 'function') window.resizeCanvas();

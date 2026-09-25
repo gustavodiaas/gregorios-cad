@@ -16,8 +16,9 @@ function getSelectedLabel(select) {
 function positionMenu(instance) {
     const rect = instance.button.getBoundingClientRect();
     const margin = 8;
-    instance.menu.style.minWidth = `${Math.max(rect.width, 180)}px`;
-    instance.menu.style.left = `${Math.min(rect.left, window.innerWidth - Math.max(rect.width, 180) - margin)}px`;
+    const menuWidth = Math.min(Math.max(rect.width, 180), window.innerWidth - margin * 2);
+    instance.menu.style.minWidth = `${menuWidth}px`;
+    instance.menu.style.left = `${Math.max(margin, Math.min(rect.left, window.innerWidth - menuWidth - margin))}px`;
     instance.menu.style.top = `${rect.bottom + 6}px`;
     requestAnimationFrame(() => {
         const menuRect = instance.menu.getBoundingClientRect();
@@ -49,6 +50,22 @@ function renderMenu(instance) {
             button.querySelector('.cad-select-label').textContent = getSelectedLabel(select);
             closeOpenSelect();
             button.focus();
+        });
+        item.addEventListener('keydown', event => {
+            const options = Array.from(menu.querySelectorAll('.cad-select-option:not(:disabled)'));
+            const index = options.indexOf(item);
+            if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                event.preventDefault();
+                const step = event.key === 'ArrowDown' ? 1 : -1;
+                options[(index + step + options.length) % options.length]?.focus();
+            } else if (event.key === 'Home' || event.key === 'End') {
+                event.preventDefault();
+                options[event.key === 'Home' ? 0 : options.length - 1]?.focus();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                closeOpenSelect();
+                button.focus();
+            }
         });
         menu.appendChild(item);
     });
@@ -99,7 +116,7 @@ function enhanceSelect(select) {
     button.addEventListener('keydown', event => {
         if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            openSelect(instance);
+            if (openInstance !== instance) openSelect(instance);
             requestAnimationFrame(() => menu.querySelector('[aria-selected="true"]')?.focus());
         } else if (event.key === 'Escape') {
             closeOpenSelect();
@@ -133,5 +150,8 @@ export function initializeCustomSelects() {
         if (event.key === 'Escape') closeOpenSelect();
     });
     window.addEventListener('resize', closeOpenSelect);
-    window.addEventListener('scroll', closeOpenSelect, true);
+    window.addEventListener('scroll', event => {
+        if (openInstance?.menu.contains(event.target)) return;
+        closeOpenSelect();
+    }, true);
 }

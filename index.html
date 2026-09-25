@@ -182,89 +182,95 @@
             <div class="sidebar-section draw-workspace-panel tools-section">
                 <h2 class="section-title">Ferramentas</h2>
                 <div class="tool-buttons">
-                    <div class="tool-group-label">Estrutura</div>
-                    <button id="createAreaBtn" class="tool-button" title="Criar área do layout">
-                        <i class="fas fa-vector-square"></i>
-                        <span>Área do Layout</span>
-                    </button>
-                    <button id="createWallBtn" class="tool-button" title="Criar paredes">
-                        <i class="fas fa-grip-lines"></i>
-                        <span>Paredes</span>
-                    </button>
-                    <button id="createOpeningBtn" class="tool-button" title="Adicionar portas">
-                        <i class="fas fa-door-open"></i>
-                        <span>Portas</span>
-                    </button>
-                    <button id="openMachineLibraryBtn" class="tool-button" type="button" title="Abrir máquinas e recursos">
-                        <i class="fas fa-industry"></i>
-                        <span>Máquinas e Recursos</span>
-                        <i class="fas fa-chevron-right dropdown-arrow"></i>
-                    </button>
+                    <section class="tool-cluster">
+                        <div class="tool-group-label">Estrutura</div>
+                        <button id="createAreaBtn" class="tool-button" title="Criar área do layout">
+                            <i class="fas fa-vector-square"></i>
+                            <span>Área do Layout</span>
+                        </button>
+                        <button id="createWallBtn" class="tool-button" title="Criar paredes">
+                            <i class="fas fa-grip-lines"></i>
+                            <span>Paredes</span>
+                        </button>
+                        <button id="createOpeningBtn" class="tool-button" title="Adicionar portas">
+                            <i class="fas fa-door-open"></i>
+                            <span>Portas</span>
+                        </button>
+                        <button id="openMachineLibraryBtn" class="tool-button tool-button-wide" type="button" title="Abrir máquinas e recursos">
+                            <i class="fas fa-industry"></i>
+                            <span>Máquinas e Recursos</span>
+                            <i class="fas fa-chevron-right dropdown-arrow"></i>
+                        </button>
+                    </section>
 
-                    <div class="tool-group-label">Fluxo</div>
-                    <div id="createConnectionBtnGroup" class="tool-button-group">
-                        <button id="createConnectionBtn" class="tool-button" title="Criar conexão de fluxo">
-                            <i class="fas fa-project-diagram"></i>
-                            <span id="connectionBtnLabel">Conexão (60cm)</span>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
-                        </button>
-                        <div id="connectionTypeMenu" class="dropdown-menu">
-                            <div class="dropdown-item selected" data-width="60" data-name="Pedestre">Pedestre (60 cm)</div>
-                            <div class="dropdown-item" data-width="120" data-name="Paleteira">Paleteira (120 cm)</div>
-                            <div class="dropdown-item" data-width="250" data-name="Empilhadeira">Empilhadeira (250 cm)</div>
-                            <div class="dropdown-item" data-width="custom">Personalizado...</div>
+                    <section class="tool-cluster">
+                        <div class="tool-group-label">Fluxo</div>
+                        <div id="createConnectionBtnGroup" class="tool-button-group tool-button-wide">
+                            <button id="createConnectionBtn" class="tool-button" title="Criar conexão de fluxo">
+                                <i class="fas fa-project-diagram"></i>
+                                <span id="connectionBtnLabel">Conexão (60cm)</span>
+                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            </button>
+                            <div id="connectionTypeMenu" class="dropdown-menu">
+                                <div class="dropdown-item selected" data-width="60" data-name="Pedestre">Pedestre (60 cm)</div>
+                                <div class="dropdown-item" data-width="120" data-name="Paleteira">Paleteira (120 cm)</div>
+                                <div class="dropdown-item" data-width="250" data-name="Empilhadeira">Empilhadeira (250 cm)</div>
+                                <div class="dropdown-item" data-width="custom">Personalizado...</div>
+                            </div>
                         </div>
-                    </div>
-                    <button id="createHubBtn" class="tool-button" title="Adicionar ponto de conexão">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Ponto de Conexão</span>
-                    </button>
-                    <button id="createOperatorBtn" class="tool-button" title="Adicionar operador">
-                        <i class="fas fa-user"></i>
-                        <span>Operador</span>
-                    </button>
+                        <button id="createHubBtn" class="tool-button" title="Adicionar ponto de conexão">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Ponto de Conexão</span>
+                        </button>
+                        <button id="createOperatorBtn" class="tool-button" title="Adicionar operador">
+                            <i class="fas fa-user"></i>
+                            <span>Operador</span>
+                        </button>
+                    </section>
 
-                    <div class="tool-group-label">Desenho técnico</div>
-                    <div id="createFreeLineBtnGroup" class="tool-button-group">
-                        <button id="createFreeLineBtn" class="tool-button" title="Linhas, formas e cotas">
-                            <i id="freeLineBtnIcon" class="fas fa-ruler-combined"></i>
-                            <span id="freeLineBtnLabel">Linhas e Cotas</span>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
-                        </button>
-                        <div id="freeLineShapeMenu" class="dropdown-menu">
-                            <div class="dropdown-item selected" data-shape="line"><i class="fas fa-pen"></i> Linha</div>
-                            <div class="dropdown-item" data-shape="rectangle"><i class="far fa-square"></i> Retângulo</div>
-                            <div class="dropdown-item" data-shape="circle"><i class="far fa-circle"></i> Círculo</div>
-                            <div class="dropdown-item" data-shape="triangle"><i class="fas fa-play fa-rotate-270"></i> Triângulo</div>
-                            <div class="dropdown-item" data-shape="dimension"><i class="fas fa-ruler-combined"></i> Cota</div>
-                        </div>
-                    </div>
-                    <button id="createStairBtn" class="tool-button" title="Adicionar escada">
-                        <i class="fas fa-stairs"></i>
-                        <span>Escadas</span>
-                    </button>
-                    <button id="createBlockingBtn" class="tool-button" title="Criar área restrita">
-                        <i class="fas fa-ban"></i>
-                        <span>Área Restrita</span>
-                    </button>
-                    <div id="createExclusionZoneBtnGroup" class="tool-button-group">
-                        <button id="createExclusionZoneBtn" class="tool-button" title="Criar zona de exclusão">
-                            <i id="exclusionZoneBtnIcon" class="far fa-square"></i>
-                            <span id="exclusionZoneBtnLabel">Zona de Exclusão</span>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
-                        </button>
-                        <div id="exclusionZoneShapeMenu" class="dropdown-menu">
-                            <div class="dropdown-item selected" data-shape="rectangle">
-                                <i class="far fa-square"></i> Retângulo
-                            </div>
-                            <div class="dropdown-item" data-shape="circle">
-                                <i class="far fa-circle"></i> Círculo
-                            </div>
-                            <div class="dropdown-item" data-shape="triangle">
-                                <i class="fas fa-play fa-rotate-270"></i> Triângulo
+                    <section class="tool-cluster">
+                        <div class="tool-group-label">Desenho técnico</div>
+                        <div id="createFreeLineBtnGroup" class="tool-button-group tool-button-wide">
+                            <button id="createFreeLineBtn" class="tool-button" title="Linhas, formas e cotas">
+                                <i id="freeLineBtnIcon" class="fas fa-ruler-combined"></i>
+                                <span id="freeLineBtnLabel">Linhas e Cotas</span>
+                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            </button>
+                            <div id="freeLineShapeMenu" class="dropdown-menu">
+                                <div class="dropdown-item selected" data-shape="line"><i class="fas fa-pen"></i> Linha</div>
+                                <div class="dropdown-item" data-shape="rectangle"><i class="far fa-square"></i> Retângulo</div>
+                                <div class="dropdown-item" data-shape="circle"><i class="far fa-circle"></i> Círculo</div>
+                                <div class="dropdown-item" data-shape="triangle"><i class="fas fa-play fa-rotate-270"></i> Triângulo</div>
+                                <div class="dropdown-item" data-shape="dimension"><i class="fas fa-ruler-combined"></i> Cota</div>
                             </div>
                         </div>
-                    </div>
+                        <button id="createStairBtn" class="tool-button" title="Adicionar escada">
+                            <i class="fas fa-stairs"></i>
+                            <span>Escadas</span>
+                        </button>
+                        <button id="createBlockingBtn" class="tool-button" title="Criar área restrita">
+                            <i class="fas fa-ban"></i>
+                            <span>Área Restrita</span>
+                        </button>
+                        <div id="createExclusionZoneBtnGroup" class="tool-button-group tool-button-wide">
+                            <button id="createExclusionZoneBtn" class="tool-button" title="Criar zona de exclusão">
+                                <i id="exclusionZoneBtnIcon" class="far fa-square"></i>
+                                <span id="exclusionZoneBtnLabel">Zona de Exclusão</span>
+                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            </button>
+                            <div id="exclusionZoneShapeMenu" class="dropdown-menu">
+                                <div class="dropdown-item selected" data-shape="rectangle">
+                                    <i class="far fa-square"></i> Retângulo
+                                </div>
+                                <div class="dropdown-item" data-shape="circle">
+                                    <i class="far fa-circle"></i> Círculo
+                                </div>
+                                <div class="dropdown-item" data-shape="triangle">
+                                    <i class="fas fa-play fa-rotate-270"></i> Triângulo
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
 

@@ -22,7 +22,7 @@ import { initializeFloorManager } from './floors.js';
 import { initializeProductPlanner as initializePlannerModule } from './product-planner.js'; // Sistema de planejador de produtos
 import { initializePlannerAnimator } from './planner-animator.js'; // Sistema de animação do planner
 import { initializeOptimizer } from './optimizer.js'; // Sistema de otimização de layout
-import { initializeLeftSidebarToggle, initializeWorkspaceTabs, setRightSidebarVisible } from './ui-shell.js';
+import { initializeLeftSidebarToggle, initializeWorkspaceTabs, mountSidebarPopover, positionSidebarPopover, setRightSidebarVisible } from './ui-shell.js';
 import { initializeMachineLibrary } from './machine-library.js';
 import { initializeSelectionInspector } from './selection-inspector.js';
 import { initializeCustomSelects } from './custom-selects.js';
@@ -178,17 +178,22 @@ function initializeConnectionDropdown() {
     const connectionBtnLabel = document.getElementById('connectionBtnLabel');
     
     if (!connectionBtn || !connectionMenu || !connectionBtnLabel) return;
+    const buttonGroup = document.getElementById('createConnectionBtnGroup');
+    mountSidebarPopover(connectionBtn, connectionMenu);
     
     // Toggle menu visibility
     connectionBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         connectionMenu.classList.toggle('open');
+        buttonGroup?.classList.toggle('open', connectionMenu.classList.contains('open'));
+        if (connectionMenu.classList.contains('open')) positionSidebarPopover(connectionBtn, connectionMenu);
     });
     
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!connectionBtn.contains(e.target) && !connectionMenu.contains(e.target)) {
             connectionMenu.classList.remove('open');
+            buttonGroup?.classList.remove('open');
         }
     });
     
@@ -230,6 +235,7 @@ function initializeConnectionDropdown() {
         
         // Close menu and activate tool
         connectionMenu.classList.remove('open');
+        buttonGroup?.classList.remove('open');
         setActiveTool('createConnectionBtn');
     });
 }
@@ -242,6 +248,7 @@ function initializeFreeLineShapeDropdown() {
     const freeLineBtnIcon = document.getElementById('freeLineBtnIcon');
 
     if (!freeLineBtn || !freeLineMenu || !freeLineBtnLabel) return;
+    mountSidebarPopover(freeLineBtn, freeLineMenu);
 
     const shapeLabels = {
         'line': 'Linha',
@@ -264,6 +271,7 @@ function initializeFreeLineShapeDropdown() {
         const btnGroup = document.getElementById('createFreeLineBtnGroup');
         if (btnGroup) btnGroup.classList.toggle('open');
         freeLineMenu.classList.toggle('open');
+        if (freeLineMenu.classList.contains('open')) positionSidebarPopover(freeLineBtn, freeLineMenu);
     });
 
     // Close menu when clicking outside
@@ -316,6 +324,7 @@ function initializeExclusionZoneShapeDropdown() {
     const exzBtnIcon = document.getElementById('exclusionZoneBtnIcon');
 
     if (!exzBtn || !exzMenu || !exzBtnLabel) return;
+    mountSidebarPopover(exzBtn, exzMenu);
 
     const shapeLabels = {
         'rectangle': 'Retângulo',
@@ -334,6 +343,7 @@ function initializeExclusionZoneShapeDropdown() {
         const btnGroup = document.getElementById('createExclusionZoneBtnGroup');
         if (btnGroup) btnGroup.classList.toggle('open');
         exzMenu.classList.toggle('open');
+        if (exzMenu.classList.contains('open')) positionSidebarPopover(exzBtn, exzMenu);
     });
 
     // Close menu when clicking outside
@@ -389,17 +399,22 @@ function initializeNavMeshDropdown() {
     const navMeshDropdown = document.getElementById('navMeshDropdown');
     
     if (!navMeshBtn || !dropdownContainer || !navMeshDropdown) return;
+    mountSidebarPopover(navMeshBtn, navMeshDropdown);
     
     // Toggle menu visibility with click
     navMeshBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        dropdownContainer.classList.toggle('open');
+        const opening = !navMeshDropdown.classList.contains('sidebar-popover-open');
+        dropdownContainer.classList.toggle('open', opening);
+        navMeshDropdown.classList.toggle('sidebar-popover-open', opening);
+        if (opening) positionSidebarPopover(navMeshBtn, navMeshDropdown);
     });
     
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!dropdownContainer.contains(e.target)) {
             dropdownContainer.classList.remove('open');
+            navMeshDropdown.classList.remove('sidebar-popover-open');
         }
     });
     
