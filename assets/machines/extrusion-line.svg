@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 110" role="img" aria-label="Linha de extrusão vista de cima">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <rect x="8" y="12" width="344" height="86" rx="12" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
   <path d="m28 28 48 27-48 27Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="4"/>
   <rect x="78" y="32" width="150" height="46" rx="20" fill="#dbeafe" stroke="#2563eb" stroke-width="5"/>

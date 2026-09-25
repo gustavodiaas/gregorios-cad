@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 150" role="img" aria-label="Retificadora vista de cima">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <rect x="8" y="10" width="204" height="130" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
   <rect x="28" y="34" width="118" height="82" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="5"/>
   <path d="M43 52h88M43 72h88M43 92h88" stroke="#94a3b8" stroke-width="4"/>

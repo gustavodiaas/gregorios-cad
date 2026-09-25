@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 130" role="img" aria-label="Injetora plástica vista de cima">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <rect x="7" y="10" width="266" height="110" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
   <rect x="24" y="28" width="82" height="74" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
   <path d="M45 48h40v34H45z" fill="#f0fdf4" stroke="#22c55e" stroke-width="4"/>

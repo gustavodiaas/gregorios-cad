@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" role="img" aria-label="Cabine de pintura vista de cima">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
   <rect x="7" y="8" width="236" height="164" rx="16" fill="#fdf4ff" stroke="#9333ea" stroke-width="6"/>
   <rect x="28" y="28" width="194" height="124" rx="9" fill="#fae8ff" stroke="#c084fc" stroke-width="4" stroke-dasharray="8 5"/>
   <path d="M50 48h150M50 68h150M50 88h150M50 108h150M50 128h150" stroke="#d8b4fe" stroke-width="4"/>
