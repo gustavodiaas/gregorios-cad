@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 160" role="img" aria-label="Dobradeira de tubos vista de cima">
+  <rect x="8" y="8" width="164" height="144" rx="12" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <rect x="24" y="24" width="60" height="112" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="4"/>
+  <circle cx="54" cy="80" r="20" fill="#ddd6fe" stroke="#7c3aed" stroke-width="4"/>
+  <circle cx="54" cy="80" r="6" fill="#7c3aed"/>
+  <path d="M104 80 q40-40 58 0" fill="none" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+  <rect x="98" y="70" width="24" height="20" rx="4" fill="#e2e8f0" stroke="#64748b" stroke-width="3"/>
+</svg>

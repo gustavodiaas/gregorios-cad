@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" role="img" aria-label="Mesa coletiva vista de cima">
+  <rect x="8" y="8" width="284" height="104" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <rect x="22" y="22" width="256" height="76" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="4"/>
+  <line x1="118" y1="22" x2="118" y2="98" stroke="#0284c7" stroke-width="3" stroke-dasharray="6 4"/>
+  <line x1="182" y1="22" x2="182" y2="98" stroke="#0284c7" stroke-width="3" stroke-dasharray="6 4"/>
+  <rect x="36" y="32" width="66" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+  <rect x="133" y="32" width="34" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+  <rect x="196" y="32" width="66" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+  <rect x="36" y="66" width="66" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+  <rect x="196" y="66" width="66" height="20" rx="3" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+</svg>

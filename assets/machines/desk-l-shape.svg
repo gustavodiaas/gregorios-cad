@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Mesa em L vista de cima">
+  <rect x="8" y="8" width="184" height="90" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <rect x="8" y="98" width="90" height="94" rx="10" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <rect x="22" y="22" width="156" height="62" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="4"/>
+  <rect x="22" y="112" width="62" height="66" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="4"/>
+  <rect x="140" y="28" width="28" height="22" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="3"/>
+</svg>
