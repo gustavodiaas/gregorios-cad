@@ -26,6 +26,8 @@ import { initializeLeftSidebarToggle, initializeWorkspaceTabs, mountSidebarPopov
 import { initializeMachineLibrary } from './machine-library.js';
 import { initializeSelectionInspector } from './selection-inspector.js';
 import { initializeCustomSelects } from './custom-selects.js';
+import { initializeLayoutMetadata } from './layout-metadata.js';
+import { initializeOnboarding } from './onboarding.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
 import {
     MEASUREMENT_UNITS,
@@ -569,6 +571,8 @@ async function main() {
     initializeOptimizer(); // Sistema de otimização de layout
     initializeWorkspaceTabs(); // Navegação compacta da barra lateral
     initializeLeftSidebarToggle(); // Recolher e expandir a barra lateral esquerda
+    initializeLayoutMetadata({ onChange: () => Drawing.drawAll() });
+    initializeOnboarding();
     initializeMachineLibrary(); // Biblioteca SVG de máquinas
     initializeSelectionInspector(); // Inspetor de medidas no estilo Visio
     initializeMeasurementUnitSelector(); // Unidade global de entrada e exibição

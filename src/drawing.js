@@ -79,6 +79,7 @@ import { drawMovementArea, drawMovementAreaBorder } from './drawing/core/movemen
 import { drawSmartGuides, renderAlignmentGuides } from './drawing/core/guides.js';
 import { getHubVisualRadius, getHubDisplayLabel, anchorToWorldCoordinates } from './connections/connectionUtils.js';
 import { formatLength } from './measurement-units.js';
+import { drawLayoutTitle } from './layout-metadata.js';
 import {
     toggleNavMeshVisualization,
     setNavMeshVisualWidth,
@@ -300,6 +301,7 @@ function drawAll(redrawStatic = true) {
     }
 
     drawAllResourceDimensions();
+    drawLayoutTitle(ctx, movementAreas, walls, resources, scale);
 
     // Desenhar handles e cotas de zona de exclusão selecionada
     const selEZoneId = getSelectedExclusionZoneId();

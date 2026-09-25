@@ -30,6 +30,7 @@ import { resetPlannerData } from './product-planner.js';
 import { reloadResourceImages } from './resource-image.js';
 import { showConfirmDialog, showToast } from './ui-shell.js';
 import { setActiveTool } from './active_tool.js';
+import { getLayoutTitle, setLayoutTitle } from './layout-metadata.js';
 
 const AUTO_SAVE_KEY = 'gregorios-cad-autosave-v1';
 const AUTO_SAVE_DELAY_MS = 650;
@@ -289,6 +290,7 @@ export function createSaveSnapshot() {
         version: "1.2.0",
         timestamp: new Date().toISOString(),
         data: {
+            layoutTitle: getLayoutTitle(),
             floors: floorsSnapshot,
             currentFloorId,
             areas: JSON.parse(JSON.stringify(movementAreas)),
@@ -322,7 +324,13 @@ export function saveLayout() {
         const now = new Date();
         const timestamp = now.toISOString().replace(/[:.]/g, '-').split('T')[0] + '_' + 
                          now.toTimeString().split(' ')[0].replace(/:/g, '-');
-        const filename = `layout_${timestamp}.json`;
+        const titleSlug = getLayoutTitle()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-zA-Z0-9]+/g, '-')
+            .replace(/^-|-$/g, '')
+            .toLowerCase();
+        const filename = `${titleSlug || 'layout'}_${timestamp}.json`;
         
         // Salvar layout
         downloadFile(jsonString, filename);
@@ -440,6 +448,7 @@ export async function loadFromSnapshotAsync(snapshot, options = {}) {
         }
         
         const data = snapshot.data;
+        setLayoutTitle(data.layoutTitle || '', { notify: false });
         
         updateLoadingStatus('Limpando roteiro anterior...', 28);
         await yieldToMain();
@@ -815,6 +824,7 @@ export function createNewLayout() {
     clearPathCache();
     resetPlannerData();
     setActiveTool(null);
+    setLayoutTitle('', { notify: false });
     try {
         localStorage.removeItem('plannerData');
         localStorage.removeItem(AUTO_SAVE_KEY);

@@ -36,6 +36,7 @@ import { calculateBoundingBox, rectangleToVertices } from './areas.js';
 import { computeResourceLabelGeometry } from './drawing.js';
 import { getResourceImage } from './resource-image.js';
 import { formatLength } from './measurement-units.js';
+import { drawLayoutTitle } from './layout-metadata.js';
 
 /**
  * Configurações de exportação
@@ -1616,6 +1617,10 @@ async function renderContentToCanvas(ctx, bounds, exportScale, opts = {}) {
                 }
             }
         });
+        const titleAreas = floorsToRender.flatMap(floor => floor.movementAreas || []);
+        const titleWalls = floorsToRender.flatMap(floor => floor.walls || []);
+        const titleResources = floorsToRender.flatMap(floor => floor.resources || []);
+        drawLayoutTitle(ctx, titleAreas, titleWalls, titleResources, 1);
     } finally {
         CURRENT_EXPORT_VIEW_SCALE = previousViewScale;
     }

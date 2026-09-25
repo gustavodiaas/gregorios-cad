@@ -167,6 +167,7 @@ function organizeProjectCommands(headerActions) {
         toggleThemeBtn: 'Tema',
         openSpaghettiDiagramBtn: 'Fluxos',
         openProductPlannerBtn: 'Roteiro',
+        openOnboardingBtn: 'Onboarding e atalhos',
         headerPlayBtn: 'Executar',
         headerStopBtn: 'Parar'
     };
@@ -221,6 +222,11 @@ function organizeProjectCommands(headerActions) {
             title: 'Análise e simulação',
             icon: 'fa-chart-line',
             selectors: ['#openProductPlannerBtn', '#toggleNavMeshBtn', '.planner-controls-header']
+        },
+        {
+            title: 'Ajuda',
+            icon: 'fa-circle-question',
+            selectors: ['#openOnboardingBtn']
         }
     ];
 
