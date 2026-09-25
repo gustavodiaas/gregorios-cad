@@ -634,10 +634,16 @@ body {
 }
 
 .project-command-group {
-    padding: 10px;
-    border: 1px solid rgba(15, 23, 42, 0.07);
-    border-radius: 13px;
-    background: rgba(255, 255, 255, 0.54);
+    padding: 2px 2px 12px;
+    border: 0;
+    border-bottom: 1px solid var(--ui-divider);
+    border-radius: 0;
+    background: transparent;
+}
+
+.project-command-group:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
 }
 
 .project-command-heading {
@@ -648,14 +654,7 @@ body {
 }
 
 .project-command-heading > i {
-    display: grid;
-    width: 22px;
-    height: 22px;
-    place-items: center;
-    border-radius: 7px;
-    color: var(--ui-accent);
-    background: var(--ui-accent-soft);
-    font-size: 0.64rem;
+    display: none;
 }
 
 .project-command-heading > h3 {
@@ -769,6 +768,9 @@ body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
+    padding: 0;
+    border: 0;
+    background: transparent;
 }
 
 .sidebar-command-center .simulation-timer {
@@ -1934,11 +1936,6 @@ body {
 .dark-theme .inspector-field input,
 .dark-theme .floor-tabs-wrapper {
     background: rgba(52, 52, 56, 0.92);
-}
-
-.dark-theme .project-command-group {
-    border-color: rgba(255, 255, 255, 0.07);
-    background: rgba(52, 52, 56, 0.46);
 }
 
 .dark-theme .project-command-heading > h3,

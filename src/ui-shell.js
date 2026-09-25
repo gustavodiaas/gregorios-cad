@@ -192,6 +192,15 @@ function organizeProjectCommands(headerActions) {
         });
     };
 
+    const spaghettiButton = headerActions.querySelector('#openSpaghettiDiagramBtn');
+    const drawingFlowCluster = document.getElementById('drawingFlowCluster');
+    if (spaghettiButton && drawingFlowCluster) {
+        spaghettiButton.className = 'tool-button spaghetti-trigger tool-button-wide';
+        const label = spaghettiButton.querySelector('span');
+        if (label) label.textContent = 'Diagrama de Espaguete';
+        drawingFlowCluster.appendChild(spaghettiButton);
+    }
+
     const definitions = [
         {
             title: 'Arquivo',
@@ -211,7 +220,7 @@ function organizeProjectCommands(headerActions) {
         {
             title: 'Análise e simulação',
             icon: 'fa-chart-line',
-            selectors: ['#openSpaghettiDiagramBtn', '#openProductPlannerBtn', '#toggleNavMeshBtn', '.planner-controls-header']
+            selectors: ['#openProductPlannerBtn', '#toggleNavMeshBtn', '.planner-controls-header']
         }
     ];
 
