@@ -1958,8 +1958,155 @@ body {
     width: min(430px, calc(100vw - 32px));
 }
 
+.dark-theme .left-sidebar {
+    color: #e7e7eb;
+    background: #1d1d21;
+    border-color: rgba(255, 255, 255, 0.09);
+}
+
+.dark-theme .sidebar-workspace-tabs {
+    background: rgba(255, 255, 255, 0.055);
+}
+
+.dark-theme .workspace-tab {
+    color: #9b9ba3;
+}
+
+.dark-theme .workspace-tab.active {
+    color: #f5f5f7;
+    background: #35353a;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 2px 7px rgba(0, 0, 0, 0.22);
+}
+
+.dark-theme .tool-cluster {
+    color: #e7e7eb;
+    background: rgba(255, 255, 255, 0.028);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .tool-button {
+    color: #e2e2e7;
+    background: transparent;
+}
+
+.dark-theme .tool-button i:first-child {
+    color: #a9a9b2;
+}
+
+.dark-theme .tool-button:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.dark-theme .tool-button.active {
+    color: #75afff;
+    background: rgba(10, 132, 255, 0.14);
+    border-color: rgba(10, 132, 255, 0.38);
+}
+
+.dark-theme .sidebar-command-center .action-button,
+.dark-theme .sidebar-command-center .theme-toggle,
+.dark-theme .sidebar-command-center .zoom-indicator,
+.dark-theme .sidebar-command-center .speed-select {
+    color: #ededf0;
+    background: #2a2a2f;
+    border-color: rgba(255, 255, 255, 0.09);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.dark-theme .sidebar-command-center .action-button:hover,
+.dark-theme .sidebar-command-center .theme-toggle:hover {
+    color: #fff;
+    background: #34343a;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dark-theme .sidebar-command-center .theme-toggle.active {
+    color: #75afff;
+    background: rgba(10, 132, 255, 0.14);
+    border-color: rgba(10, 132, 255, 0.42);
+}
+
+.dark-theme .sidebar-command-center #newLayoutBtn {
+    color: #ff9b73;
+    background: rgba(194, 65, 58, 0.13);
+    border-color: rgba(255, 122, 89, 0.25);
+}
+
+.dark-theme .sidebar-command-center #exportImgBtn {
+    color: #fff;
+    background: #ff6b00;
+    border-color: #ff6b00;
+}
+
+.dark-theme .library-search input {
+    color: #f0f0f3;
+    background: transparent;
+    border-color: transparent;
+}
+
+.dark-theme .library-search input::placeholder {
+    color: #898991;
+}
+
+.dark-theme .library-filter {
+    color: #c9c9cf;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.dark-theme .library-filter.active {
+    color: #111216;
+    background: #f0f0f3;
+}
+
+.dark-theme .machine-card-visual {
+    background: #f3f4f6;
+}
+
+/* O desenho técnico permanece em uma prancha clara, independentemente do tema da interface. */
 .dark-theme .canvas-area {
-    background: radial-gradient(circle at 50% 0%, #22242a, #17181c 58%, #111216);
+    color: #27272a;
+    background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.98), rgba(246, 247, 249, 0.92) 54%, rgba(236, 239, 243, 0.96));
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.16);
+}
+
+.dark-theme .canvas-area .floor-tabs-wrapper,
+.dark-theme .canvas-area .canvas-statusbar {
+    color: #626269;
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(15, 23, 42, 0.09);
+}
+
+.dark-theme .canvas-area .floor-tab {
+    color: #626269;
+}
+
+.dark-theme .canvas-area .floor-tab:hover {
+    color: #111827;
+    background: rgba(118, 118, 128, 0.09);
+}
+
+.dark-theme .canvas-area .floor-tab.active {
+    color: #fff;
+    background: var(--ui-accent);
+}
+
+.dark-theme .canvas-area .floor-add-btn,
+.dark-theme .canvas-area .measurement-unit-picker .cad-select-trigger {
+    color: #626269;
+}
+
+.dark-theme .canvas-area .statusbar-hint {
+    border-left-color: rgba(15, 23, 42, 0.1);
+}
+
+.dark-theme .canvas-area .canvas-brand-watermark .logo {
+    color: #17171a;
+}
+
+.dark-theme .canvas-area .canvas-brand-watermark .brand-subtitle {
+    color: #6d6d73;
 }
 
 @media (max-width: 1280px) {

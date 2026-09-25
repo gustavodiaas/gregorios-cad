@@ -3,10 +3,6 @@
 // Import polygon-clipping library (assumindo que está carregada via CDN)
 const polygonClipping = window.polygonClipping;
 
-// Importações para a função getDynamicDimensionColor
-import { movementAreas } from './state.js';
-import { isPointInArea } from './areas.js';
-
 // Controle global de exibição de cotas - simplificado
 let globalShowDimensions = true;
 
@@ -24,32 +20,8 @@ const selectionLineWidth = 2;
 const floatTolerance = 0.1;
 // Função para obter a cor das cotas baseada no CSS
 function getDimensionColor() {
-    // Verificar múltiplas formas de detecção de tema
-    const isDarkTheme = document.body.classList.contains('dark-theme') || 
-                       document.documentElement.classList.contains('dark-theme') ||
-                       document.body.classList.contains('dark') ||
-                       document.documentElement.classList.contains('dark');
-    
-    // Obter valor computado da variável CSS
-    const computedColor = getComputedStyle(document.documentElement).getPropertyValue('--dimension-color').trim();
-    
-    // Se a variável CSS não funcionar, usar detecção manual
-    if (!computedColor || computedColor === '') {
-        return isDarkTheme ? '#ffffff' : '#000000';
-    }
-    
-    // Validar se a cor faz sentido para o tema atual
-    if (isDarkTheme && computedColor === '#000000') {
-        console.warn('Tema escuro detectado mas cor das cotas é preta. Forçando branco.');
-        return '#ffffff';
-    }
-    
-    if (!isDarkTheme && computedColor === '#ffffff') {
-        console.warn('Tema claro detectado mas cor das cotas é branca. Forçando preto.');
-        return '#000000';
-    }
-    
-    return computedColor;
+    // O canvas permanece claro em ambos os temas; as cotas devem manter contraste técnico escuro.
+    return '#111827';
 }
 
 /**
@@ -59,33 +31,7 @@ function getDimensionColor() {
  * @returns {string} Cor apropriada para a cota
  */
 function getDynamicDimensionColor(x, y) {
-    // Verificar se o tema escuro está ativo
-    const isDarkTheme = document.body.classList.contains('dark-theme') || 
-                       document.documentElement.classList.contains('dark-theme') ||
-                       document.body.classList.contains('dark') ||
-                       document.documentElement.classList.contains('dark');
-    
-    // Se não for tema escuro, sempre retornar preto
-    if (!isDarkTheme) {
-        return '#000000';
-    }
-    
-    // No tema escuro, verificar se o ponto está dentro de alguma movementArea
-    try {
-        for (const area of movementAreas) {
-            if (isPointInArea([x, y], area)) {
-                // Se estiver dentro de uma área (fundo branco), usar preto
-                return '#000000';
-            }
-        }
-        
-        // Se não estiver dentro de nenhuma área (fundo escuro do canvas), usar branco
-        return '#ffffff';
-    } catch (error) {
-        // Em caso de erro, usar fallback da função original
-        console.warn('Erro ao calcular cor dinâmica da cota:', error);
-        return getDimensionColor();
-    }
+    return '#111827';
 }
 
 const dimensionLineWidth = 0.5;
