@@ -35,6 +35,7 @@ import { showContextMenuForArea } from '../showcontextmenu/showcontextmenuforare
 import { showContextMenuForResource } from '../showcontextmenu/showcontextmenuforresource.js';
 import { showContextMenuForWall } from '../showcontextmenu/showcontextmenuforwall.js';
 import { showContextMenuForConnection } from '../showcontextmenu/showcontextmenuforconnection.js';
+import { showContextMenuForFreeLine } from '../showcontextmenu/showcontextmenuforfreeline.js';
 import { hideContextMenu } from '../events/contextMenuUtils.js';
 import { handlePanMove } from '../events/handlers/panZoomHandlers.js';
 import { drawAll } from '../drawing.js';
@@ -110,6 +111,30 @@ export class SelectTool extends Tool {
             if (getIsEditingResourcePolygon()) {
                 stopResourcePolygonEditing();
             }
+        } else if (clickedFreeLine) {
+            setSelectedFreeLineId(clickedFreeLine.id);
+            setSelectedWallId(null);
+            setSelectedAreaId(null);
+            setSelectedResourceId(null);
+            setSelectedConnectionId(null);
+            setResourceSelection([], { primaryId: null });
+
+            const clickPt = [pos.x, pos.y];
+            if (!clickedFreeLine.shapeType || clickedFreeLine.shapeType === 'line') {
+                const sub = computeSubSegment(clickedFreeLine, clickPt, 'freeline');
+                setSelectedFreeLineSubSegment(sub);
+            } else {
+                setSelectedFreeLineSubSegment(null);
+            }
+            setSelectedWallSubSegment(null);
+
+            if (getIsEditingPolygon()) {
+                setIsEditingPolygon(false);
+                setEditingAreaId(null);
+            }
+            if (getIsEditingResourcePolygon()) {
+                stopResourcePolygonEditing();
+            }
         } else if (clickedResource) {
             const alreadySelected = isResourceSelected(clickedResource.id);
             if (!alreadySelected) {
@@ -148,31 +173,6 @@ export class SelectTool extends Tool {
             const sub = computeSubSegment(wallObj, clickPt, 'wall');
             setSelectedWallSubSegment(sub);
             setSelectedFreeLineSubSegment(null);
-            
-            if (getIsEditingPolygon()) {
-                setIsEditingPolygon(false);
-                setEditingAreaId(null);
-            }
-            if (getIsEditingResourcePolygon()) {
-                stopResourcePolygonEditing();
-            }
-        } else if (clickedFreeLine) {
-            setSelectedFreeLineId(clickedFreeLine.id);
-            setSelectedWallId(null);
-            setSelectedAreaId(null);
-            setSelectedResourceId(null);
-            setSelectedConnectionId(null);
-            setResourceSelection([], { primaryId: null });
-            
-            // Calcular sub-segmento baseado em interseções (apenas para tipo 'line')
-            const clickPt = [pos.x, pos.y];
-            if (!clickedFreeLine.shapeType || clickedFreeLine.shapeType === 'line') {
-                const sub = computeSubSegment(clickedFreeLine, clickPt, 'freeline');
-                setSelectedFreeLineSubSegment(sub);
-            } else {
-                setSelectedFreeLineSubSegment(null);
-            }
-            setSelectedWallSubSegment(null);
             
             if (getIsEditingPolygon()) {
                 setIsEditingPolygon(false);
@@ -222,6 +222,7 @@ export class SelectTool extends Tool {
 
     handleRightClick(e, pos) {
         const clickedResource = findResourceAtPosition(pos.x, pos.y);
+        const clickedFreeLine = findFreeLineAtPosition(pos.x, pos.y);
         const clickedArea = getAreaAtPos(pos);
         const clickedWall = findWallAtPosition(pos.x, pos.y);
         const clickedConnection = getConnectionAtPosition(pos.x, pos.y);
@@ -229,6 +230,14 @@ export class SelectTool extends Tool {
         if (clickedConnection) {
             setSelectedConnectionId(clickedConnection.id);
             showContextMenuForConnection(clickedConnection, e.clientX, e.clientY, e);
+        } else if (clickedFreeLine) {
+            setSelectedFreeLineId(clickedFreeLine.id);
+            setSelectedResourceId(null);
+            setSelectedAreaId(null);
+            setSelectedWallId(null);
+            setSelectedConnectionId(null);
+            setResourceSelection([], { primaryId: null });
+            showContextMenuForFreeLine(clickedFreeLine, e);
         } else if (clickedResource) {
             const alreadySelected = isResourceSelected(clickedResource.id);
             if (!alreadySelected) {

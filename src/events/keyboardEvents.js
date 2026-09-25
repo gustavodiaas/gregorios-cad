@@ -61,6 +61,8 @@ import { moveExclusionZonesWithArea } from '../exclusion-zones.js';
 export function initializeKeyboardEvents() {
     // Eventos de teclado
     document.addEventListener('keydown', (e) => {
+        const isEditingField = e.target instanceof HTMLElement
+            && Boolean(e.target.closest('input, textarea, select, [contenteditable="true"]'));
         // Detectar tecla Ctrl
         if (e.ctrlKey || e.metaKey) {
             setIsCtrlPressed(true);
@@ -68,7 +70,8 @@ export function initializeKeyboardEvents() {
 
         if (e.key === 'Escape') {
             handleEscapeKey();
-        } else if (e.key === 'Delete' || e.key === 'Backspace') {
+        } else if ((e.key === 'Delete' || e.key === 'Backspace') && !isEditingField) {
+            e.preventDefault();
             handleDeleteKey();
         } else {
             handleArrowKeys(e);
@@ -284,6 +287,7 @@ function handleDeleteKey() {
     // Handle Delete/Backspace for free lines third
     const selectedFreeLineId = getSelectedFreeLineId();
     if (selectedFreeLineId) {
+        saveStateToHistory('Excluir linha livre');
         const freeLineSub = getSelectedFreeLineSubSegment();
         let removed;
         if (freeLineSub) {
@@ -292,7 +296,6 @@ function handleDeleteKey() {
             removed = removeFreeLine(selectedFreeLineId);
         }
         if (removed) {
-            saveStateToHistory('Excluir linha livre');
             setSelectedFreeLineId(null);
             setSelectedFreeLineSubSegment(null);
             drawAll();

@@ -732,6 +732,129 @@ body {
     background: var(--border-color);
 }
 
+.cad-select {
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+    min-width: 0;
+}
+
+.cad-select-source {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.cad-select-trigger {
+    width: 100%;
+    min-width: 0;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 11px;
+    color: var(--text-color);
+    background: var(--ui-surface-solid);
+    border: 1px solid rgba(15, 23, 42, 0.11);
+    border-radius: 9px;
+    font: inherit;
+    font-size: 0.78rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.cad-select-trigger:hover,
+.cad-select.open .cad-select-trigger {
+    border-color: rgba(0, 122, 255, 0.42);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.cad-select-trigger:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.cad-select-trigger > i {
+    color: #85858c;
+    font-size: 0.65rem;
+    transition: transform 150ms ease;
+}
+
+.cad-select.open .cad-select-trigger > i {
+    transform: rotate(180deg);
+}
+
+.cad-select-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cad-select-menu {
+    position: fixed;
+    z-index: 2147483000;
+    max-height: min(320px, 55vh);
+    padding: 5px;
+    overflow-y: auto;
+    color: var(--text-color);
+    background: color-mix(in srgb, var(--ui-surface-solid) 96%, transparent);
+    border: 1px solid rgba(15, 23, 42, 0.11);
+    border-radius: 11px;
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.2);
+    backdrop-filter: blur(20px) saturate(170%);
+}
+
+.cad-select-option {
+    width: 100%;
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 6px 10px;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 7px;
+    font: inherit;
+    font-size: 0.78rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.cad-select-option:hover,
+.cad-select-option:focus-visible {
+    color: var(--ui-accent);
+    background: var(--ui-accent-soft);
+    outline: none;
+}
+
+.cad-select-option[aria-selected="true"] {
+    color: var(--ui-accent);
+    font-weight: 650;
+}
+
+.cad-select-option:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+}
+
+.dark-theme .cad-select-trigger,
+.dark-theme .cad-select-menu {
+    color: #e7e8ec;
+    background: rgba(43, 45, 51, 0.96);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
 .left-sidebar.collapsed .machine-library-section,
 .left-sidebar.collapsed .optimization-section,
 .left-sidebar.collapsed #shapeSelector,
@@ -1190,6 +1313,20 @@ body {
     max-width: 88%;
     max-height: 64px;
     filter: grayscale(1) contrast(1.08) drop-shadow(0 3px 4px rgba(15, 23, 42, 0.08));
+}
+
+.measurement-unit-picker .cad-select {
+    width: 118px;
+}
+
+.measurement-unit-picker .cad-select-trigger {
+    min-height: 24px;
+    padding: 0 4px;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    font-size: inherit;
+    font-weight: 650;
 }
 
 .machine-card[data-machine-id="overhead-crane"] .machine-card-visual img {

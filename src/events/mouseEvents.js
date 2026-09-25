@@ -80,7 +80,7 @@ import { getMidpointAtPos, updateMidpointDrag, getMidpointCursor, calculatePPTHa
 import { calculateBoundingBox, syncAreaCoordinates } from '../areas.js';
 import { resetStairDrawingState } from '../stairs.js';
 import { getIsResizingOpening, stopResizingOpening, findOpeningAtPosition, getIsCreatingOpeningFromOpenings, stopCreatingOpening, setSelectedOpeningId, findWallAtPosition, openings as allOpenings } from '../openings.js';
-import { clearFreeLineSnapIndicator, clearFreeLineClosureIndicator } from '../free-lines.js';
+import { clearFreeLineSnapIndicator, clearFreeLineClosureIndicator, findFreeLineAtPosition } from '../free-lines.js';
 import { updateConnectionDistancesTable } from '../flow-metrics.js';
 import { rotateResourcesWithArea } from '../merge_resources/rotateresource.js';
 import { rotateWallsWithArea } from '../walls.js';
@@ -206,6 +206,7 @@ import {
 import { findExclusionZoneAtPoint } from '../hub-exclusion-zones.js';
 import { findStandaloneExclusionZoneAtPoint, removeExclusionZone, applyExclusionZoneResize, getExclusionZoneHandleAtPos, getExclusionZoneHandleCursor } from '../exclusion-zones.js';
 import { showContextMenuForExclusionZone } from '../showcontextmenu/showcontextmenuforexclusionzone.js';
+import { showContextMenuForFreeLine } from '../showcontextmenu/showcontextmenuforfreeline.js';
 import { ensureContextMenuElement } from '../showcontextmenu/showcontextmenuutils.js';
 
 // Importar utilitários
@@ -1524,11 +1525,12 @@ function handleContextMenu(e) {
     const clickedArea = getAreaAtPos(pos);
     const clickedWall = findWallAtPosition(pos.x, pos.y);
     const clickedConnection = getConnectionAtPosition(pos.x, pos.y);
+    const clickedFreeLine = findFreeLineAtPosition(pos.x, pos.y);
     const clickedOpening = findOpeningAtPosition(pos.x, pos.y);
     const clickedExclusionZone = findExclusionZoneAtPoint(pos.x, pos.y);
     const clickedStandaloneExclusionZone = findStandaloneExclusionZoneAtPoint(pos.x, pos.y);
     
-    if (clickedStandaloneExclusionZone && !clickedResource) {
+    if (clickedStandaloneExclusionZone && !clickedResource && !clickedFreeLine) {
         // Zona de exclusão standalone clicada — mostrar menu simples de exclusão
         setSelectedResourceId(null);
         setSelectedAreaId(null);
@@ -1563,7 +1565,16 @@ function handleContextMenu(e) {
         return;
     }
     
-    if (clickedExclusionZone && !clickedResource) {
+    if (clickedFreeLine) {
+        setSelectedFreeLineId(clickedFreeLine.id);
+        setSelectedResourceId(null);
+        setSelectedAreaId(null);
+        setSelectedWallId(null);
+        setSelectedConnectionId(null);
+        deselectAllResources();
+        drawAll();
+        showContextMenuForFreeLine(clickedFreeLine, e);
+    } else if (clickedExclusionZone && !clickedResource) {
         // Zona de exclusão clicada (fora do recurso)
         setSelectedResourceId(null);
         setSelectedAreaId(null);

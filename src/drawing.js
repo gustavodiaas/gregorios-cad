@@ -137,8 +137,9 @@ function drawAll(redrawStatic = true) {
                 walls.forEach(drawWall);
             }
 
-            drawFreeLines();
             drawAllResources();
+            // Linhas e cotas ficam acima dos equipamentos para continuarem legíveis e clicáveis.
+            drawFreeLines();
             // Bordas das áreas desenhadas POR CIMA dos recursos — garante que recursos
             // não extravasem visualmente sobre a linha da parede.
             movementAreas.forEach(area => drawMovementAreaBorder(area));

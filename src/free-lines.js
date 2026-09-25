@@ -28,7 +28,8 @@ import {
     freeLineSnapIndicatorRadius,
     freeLineClosureSnapRadius,
     freeLineClosureGuideColor,
-    pixelsPerCm
+    pixelsPerCm,
+    getGlobalShowDimensions
 } from './config.js';
 import { formatLength } from './measurement-units.js';
 import { pointInPolygon } from './areas.js';
@@ -59,7 +60,7 @@ export function resolveFreeLineParentAreaId(startPoint, endPoint) {
     return null;
 }
 
-const BASE_SELECTION_TOLERANCE = 8; // pixels na escala 1:1
+const BASE_SELECTION_TOLERANCE = 12; // área confortável de clique, independente do zoom
 let currentSnapIndicator = null;
 let currentClosureIndicator = null;
 
@@ -167,7 +168,7 @@ function getLineWidth(line) {
  * @param {object} line - Objeto da linha/forma
  * @param {number} scale
  */
-function drawShape(ctx, line, scale) {
+function drawShape(ctx, line, scale, interactionState = null) {
     if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
     const shapeType = line.shapeType || 'line';
     const sx = line.startPoint[0];
@@ -179,7 +180,7 @@ function drawShape(ctx, line, scale) {
 
     switch (shapeType) {
         case 'dimension': {
-            drawDimensionShape(ctx, sx, sy, ex, ey, scale, line);
+            drawDimensionShape(ctx, sx, sy, ex, ey, scale, line, interactionState);
             return;
         }
         case 'rectangle': {
@@ -215,7 +216,7 @@ function drawShape(ctx, line, scale) {
     ctx.stroke();
 }
 
-function drawDimensionShape(ctx, sx, sy, ex, ey, scale, line = null) {
+function drawDimensionShape(ctx, sx, sy, ex, ey, scale, line = null, interactionState = null) {
     const dx = ex - sx;
     const dy = ey - sy;
     const length = Math.hypot(dx, dy);
@@ -227,9 +228,14 @@ function drawDimensionShape(ctx, sx, sy, ex, ey, scale, line = null) {
     const previousStroke = ctx.strokeStyle;
 
     ctx.save();
-    ctx.strokeStyle = '#007aff';
-    ctx.fillStyle = '#007aff';
-    ctx.lineWidth = 1.5 / scale;
+    const dimensionColor = interactionState?.selected
+        ? freeLineSelectedColor
+        : interactionState?.hovered
+            ? freeLineHoverColor
+            : '#007aff';
+    ctx.strokeStyle = dimensionColor;
+    ctx.fillStyle = dimensionColor;
+    ctx.lineWidth = (interactionState?.selected ? 2.5 : 1.5) / scale;
     ctx.setLineDash([]);
     ctx.beginPath();
     ctx.moveTo(sx, sy);
@@ -261,7 +267,7 @@ function drawDimensionShape(ctx, sx, sy, ex, ey, scale, line = null) {
     ctx.fillRect(midX - textWidth / 2 - paddingX, midY - fontSize / 2 - paddingY, textWidth + paddingX * 2, fontSize + paddingY * 2);
     ctx.strokeStyle = 'rgba(0, 122, 255, 0.28)';
     ctx.strokeRect(midX - textWidth / 2 - paddingX, midY - fontSize / 2 - paddingY, textWidth + paddingX * 2, fontSize + paddingY * 2);
-    ctx.fillStyle = '#0a63c9';
+    ctx.fillStyle = dimensionColor;
     ctx.fillText(text, midX, midY);
     [
         [sx, sy, Boolean(line?.startAnchor)],
@@ -299,6 +305,7 @@ export function drawFreeLines() {
     ctx.lineCap = 'round';
 
     for (const line of freeLines) {
+        if (line.shapeType === 'dimension' && !getGlobalShowDimensions()) continue;
         if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
         const isSelected = line.id === selectedId;
         const isHovered = line.id === hoveredId;
@@ -310,7 +317,7 @@ export function drawFreeLines() {
             const width = getLineWidth(line) / scale;
             ctx.strokeStyle = line.color || freeLineDefaultColor;
             ctx.lineWidth = width;
-            drawShape(ctx, line, scale);
+            drawShape(ctx, line, scale, { selected: isSelected, hovered: isHovered });
 
             // Sobrepor o sub-segmento com a cor de destaque
             const highlightColor = isSelected ? freeLineSelectedColor : freeLineHoverColor;
@@ -330,7 +337,24 @@ export function drawFreeLines() {
 
             ctx.strokeStyle = strokeColor;
             ctx.lineWidth = width;
-            drawShape(ctx, line, scale);
+            if (isSelected || isHovered) {
+                ctx.save();
+                ctx.globalAlpha = isSelected ? 0.22 : 0.14;
+                ctx.strokeStyle = isSelected ? freeLineSelectedColor : freeLineHoverColor;
+                ctx.lineWidth = (isSelected ? 9 : 7) / scale;
+                if (line.shapeType === 'dimension') {
+                    ctx.beginPath();
+                    ctx.moveTo(line.startPoint[0], line.startPoint[1]);
+                    ctx.lineTo(line.endPoint[0], line.endPoint[1]);
+                    ctx.stroke();
+                } else {
+                    drawShape(ctx, line, scale);
+                }
+                ctx.restore();
+            }
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = width;
+            drawShape(ctx, line, scale, { selected: isSelected, hovered: isHovered });
         }
     }
 
@@ -514,6 +538,7 @@ export function findFreeLineAtPosition(x, y, tolerancePx = BASE_SELECTION_TOLERA
     let closestDistance = Infinity;
 
     for (const line of freeLines) {
+        if (line.shapeType === 'dimension' && !getGlobalShowDimensions()) continue;
         if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
         const distance = distanceToShape(x, y, line);
 

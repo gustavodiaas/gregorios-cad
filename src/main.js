@@ -1,5 +1,5 @@
 // Arquivo principal: importa e executa todos os módulos/funções
-import { toggleGlobalDimensions, getGlobalShowDimensions } from './config.js';
+import { toggleGlobalDimensions, getGlobalShowDimensions, setGlobalShowDimensions } from './config.js';
 import { setCanvas, setCtx, setStaticCanvas, setStaticCtx, setScale, getScale, setOffsetXCanvas, setOffsetYCanvas, getCurrentConnectionWidth, setCurrentConnectionWidth } from './state.js';
 import * as Drawing from './drawing.js';
 import { 
@@ -25,6 +25,7 @@ import { initializeOptimizer } from './optimizer.js'; // Sistema de otimização
 import { initializeLeftSidebarToggle, initializeWorkspaceTabs, setRightSidebarVisible } from './ui-shell.js';
 import { initializeMachineLibrary } from './machine-library.js';
 import { initializeSelectionInspector } from './selection-inspector.js';
+import { initializeCustomSelects } from './custom-selects.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
 import {
     MEASUREMENT_UNITS,
@@ -522,14 +523,16 @@ async function main() {
     // Adiciona event listener ao botão de mostrar/esconder todas as cotas
     const toggleAllDimensionsBtn = document.getElementById('toggleAllDimensionsBtn');
     if (toggleAllDimensionsBtn) {
+        const storedDimensionsVisibility = localStorage.getItem('gregorios-cad-dimensions-visible');
+        if (storedDimensionsVisibility !== null) {
+            setGlobalShowDimensions(storedDimensionsVisibility === '1');
+        }
         toggleAllDimensionsBtn.addEventListener('click', () => {
             toggleAllDimensions();
         });
         
         // Verificar estado inicial das cotas e aplicar classe active se necessário
-        if (getGlobalShowDimensions()) {
-            toggleAllDimensionsBtn.classList.add('active');
-        }
+        updateDimensionsToggleButton(getGlobalShowDimensions());
     }// Ativar modo de criação de área ao clicar no botão
     // Inicializar listeners
     initializeEventListeners();
@@ -554,6 +557,7 @@ async function main() {
     initializeMachineLibrary(); // Biblioteca SVG de máquinas
     initializeSelectionInspector(); // Inspetor de medidas no estilo Visio
     initializeMeasurementUnitSelector(); // Unidade global de entrada e exibição
+    initializeCustomSelects(); // Menus de seleção com visual próprio do aplicativo
     initializeSpaghettiDiagram(); // Janela de análise das distâncias
     
     // Verificar estado do NavMesh e aplicar classe active se necessário
@@ -738,24 +742,23 @@ function toggleAllDimensions() {
     // Usar a função do config.js para alternar o estado global
     const newState = toggleGlobalDimensions();
     
-    // Atualizar o texto do botão e estado visual
-    const toggleAllDimensionsBtn = document.getElementById('toggleAllDimensionsBtn');
-    if (toggleAllDimensionsBtn) {
-        const span = toggleAllDimensionsBtn.querySelector('span');
-        if (span) {
-            span.textContent = newState ? 'Esconder Todas as Cotas' : 'Mostrar Todas as Cotas';
-        }
-        
-        // Aplicar ou remover classe active baseado no estado
-        if (newState) {
-            toggleAllDimensionsBtn.classList.add('active');
-        } else {
-            toggleAllDimensionsBtn.classList.remove('active');
-        }
-    }
+    updateDimensionsToggleButton(newState);
+    localStorage.setItem('gregorios-cad-dimensions-visible', newState ? '1' : '0');
     
     // Redesenhar o canvas
     Drawing.drawAll();
+}
+
+function updateDimensionsToggleButton(visible) {
+    const button = document.getElementById('toggleAllDimensionsBtn');
+    if (!button) return;
+    const actionLabel = visible ? 'Ocultar cotas' : 'Mostrar cotas';
+    button.classList.toggle('active', visible);
+    button.setAttribute('aria-pressed', String(visible));
+    button.setAttribute('aria-label', actionLabel);
+    button.title = actionLabel;
+    const icon = button.querySelector('i');
+    if (icon) icon.className = visible ? 'fas fa-eye-slash' : 'fas fa-eye';
 }
 // Expor funções globalmente para debug
 window.drawAll = Drawing.drawAll;

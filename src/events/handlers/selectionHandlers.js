@@ -415,6 +415,9 @@ export function handleSelectionMouseDown(pos, e) {
     if (clickedOpening) {
         handleOpeningClick(clickedOpening);
         return;
+    } else if (clickedFreeLine) {
+        handleFreeLineClick(clickedFreeLine, [pos.x, pos.y]);
+        return;
     } else if (clickedResource) {
         handleResourceClick(clickedResource, pos);
         return;
@@ -425,9 +428,6 @@ export function handleSelectionMouseDown(pos, e) {
         handleWallClick(clickedWall, pos);
     } else if (clickedExclusionZone) {
         handleExclusionZoneClick(clickedExclusionZone, pos);
-        return;
-    } else if (clickedFreeLine) {
-        handleFreeLineClick(clickedFreeLine, [pos.x, pos.y]);
         return;
     } else if (clickedArea) {
         handleAreaClick(clickedArea, pos);
