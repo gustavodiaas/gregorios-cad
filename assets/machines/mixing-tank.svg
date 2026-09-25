@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Tanque misturador visto de cima">
+  <circle cx="90" cy="90" r="78" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <circle cx="90" cy="90" r="56" fill="#dbeafe" stroke="#2563eb" stroke-width="5"/>
+  <circle cx="90" cy="90" r="10" fill="#f97316"/>
+  <path d="M90 34v46M90 100v46M34 90h46M100 90h46" stroke="#64748b" stroke-width="7" stroke-linecap="round"/>
+</svg>

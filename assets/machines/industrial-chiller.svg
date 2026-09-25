@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 140" role="img" aria-label="Chiller industrial visto de cima">
+  <rect x="8" y="10" width="244" height="120" rx="14" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <circle cx="70" cy="70" r="38" fill="#e0f2fe" stroke="#0284c7" stroke-width="5"/><path d="M70 38v64M38 70h64M47 47l46 46M93 47 47 93" stroke="#38bdf8" stroke-width="4"/>
+  <rect x="126" y="32" width="102" height="76" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="4"/>
+  <path d="M144 52h66M144 70h66M144 88h66" stroke="#94a3b8" stroke-width="4"/>
+</svg>

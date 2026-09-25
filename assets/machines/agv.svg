@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" role="img" aria-label="AGV industrial visto de cima">
+  <rect x="10" y="14" width="220" height="92" rx="26" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <rect x="36" y="32" width="168" height="56" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <circle cx="34" cy="60" r="10" fill="#f97316"/><circle cx="206" cy="60" r="10" fill="#22c55e"/>
+  <path d="M92 60h58m-14-14 16 14-16 14" fill="none" stroke="#2563eb" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

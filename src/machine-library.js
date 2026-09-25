@@ -1,4 +1,4 @@
-import { movementAreas, setSelectedResourceId } from './state.js';
+import { movementAreas, setSelectedResourceId, setIsEditingResourcePolygon, setEditingResourceId } from './state.js';
 import { createResource } from './resources.js';
 import { calculateBoundingBox } from './areas.js';
 import { pixelsPerCm } from './config.js';
@@ -29,7 +29,19 @@ export const MACHINE_LIBRARY = [
     { id: 'paint-booth', name: 'Cabine de pintura', category: 'Acabamento', widthCm: 600, heightCm: 400, icon: 'assets/machines/paint-booth.svg', tags: 'pintura cabine acabamento' },
     { id: 'air-compressor', name: 'Compressor de ar', category: 'Utilidades', widthCm: 220, heightCm: 120, icon: 'assets/machines/air-compressor.svg', tags: 'ar comprimido reservatório' },
     { id: 'palletizer', name: 'Paletizadora', category: 'Automação', widthCm: 400, heightCm: 400, icon: 'assets/machines/palletizer.svg', tags: 'palete robô fim de linha' },
-    { id: 'packaging-machine', name: 'Embaladora', category: 'Embalagem', widthCm: 450, heightCm: 180, icon: 'assets/machines/packaging-machine.svg', tags: 'embalagem seladora fim de linha' }
+    { id: 'packaging-machine', name: 'Embaladora', category: 'Embalagem', widthCm: 450, heightCm: 180, icon: 'assets/machines/packaging-machine.svg', tags: 'embalagem seladora fim de linha' },
+    { id: 'guillotine-shear', name: 'Guilhotina', category: 'Corte', widthCm: 420, heightCm: 220, icon: 'assets/machines/guillotine-shear.svg', tags: 'chapa cisalhamento corte' },
+    { id: 'cnc-router', name: 'Router CNC', category: 'Usinagem', widthCm: 360, heightCm: 260, icon: 'assets/machines/cnc-router.svg', tags: 'router madeira plástico cnc' },
+    { id: 'industrial-oven', name: 'Forno industrial', category: 'Tratamento térmico', widthCm: 400, heightCm: 320, icon: 'assets/machines/industrial-oven.svg', tags: 'forno estufa cura aquecimento' },
+    { id: 'mixing-tank', name: 'Tanque misturador', category: 'Processo', widthCm: 280, heightCm: 280, icon: 'assets/machines/mixing-tank.svg', tags: 'tanque mistura agitador processo' },
+    { id: 'centrifugal-pump', name: 'Bomba centrífuga', category: 'Utilidades', widthCm: 180, heightCm: 100, icon: 'assets/machines/centrifugal-pump.svg', tags: 'bomba fluido água processo' },
+    { id: 'industrial-chiller', name: 'Chiller industrial', category: 'Utilidades', widthCm: 320, heightCm: 180, icon: 'assets/machines/industrial-chiller.svg', tags: 'refrigeração água gelada utilidade' },
+    { id: 'boiler', name: 'Caldeira', category: 'Utilidades', widthCm: 420, heightCm: 220, icon: 'assets/machines/boiler.svg', tags: 'vapor aquecimento térmico' },
+    { id: 'agv', name: 'AGV industrial', category: 'Movimentação', widthCm: 240, heightCm: 120, icon: 'assets/machines/agv.svg', tags: 'veículo autônomo transporte logística' },
+    { id: 'overhead-crane', name: 'Ponte rolante', category: 'Movimentação', widthCm: 800, heightCm: 180, icon: 'assets/machines/overhead-crane.svg', tags: 'ponte talha içamento carga' },
+    { id: 'storage-silo', name: 'Silo de armazenagem', category: 'Armazenagem', widthCm: 300, heightCm: 300, icon: 'assets/machines/storage-silo.svg', tags: 'silo granel matéria prima estoque' },
+    { id: 'extrusion-line', name: 'Linha de extrusão', category: 'Plásticos', widthCm: 900, heightCm: 220, icon: 'assets/machines/extrusion-line.svg', tags: 'extrusora plástico linha processo' },
+    { id: 'granulator', name: 'Granulador', category: 'Reciclagem', widthCm: 220, heightCm: 180, icon: 'assets/machines/granulator.svg', tags: 'triturador moinho reciclagem plástico' }
 ];
 
 function getInsertionArea() {
@@ -73,6 +85,8 @@ async function insertMachine(definition) {
     resource.imageDataUrl = definition.icon;
     setActiveTool(null);
     setSelectedResourceId(resource.id);
+    setIsEditingResourcePolygon(true);
+    setEditingResourceId(resource.id);
     setRightSidebarVisible(true);
     drawAll();
 
@@ -86,6 +100,7 @@ export function initializeMachineLibrary() {
     const search = document.getElementById('machineLibrarySearch');
     const filters = document.getElementById('machineCategoryFilters');
     const count = document.getElementById('machineLibraryCount');
+    const openLibraryButton = document.getElementById('openMachineLibraryBtn');
     if (!grid || !search || !filters) return;
 
     const categories = ['Todas', ...new Set(MACHINE_LIBRARY.map(machine => machine.category))];
@@ -121,6 +136,11 @@ export function initializeMachineLibrary() {
         render();
     });
     search.addEventListener('input', render);
+    openLibraryButton?.addEventListener('click', () => {
+        setActiveTool(null);
+        document.querySelector('.workspace-tab[data-workspace="machines"]')?.click();
+        requestAnimationFrame(() => search.focus());
+    });
     onMeasurementUnitChange(render);
     grid.addEventListener('click', event => {
         const card = event.target.closest('[data-machine-id]');

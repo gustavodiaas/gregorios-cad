@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 150" role="img" aria-label="Granulador industrial visto de cima">
+  <rect x="8" y="10" width="174" height="130" rx="13" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <path d="M34 30h122l-18 38H52Z" fill="#dcfce7" stroke="#16a34a" stroke-width="5"/>
+  <rect x="42" y="78" width="106" height="42" rx="8" fill="#e2e8f0" stroke="#64748b" stroke-width="5"/>
+  <path d="m66 89 18 20 18-20 18 20" fill="none" stroke="#f97316" stroke-width="5" stroke-linejoin="round"/>
+</svg>

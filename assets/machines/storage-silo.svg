@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Silo de armazenagem visto de cima">
+  <circle cx="90" cy="90" r="78" fill="#f8fafc" stroke="#334155" stroke-width="6"/>
+  <circle cx="90" cy="90" r="56" fill="#e2e8f0" stroke="#64748b" stroke-width="5"/>
+  <circle cx="90" cy="90" r="15" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <path d="M90 34v41M90 105v41M34 90h41M105 90h41" stroke="#94a3b8" stroke-width="5"/>
+</svg>
