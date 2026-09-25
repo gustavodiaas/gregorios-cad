@@ -95,6 +95,12 @@ function organizeProjectCommands(headerActions) {
     };
 
     const addReadableLabels = item => {
+        if (item.matches('.zoom-indicator') && !item.querySelector('.project-command-label')) {
+            const label = document.createElement('span');
+            label.className = 'project-command-label';
+            label.textContent = 'Zoom';
+            item.appendChild(label);
+        }
         const buttons = item.matches('button') ? [item] : Array.from(item.querySelectorAll('button'));
         buttons.forEach(button => {
             const labelText = commandLabels[button.id];
@@ -112,14 +118,17 @@ function organizeProjectCommands(headerActions) {
     const definitions = [
         {
             title: 'Arquivo',
+            icon: 'fa-folder-open',
             selectors: ['#saveLayoutBtn', '#loadLayoutBtn', '#exportImgBtn']
         },
         {
             title: 'Edição e visualização',
+            icon: 'fa-sliders',
             selectors: ['#undoBtn', '#redoBtn', '.zoom-indicator', '#centerViewBtn', '#toggleAllDimensionsBtn', '#toggleRightSidebarBtn', '#colorPaletteBtn', '#toggleNavMeshBtn', '#toggleThemeBtn']
         },
         {
             title: 'Análise e simulação',
+            icon: 'fa-chart-line',
             selectors: ['#openSpaghettiDiagramBtn', '#openProductPlannerBtn', '.planner-controls-header']
         }
     ];
@@ -133,7 +142,7 @@ function organizeProjectCommands(headerActions) {
     definitions.forEach(definition => {
         const group = document.createElement('section');
         group.className = 'project-command-group';
-        group.innerHTML = `<h3>${definition.title}</h3><div class="project-command-grid"></div>`;
+        group.innerHTML = `<div class="project-command-heading"><i class="fas ${definition.icon}" aria-hidden="true"></i><h3>${definition.title}</h3></div><div class="project-command-grid"></div>`;
         const grid = group.querySelector('.project-command-grid');
         const moved = new Set();
         definition.selectors.forEach(selector => {

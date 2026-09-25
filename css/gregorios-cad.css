@@ -564,20 +564,21 @@ body {
 .left-sidebar {
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow: hidden;
     transition: width 220ms ease, min-width 220ms ease, border-radius 220ms ease;
 }
 
 .sidebar-collapse-toggle {
-    position: sticky;
-    top: 8px;
+    position: absolute;
+    top: 14px;
+    right: 11px;
     z-index: 12;
     align-self: flex-end;
     display: grid;
     place-items: center;
     width: 28px;
     min-height: 28px;
-    margin: 8px 10px -2px 0;
+    margin: 0;
     border: 1px solid rgba(15, 23, 42, 0.09);
     border-radius: 9px;
     color: #62626a;
@@ -599,28 +600,67 @@ body {
 }
 
 .sidebar-command-center {
-    flex: 0 0 auto;
-    padding: 10px 12px 12px;
-    border-bottom: 1px solid var(--ui-divider);
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-bottom: 0;
 }
 
-.sidebar-command-center > .eyebrow {
+.project-panel-heading {
+    margin: 1px 3px 13px;
+}
+
+.project-panel-heading .eyebrow {
     display: block;
-    margin: 0 3px 8px;
+    margin-bottom: 4px;
+}
+
+.project-panel-heading p {
+    margin: 0;
+    color: #85858c;
+    font-size: 0.68rem;
+    line-height: 1.4;
 }
 
 .sidebar-command-center .header-actions {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     padding: 0;
     overflow: visible;
 }
 
-.project-command-group > h3 {
-    margin: 0 3px 7px;
-    color: #85858c;
-    font-size: 0.6rem;
+.project-command-group {
+    padding: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.54);
+}
+
+.project-command-heading {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 2px 9px;
+}
+
+.project-command-heading > i {
+    display: grid;
+    width: 22px;
+    height: 22px;
+    place-items: center;
+    border-radius: 7px;
+    color: var(--ui-accent);
+    background: var(--ui-accent-soft);
+    font-size: 0.64rem;
+}
+
+.project-command-heading > h3 {
+    margin: 0;
+    color: #6f6f76;
+    font-size: 0.61rem;
     font-weight: 750;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -628,7 +668,7 @@ body {
 
 .project-command-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
 }
 
@@ -648,11 +688,12 @@ body {
 
 .project-command-grid .action-button,
 .project-command-grid .theme-toggle {
-    height: 50px;
-    min-height: 50px;
-    flex-direction: column;
-    gap: 3px;
-    padding: 5px 3px;
+    height: 40px;
+    min-height: 40px;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 8px;
+    padding: 0 10px;
 }
 
 .project-command-grid .action-button .project-command-label,
@@ -661,7 +702,7 @@ body {
     max-width: 100%;
     overflow: hidden;
     color: inherit;
-    font-size: 0.55rem;
+    font-size: 0.62rem;
     font-weight: 650;
     line-height: 1;
     text-overflow: ellipsis;
@@ -674,14 +715,41 @@ body {
 .sidebar-command-center .speed-select {
     width: 100%;
     min-width: 0;
-    height: 34px;
-    min-height: 34px;
+    height: 40px;
+    min-height: 40px;
     justify-content: center;
     padding: 0;
 }
 
 .sidebar-command-center .action-button span {
     display: none;
+}
+
+.sidebar-command-center .project-command-label {
+    display: block;
+}
+
+.sidebar-command-center .project-command-grid .action-button,
+.sidebar-command-center .project-command-grid .theme-toggle {
+    justify-content: flex-start;
+    padding: 0 10px;
+}
+
+.sidebar-command-center .zoom-indicator {
+    justify-content: flex-start;
+    gap: 7px;
+    padding: 0 10px;
+}
+
+.sidebar-command-center .zoom-indicator .project-command-label {
+    margin-left: auto;
+    color: #77777e;
+    font-size: 0.6rem;
+}
+
+.sidebar-command-center #exportImgBtn,
+.sidebar-command-center .planner-controls-header {
+    grid-column: 1 / -1;
 }
 
 .sidebar-command-center .planner-controls-header {
@@ -701,6 +769,33 @@ body {
 
 .sidebar-command-center .dropdown-container > button {
     width: 100%;
+}
+
+.left-sidebar:not(.collapsed) > .tools-section {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar-command-center,
+.left-sidebar:not(.collapsed) > .tools-section,
+.machine-library-section {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(118, 118, 128, 0.24) transparent;
+}
+
+.sidebar-command-center::-webkit-scrollbar,
+.left-sidebar:not(.collapsed) > .tools-section::-webkit-scrollbar,
+.machine-library-section::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar-command-center::-webkit-scrollbar-thumb,
+.left-sidebar:not(.collapsed) > .tools-section::-webkit-scrollbar-thumb,
+.machine-library-section::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(118, 118, 128, 0.24);
 }
 
 .canvas-brand-watermark {
@@ -942,7 +1037,8 @@ body {
     padding: 8px;
 }
 
-.left-sidebar.collapsed .sidebar-command-center > .eyebrow {
+.left-sidebar.collapsed .project-panel-heading,
+.left-sidebar.collapsed .project-command-heading {
     display: none;
 }
 
@@ -950,8 +1046,10 @@ body {
     gap: 7px;
 }
 
-.left-sidebar.collapsed .project-command-group > h3 {
-    display: none;
+.left-sidebar.collapsed .project-command-group {
+    padding: 0;
+    border: 0;
+    background: transparent;
 }
 
 .left-sidebar.collapsed .project-command-label {
@@ -971,6 +1069,7 @@ body {
 }
 
 .left-sidebar.collapsed .sidebar-collapse-toggle {
+    position: static;
     align-self: center;
     margin: 10px 0 0;
 }
@@ -1023,7 +1122,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
-    margin: 12px 12px 4px;
+    margin: 12px 50px 6px 12px;
     padding: 4px;
     border-radius: 12px;
     background: rgba(118, 118, 128, 0.12);
@@ -1044,6 +1143,10 @@ body {
     font-size: 0.7rem;
     font-weight: 600;
     cursor: pointer;
+}
+
+.left-sidebar:not(.collapsed) .workspace-tab > i {
+    display: none;
 }
 
 .workspace-tab.active {
@@ -1753,6 +1856,17 @@ body {
 .dark-theme .inspector-field input,
 .dark-theme .floor-tabs-wrapper {
     background: rgba(52, 52, 56, 0.92);
+}
+
+.dark-theme .project-command-group {
+    border-color: rgba(255, 255, 255, 0.07);
+    background: rgba(52, 52, 56, 0.46);
+}
+
+.dark-theme .project-command-heading > h3,
+.dark-theme .project-panel-heading p,
+.dark-theme .sidebar-command-center .zoom-indicator .project-command-label {
+    color: #a9a9b0;
 }
 
 .dark-theme .canvas-area {
