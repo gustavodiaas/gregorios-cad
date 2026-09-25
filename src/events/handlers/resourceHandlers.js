@@ -246,6 +246,21 @@ export function handleResourceClick(clickedResource, pos) {
     setSelectedFreeLineId(null);
     setSelectedExclusionZoneId(null);
 
+    // Máquinas e recursos selecionados entram diretamente no modo de edição.
+    // Assim, cantos e pontos médios das arestas ficam disponíveis para resize,
+    // mantendo o quadro de propriedades como alternativa para medidas exatas.
+    if (!clickedResource.locked) {
+        if (getIsEditingPolygon()) {
+            setIsEditingPolygon(false);
+            setEditingAreaId(null);
+        }
+        setIsEditingResourcePolygon(true);
+        setEditingResourceId(clickedResource.id);
+        setActiveResourceResizeHandle(null);
+        setHoveredResourceResizeHandle(null);
+        drawAll();
+    }
+
     if (!clickedResource.locked) {
         const dragState = createResourceDragState(clickedResource.id);
         if (!dragState.movableResourceIds.length) {
