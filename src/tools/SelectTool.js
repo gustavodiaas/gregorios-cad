@@ -7,8 +7,9 @@ import { findResourceAtPosition } from '../resources.js';
 import { getConnectionAtPosition } from '../connections.js';
 import { getHubAtPosition } from '../hubs.js';
 import { findFreeLineAtPosition } from '../free-lines.js';
-import { 
-    setSelectedAreaId, setSelectedWallId, setSelectedResourceId, 
+import {
+    resources,
+    setSelectedAreaId, setSelectedWallId, setSelectedResourceId,
     setSelectedConnectionId, setSelectedHubId, 
     setHoveredConnectionId, getHoveredConnectionId,
     setHoveredHubId, getHoveredHubId,
@@ -28,8 +29,8 @@ import {
     setSelectedFreeLineId
 } from '../state.js';
 import { computeSubSegment } from '../utils/segment-split.js';
-import { 
-    setResourceSelection, addResourceToSelection, stopResourcePolygonEditing 
+import {
+    setResourceSelection, addResourceToSelection, toggleResourceSelection, stopResourcePolygonEditing
 } from '../resources.js';
 import { showContextMenuForArea } from '../showcontextmenu/showcontextmenuforarea.js';
 import { showContextMenuForResource } from '../showcontextmenu/showcontextmenuforresource.js';
@@ -136,6 +137,12 @@ export class SelectTool extends Tool {
                 stopResourcePolygonEditing();
             }
         } else if (clickedResource) {
+            if (!getIsCtrlPressed() && clickedResource.layoutGroupId) {
+                const groupedIds = resources
+                    .filter(resource => resource.layoutGroupId === clickedResource.layoutGroupId)
+                    .map(resource => resource.id);
+                setResourceSelection(groupedIds, { primaryId: clickedResource.id });
+            }
             const alreadySelected = isResourceSelected(clickedResource.id);
             if (!alreadySelected) {
                 if (getIsCtrlPressed()) {
@@ -145,7 +152,7 @@ export class SelectTool extends Tool {
                 }
             } else {
                 if (getIsCtrlPressed()) {
-                    addResourceToSelection(clickedResource.id, { makePrimary: true });
+                    toggleResourceSelection(clickedResource.id, { makePrimary: true });
                 }
             }
             
