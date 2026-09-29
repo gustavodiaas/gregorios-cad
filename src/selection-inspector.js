@@ -30,6 +30,7 @@ export function initializeSelectionInspector() {
     const rotationOutput = document.getElementById('inspectorResourceRotation');
     const manufacturerInput = document.getElementById('inspectorManufacturer');
     const serialNumberInput = document.getElementById('inspectorSerialNumber');
+    const capacityInput = document.getElementById('inspectorCapacity');
     const cycleTimeInput = document.getElementById('inspectorCycleTime');
     const initialStockInput = document.getElementById('inspectorInitialStock');
     const safetyClearanceInput = document.getElementById('inspectorSafetyClearance');
@@ -72,6 +73,7 @@ export function initializeSelectionInspector() {
         heightInput.value = formatMeasurementInput(bounds.height / pixelsPerCm);
         if (manufacturerInput) manufacturerInput.value = resource.manufacturer || '';
         if (serialNumberInput) serialNumberInput.value = resource.serialNumber || '';
+        if (capacityInput) capacityInput.value = resource.capacity || '';
         if (cycleTimeInput) cycleTimeInput.value = resource.cycleTimeSeconds ?? '';
         if (initialStockInput) initialStockInput.value = resource.initialStock ?? 0;
         if (safetyClearanceInput) safetyClearanceInput.value = formatMeasurementInput(resource.safetyClearanceCm || 0);
@@ -119,6 +121,7 @@ export function initializeSelectionInspector() {
         resource.name = nameInput.value.trim() || oldName || 'Recurso';
         resource.manufacturer = manufacturerInput?.value.trim() || '';
         resource.serialNumber = serialNumberInput?.value.trim() || '';
+        resource.capacity = capacityInput?.value.trim() || '';
         resource.cycleTimeSeconds = Math.max(0, Number(cycleTimeInput?.value) || 0);
         resource.initialStock = Math.max(0, Math.floor(Number(initialStockInput?.value) || 0));
         resource.safetyClearanceCm = Math.max(0, parseMeasurementInput(safetyClearanceInput?.value || 0) || 0);

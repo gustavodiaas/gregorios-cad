@@ -10,7 +10,10 @@ import { drawAll } from './drawing.js';
 import { reloadResourceImages } from './resource-image.js';
 import { setRightSidebarVisible, showToast } from './ui-shell.js';
 import { setActiveTool } from './active_tool.js';
-import { formatLength, onMeasurementUnitChange } from './measurement-units.js';
+import { formatLength, parseMeasurementInput, onMeasurementUnitChange } from './measurement-units.js';
+
+const CUSTOM_LIBRARY_STORAGE_KEY = 'gregorios-cad-custom-stencils-v1';
+const MAX_SVG_BYTES = 750 * 1024;
 
 export const MACHINE_LIBRARY = [
     { id: 'cnc-lathe', name: 'Torno CNC', category: 'Usinagem', widthCm: 320, heightCm: 190, icon: 'assets/machines/cnc-lathe.svg' },
@@ -54,6 +57,63 @@ export const MACHINE_LIBRARY = [
     { id: 'pallet-rack', name: 'Porta-paletes', category: 'Armazenagem', widthCm: 270, heightCm: 110, icon: 'assets/machines/pallet-rack.svg', tags: 'prateleira rack porta palete estoque armazenagem' },
     { id: 'storage-shelf', name: 'Prateleira', category: 'Armazenagem', widthCm: 180, heightCm: 50, icon: 'assets/machines/storage-shelf.svg', tags: 'prateleira estante estoque armazenagem peças' }
 ];
+
+let customMachines = loadCustomMachines();
+
+function loadCustomMachines() {
+    try {
+        const stored = JSON.parse(localStorage.getItem(CUSTOM_LIBRARY_STORAGE_KEY) || '[]');
+        return Array.isArray(stored) ? stored.filter(item => item?.id && item?.icon && item?.name) : [];
+    } catch {
+        return [];
+    }
+}
+
+function saveCustomMachines() {
+    try {
+        localStorage.setItem(CUSTOM_LIBRARY_STORAGE_KEY, JSON.stringify(customMachines));
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+function getMachineDefinitions() {
+    return [...MACHINE_LIBRARY, ...customMachines];
+}
+
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+}
+
+function sanitizeSvg(svgText) {
+    const documentNode = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+    if (documentNode.querySelector('parsererror') || documentNode.documentElement?.tagName.toLowerCase() !== 'svg') {
+        throw new Error('Arquivo SVG inválido.');
+    }
+    documentNode.querySelectorAll('script, foreignObject, iframe, object, embed').forEach(node => node.remove());
+    documentNode.querySelectorAll('*').forEach(node => {
+        Array.from(node.attributes).forEach(attribute => {
+            const name = attribute.name.toLowerCase();
+            const value = attribute.value.trim().toLowerCase();
+            if (name.startsWith('on')) node.removeAttribute(attribute.name);
+            if ((name === 'href' || name === 'xlink:href') && value && !value.startsWith('#')) node.removeAttribute(attribute.name);
+            if (name === 'style' && /url\s*\(/i.test(value)) node.removeAttribute(attribute.name);
+        });
+    });
+    const root = documentNode.documentElement;
+    root.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    return new XMLSerializer().serializeToString(root);
+}
+
+function svgToDataUrl(svgText) {
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgText)}`;
+}
 
 function getInsertionArea(point = null) {
     if (!movementAreas.length) return null;
@@ -105,6 +165,11 @@ async function insertMachine(definition, placement = null) {
     resource.catalogWidthCm = definition.widthCm;
     resource.catalogHeightCm = definition.heightCm;
     resource.imageDataUrl = definition.icon;
+    resource.manufacturer = definition.manufacturer || '';
+    resource.serialNumber = definition.serialNumber || '';
+    resource.capacity = definition.capacity || '';
+    resource.cycleTimeSeconds = Math.max(0, Number(definition.cycleTimeSeconds) || 0);
+    resource.customStencilId = definition.custom ? definition.id : null;
     setActiveTool(null);
     setSelectedResourceId(resource.id);
     setIsEditingResourcePolygon(true);
@@ -123,18 +188,27 @@ export function initializeMachineLibrary() {
     const filters = document.getElementById('machineCategoryFilters');
     const count = document.getElementById('machineLibraryCount');
     const openLibraryButton = document.getElementById('openMachineLibraryBtn');
+    const importButton = document.getElementById('openCustomStencilFormBtn');
+    const closeImportButton = document.getElementById('closeCustomStencilFormBtn');
+    const customForm = document.getElementById('customStencilForm');
+    const fileInput = document.getElementById('customStencilFile');
+    const preview = document.getElementById('customStencilPreview');
     if (!grid || !search || !filters) return;
 
-    const categories = ['Todas', ...new Set(MACHINE_LIBRARY.map(machine => machine.category))];
     let activeCategory = 'Todas';
+    let pendingSvgDataUrl = '';
 
-    filters.innerHTML = categories.map((category, index) => (
-        `<button type="button" class="library-filter${index === 0 ? ' active' : ''}" data-category="${category}">${category}</button>`
-    )).join('');
+    const renderFilters = () => {
+        const categories = ['Todas', ...new Set(getMachineDefinitions().map(machine => machine.category))];
+        if (!categories.includes(activeCategory)) activeCategory = 'Todas';
+        filters.innerHTML = categories.map(category => (
+            `<button type="button" class="library-filter${category === activeCategory ? ' active' : ''}" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`
+        )).join('');
+    };
 
     const render = () => {
         const query = search.value.trim().toLocaleLowerCase('pt-BR');
-        const visible = MACHINE_LIBRARY.filter(machine => {
+        const visible = getMachineDefinitions().filter(machine => {
             const matchesCategory = activeCategory === 'Todas' || machine.category === activeCategory;
             const haystack = `${machine.name} ${machine.category} ${machine.tags || ''}`.toLocaleLowerCase('pt-BR');
             return matchesCategory && haystack.includes(query);
@@ -142,9 +216,10 @@ export function initializeMachineLibrary() {
 
         if (count) count.textContent = String(visible.length);
         grid.innerHTML = visible.map(machine => `
-            <button type="button" class="machine-card" data-machine-id="${machine.id}" draggable="true" title="Clique ou arraste ${machine.name} para o layout">
-                <span class="machine-card-visual"><img src="${machine.icon}" alt=""></span>
-                <span class="machine-card-copy"><strong>${machine.name}</strong><small>${machine.category}</small><small>${formatLength(machine.widthCm)} × ${formatLength(machine.heightCm)}</small></span>
+            <button type="button" class="machine-card${machine.custom ? ' machine-card-custom' : ''}" data-machine-id="${escapeHtml(machine.id)}" draggable="true" title="Clique ou arraste ${escapeHtml(machine.name)} para o layout">
+                <span class="machine-card-visual"><img src="${escapeHtml(machine.icon)}" alt=""></span>
+                <span class="machine-card-copy"><strong>${escapeHtml(machine.name)}</strong><small>${escapeHtml(machine.category)}</small><small>${formatLength(machine.widthCm)} × ${formatLength(machine.heightCm)}</small></span>
+                ${machine.custom ? '<span class="machine-card-custom-badge">Meu SVG</span>' : ''}
                 <i class="fas fa-plus machine-card-add" aria-hidden="true"></i>
             </button>
         `).join('') || '<div class="library-empty">Nenhum stencil encontrado.</div>';
@@ -167,11 +242,81 @@ export function initializeMachineLibrary() {
         document.querySelector('.workspace-tab[data-workspace="machines"]')?.click();
         requestAnimationFrame(() => search.focus());
     });
+    const closeCustomForm = () => {
+        customForm?.classList.add('hidden');
+        customForm?.reset();
+        pendingSvgDataUrl = '';
+        if (preview) preview.innerHTML = '<i class="fas fa-file-code"></i>';
+    };
+    importButton?.addEventListener('click', () => {
+        customForm?.classList.remove('hidden');
+        document.getElementById('customStencilName')?.focus();
+    });
+    closeImportButton?.addEventListener('click', closeCustomForm);
+    fileInput?.addEventListener('change', async () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        if (file.size > MAX_SVG_BYTES || (!file.name.toLowerCase().endsWith('.svg') && file.type !== 'image/svg+xml')) {
+            showToast('Escolha um SVG válido de até 750 KB.', 'warning');
+            fileInput.value = '';
+            return;
+        }
+        try {
+            const sanitized = sanitizeSvg(await file.text());
+            pendingSvgDataUrl = svgToDataUrl(sanitized);
+            if (preview) preview.innerHTML = `<img src="${escapeHtml(pendingSvgDataUrl)}" alt="Prévia do SVG">`;
+            const nameInput = document.getElementById('customStencilName');
+            if (nameInput && !nameInput.value) nameInput.value = file.name.replace(/\.svg$/i, '').replace(/[-_]+/g, ' ');
+        } catch (error) {
+            pendingSvgDataUrl = '';
+            fileInput.value = '';
+            showToast(error.message || 'Não foi possível ler o SVG.', 'warning');
+        }
+    });
+    customForm?.addEventListener('submit', event => {
+        event.preventDefault();
+        const name = document.getElementById('customStencilName')?.value.trim();
+        const widthCm = parseMeasurementInput(document.getElementById('customStencilWidth')?.value || '');
+        const heightCm = parseMeasurementInput(document.getElementById('customStencilHeight')?.value || '');
+        if (!pendingSvgDataUrl) {
+            showToast('Selecione o arquivo SVG da máquina.', 'warning');
+            return;
+        }
+        if (!name || !(widthCm > 0) || !(heightCm > 0)) {
+            showToast('Informe nome, largura e altura válidos.', 'warning');
+            return;
+        }
+        const definition = {
+            id: `custom-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
+            name,
+            category: document.getElementById('customStencilCategory')?.value.trim() || 'Personalizados',
+            widthCm,
+            heightCm,
+            icon: pendingSvgDataUrl,
+            manufacturer: document.getElementById('customStencilManufacturer')?.value.trim() || '',
+            serialNumber: document.getElementById('customStencilSerial')?.value.trim() || '',
+            capacity: document.getElementById('customStencilCapacity')?.value.trim() || '',
+            cycleTimeSeconds: Math.max(0, Number(document.getElementById('customStencilCycleTime')?.value) || 0),
+            tags: document.getElementById('customStencilTags')?.value.trim() || '',
+            custom: true
+        };
+        customMachines.push(definition);
+        if (!saveCustomMachines()) {
+            customMachines.pop();
+            showToast('O navegador não conseguiu armazenar este SVG.', 'warning');
+            return;
+        }
+        activeCategory = definition.category;
+        renderFilters();
+        render();
+        closeCustomForm();
+        showToast(`${definition.name} foi salvo na biblioteca.`, 'success');
+    });
     onMeasurementUnitChange(render);
     grid.addEventListener('click', event => {
         const card = event.target.closest('[data-machine-id]');
         if (!card) return;
-        const definition = MACHINE_LIBRARY.find(machine => machine.id === card.dataset.machineId);
+        const definition = getMachineDefinitions().find(machine => machine.id === card.dataset.machineId);
         if (definition) insertMachine(definition);
     });
     grid.addEventListener('dragstart', event => {
@@ -192,7 +337,7 @@ export function initializeMachineLibrary() {
         const machineId = event.dataTransfer?.getData('application/x-gregorios-machine');
         if (!machineId) return;
         event.preventDefault();
-        const definition = MACHINE_LIBRARY.find(machine => machine.id === machineId);
+        const definition = getMachineDefinitions().find(machine => machine.id === machineId);
         if (!definition) return;
         const rect = canvas.getBoundingClientRect();
         const placement = {
@@ -202,5 +347,6 @@ export function initializeMachineLibrary() {
         insertMachine(definition, placement);
     });
 
+    renderFilters();
     render();
 }
