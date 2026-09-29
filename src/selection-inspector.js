@@ -7,6 +7,7 @@ import { saveStateToHistory } from './history.js';
 import { drawAll } from './drawing.js';
 import { setRightSidebarVisible, showToast } from './ui-shell.js';
 import { formatLength, formatMeasurementInput, parseMeasurementInput, onMeasurementUnitChange } from './measurement-units.js';
+import { getResourceSafetyStatus } from './resource-safety.js';
 
 function getSelectedResource() {
     const id = getSelectedResourceId();
@@ -31,6 +32,9 @@ export function initializeSelectionInspector() {
     const serialNumberInput = document.getElementById('inspectorSerialNumber');
     const cycleTimeInput = document.getElementById('inspectorCycleTime');
     const initialStockInput = document.getElementById('inspectorInitialStock');
+    const safetyClearanceInput = document.getElementById('inspectorSafetyClearance');
+    const safetyVisibleInput = document.getElementById('inspectorSafetyVisible');
+    const safetyStatus = document.getElementById('inspectorSafetyStatus');
     const catalogReference = document.getElementById('machineCatalogReference');
     const catalogDimensions = document.getElementById('machineCatalogDimensions');
     const resetDimensionsButton = document.getElementById('resetMachineDimensionsBtn');
@@ -70,6 +74,20 @@ export function initializeSelectionInspector() {
         if (serialNumberInput) serialNumberInput.value = resource.serialNumber || '';
         if (cycleTimeInput) cycleTimeInput.value = resource.cycleTimeSeconds ?? '';
         if (initialStockInput) initialStockInput.value = resource.initialStock ?? 0;
+        if (safetyClearanceInput) safetyClearanceInput.value = formatMeasurementInput(resource.safetyClearanceCm || 0);
+        if (safetyVisibleInput) safetyVisibleInput.checked = resource.safetyZoneVisible !== false;
+        if (safetyStatus) {
+            const status = getResourceSafetyStatus(resource);
+            safetyStatus.dataset.state = !status.active ? 'inactive' : status.conflict ? 'warning' : 'safe';
+            const icon = safetyStatus.querySelector('i');
+            const text = safetyStatus.querySelector('span');
+            if (icon) icon.className = `fas ${!status.active ? 'fa-shield-halved' : status.conflict ? 'fa-triangle-exclamation' : 'fa-circle-check'}`;
+            if (text) text.textContent = !status.active
+                ? 'Informe uma distância para validar.'
+                : status.conflict
+                    ? `Atenção: ${status.reasons.join('; ')}.`
+                    : 'Perímetro livre, sem conflitos detectados.';
+        }
         rotationOutput.textContent = `${Math.round(resource.rotation || 0)}°`;
         if (badge) badge.textContent = resource.machineType ? 'Máquina SVG' : 'Recurso';
         const hasCatalogSize = resource.machineType && resource.catalogWidthCm > 0 && resource.catalogHeightCm > 0;
@@ -94,16 +112,23 @@ export function initializeSelectionInspector() {
         const oldName = resource.name;
         const oldVertices = resource.vertices?.map(vertex => [...vertex]);
         const oldGeometry = { x: resource.x, y: resource.y, width: resource.width, height: resource.height };
+        const oldSafety = {
+            safetyClearanceCm: resource.safetyClearanceCm,
+            safetyZoneVisible: resource.safetyZoneVisible
+        };
         resource.name = nameInput.value.trim() || oldName || 'Recurso';
         resource.manufacturer = manufacturerInput?.value.trim() || '';
         resource.serialNumber = serialNumberInput?.value.trim() || '';
         resource.cycleTimeSeconds = Math.max(0, Number(cycleTimeInput?.value) || 0);
         resource.initialStock = Math.max(0, Math.floor(Number(initialStockInput?.value) || 0));
+        resource.safetyClearanceCm = Math.max(0, parseMeasurementInput(safetyClearanceInput?.value || 0) || 0);
+        resource.safetyZoneVisible = safetyVisibleInput?.checked !== false;
         const resized = resizeResource(resource.id, widthCm * pixelsPerCm, heightCm * pixelsPerCm);
         if (!resized) {
             resource.name = oldName;
             if (oldVertices) resource.vertices = oldVertices;
             Object.assign(resource, oldGeometry);
+            Object.assign(resource, oldSafety);
             showToast('A máquina não cabe na área com essas medidas.', 'warning');
             drawAll();
             render();
@@ -111,7 +136,8 @@ export function initializeSelectionInspector() {
         }
         drawAll();
         render();
-        showToast('Medidas atualizadas.', 'success');
+        const safetyResult = getResourceSafetyStatus(resource);
+        showToast(safetyResult.conflict ? 'Medidas salvas. A área de segurança possui conflito.' : 'Medidas atualizadas.', safetyResult.conflict ? 'warning' : 'success');
         closeInspector();
     });
 
