@@ -15,12 +15,12 @@ function renderAlignmentGuides() {
         }
 
         if (guide.isActive) {
-            ctx.strokeStyle = '#ff3333';
-            ctx.lineWidth = (guideLineWidth * 2) / scale;
+            ctx.strokeStyle = guide.color || '#0a84ff';
+            ctx.lineWidth = (guideLineWidth * 1.5) / scale;
             ctx.setLineDash([8 / scale, 4 / scale]);
         } else if (guide.isCenterGuide) {
-            ctx.strokeStyle = '#ff6b00';
-            ctx.lineWidth = (guideLineWidth * 1.5) / scale;
+            ctx.strokeStyle = guide.color || '#0a84ff';
+            ctx.lineWidth = guideLineWidth / scale;
             ctx.setLineDash([6 / scale, 3 / scale]);
         } else {
             ctx.strokeStyle = guideLineColor;
