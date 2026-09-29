@@ -17,7 +17,7 @@ import { drawAll } from '../../drawing.js';
 import { deselectAllResources, stopResourcePolygonEditing } from '../../resources.js';
 import { 
     createFreeLine, addFreeLine, getSnappedFreeLinePoint,
-    getDimensionAnchorSnap,
+    getEntityAnchorSnap,
     setFreeLineSnapIndicator, clearFreeLineSnapIndicator,
     setFreeLineClosureIndicator, clearFreeLineClosureIndicator
 } from '../../free-lines.js';
@@ -26,6 +26,10 @@ import { getCurrentResourceColor } from '../../color-palette.js';
 import { isPointInAreaWithTolerance } from '../../events.js';
 
 const FREE_LINE_AREA_TOLERANCE = 1;
+
+function supportsEntityAnchors(shapeMode) {
+    return shapeMode === 'line' || shapeMode === 'dimension';
+}
 
 /**
  * Resolve o ID da área pai para uma linha livre
@@ -56,7 +60,7 @@ export function handleCreateFreeLineMouseDown(pos) {
     setIsDrawingFreeLine(true);
     const rawStart = [pos.x, pos.y];
     const shapeMode = getFreeLineShapeMode();
-    const snapResult = (shapeMode === 'dimension' && getDimensionAnchorSnap(rawStart)) || getSnappedFreeLinePoint(null, rawStart, {
+    const snapResult = (supportsEntityAnchors(shapeMode) && getEntityAnchorSnap(rawStart)) || getSnappedFreeLinePoint(null, rawStart, {
         allowAngleSnap: false,
         ignoreSameAsStart: false
     });
@@ -83,7 +87,7 @@ export function handleCreateFreeLineMove(pos) {
 
     const rawPoint = [pos.x, pos.y];
     const shapeMode = getFreeLineShapeMode();
-    const snapResult = (shapeMode === 'dimension' && getDimensionAnchorSnap(rawPoint)) || getSnappedFreeLinePoint(startPoint, rawPoint, {
+    const snapResult = (supportsEntityAnchors(shapeMode) && getEntityAnchorSnap(rawPoint)) || getSnappedFreeLinePoint(startPoint, rawPoint, {
         allowEndpointSnap: true,
         allowAngleSnap: true,
         ignoreSameAsStart: true
@@ -134,7 +138,7 @@ export function handleCreateFreeLineMouseUp(pos) {
 
     const rawEndPoint = [pos.x, pos.y];
     const shapeMode = getFreeLineShapeMode();
-    const snapResult = (shapeMode === 'dimension' && getDimensionAnchorSnap(rawEndPoint)) || getSnappedFreeLinePoint(startPoint, rawEndPoint, {
+    const snapResult = (supportsEntityAnchors(shapeMode) && getEntityAnchorSnap(rawEndPoint)) || getSnappedFreeLinePoint(startPoint, rawEndPoint, {
         allowEndpointSnap: true,
         allowAngleSnap: true,
         ignoreSameAsStart: true
