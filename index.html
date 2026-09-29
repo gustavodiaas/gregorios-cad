@@ -434,7 +434,26 @@
                 </div>
             </div>
             <div class="canvas-statusbar" aria-label="Estado do desenho">
-                <span><i class="fas fa-magnet"></i> Ajuste à grade</span>
+                <div class="smart-snap-control" id="smartSnapControl">
+                    <button class="statusbar-button active" id="smartSnapBtn" type="button" aria-expanded="false" aria-controls="smartSnapPanel" aria-pressed="true">
+                        <i class="fas fa-magnet"></i><span>Encaixe inteligente</span>
+                    </button>
+                    <div class="smart-snap-panel" id="smartSnapPanel" hidden>
+                        <div class="smart-snap-heading">
+                            <strong>Encaixes</strong>
+                            <small>Segure Alt para ignorar ao mover</small>
+                        </div>
+                        <label><span>Ativar encaixe</span><input id="smartSnapEnabled" type="checkbox"><i></i></label>
+                        <label><span>Outros equipamentos</span><input id="snapToObjects" type="checkbox"><i></i></label>
+                        <label><span>Paredes</span><input id="snapToWalls" type="checkbox"><i></i></label>
+                        <label><span>Bordas e centro do layout</span><input id="snapToArea" type="checkbox"><i></i></label>
+                        <label><span>Distância de segurança</span><input id="snapClearanceEnabled" type="checkbox"><i></i></label>
+                        <div class="smart-snap-distance">
+                            <input id="snapClearanceValue" type="number" min="0" step="0.1" inputmode="decimal" aria-label="Distância de segurança">
+                            <span id="snapClearanceUnit">cm</span>
+                        </div>
+                    </div>
+                </div>
                 <label class="measurement-unit-picker" for="measurementUnitSelect">
                     <i class="fas fa-ruler-combined"></i>
                     <select id="measurementUnitSelect" aria-label="Unidade de medida">
