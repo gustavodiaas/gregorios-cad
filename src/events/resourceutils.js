@@ -1,4 +1,5 @@
-import { resources } from '../state.js';
+import { getScale, movementAreas, resources, walls } from '../state.js';
+import { getSnapSettings, isResourceSnapEnabled } from '../snap-settings.js';
 
 /**
  * Gera linhas guia para alinhamento de recursos durante movimento
@@ -8,13 +9,14 @@ import { resources } from '../state.js';
  * @returns {Array} Array de linhas guia
  */
 export function generateResourceAlignmentGuides(movingResource, newX, newY) {
-    if (!movingResource || !resources) return [];
+    if (!movingResource || !resources || !isResourceSnapEnabled()) return [];
     if (movingResource?.type === 'operator') {
         return [];
     }
     
     const guides = [];
-    const snapDistance = 3; // Distância para ativação das linhas guia (reduzido para permitir ajustes finos)
+    const settings = getSnapSettings();
+    const snapDistance = settings.snapPx / Math.max(getScale(), 0.1);
     
     const currentBounds = calculateResourceBounds(movingResource);
     if (!currentBounds) return guides;
@@ -33,8 +35,25 @@ export function generateResourceAlignmentGuides(movingResource, newX, newY) {
     const movingTop = movingBounds.y;
     const movingBottom = movingBounds.y + movingBounds.height;
     
-    // Examinar todos os outros recursos para alinhamento
-    resources.forEach(resource => {
+    const addVerticalGuide = (target, snapX, distance, start, end, kind = 'edge') => {
+        if (distance >= snapDistance) return;
+        guides.push({
+            type: 'vertical', position: target, start, end, snapX, distance,
+            color: kind === 'center' ? '#0a84ff' : kind === 'spacing' ? '#af52de' : '#ff9f0a',
+            isCenterGuide: kind === 'center', guideKind: kind
+        });
+    };
+    const addHorizontalGuide = (target, snapY, distance, start, end, kind = 'edge') => {
+        if (distance >= snapDistance) return;
+        guides.push({
+            type: 'horizontal', position: target, start, end, snapY, distance,
+            color: kind === 'center' ? '#0a84ff' : kind === 'spacing' ? '#af52de' : '#ff9f0a',
+            isCenterGuide: kind === 'center', guideKind: kind
+        });
+    };
+
+    // Centros, extremidades e folga configurável entre equipamentos.
+    if (settings.objects) resources.forEach(resource => {
         if (resource.id === movingResource.id || resource._plannerHidden) return;
         if (resource.visible === false) return;
         
@@ -48,183 +67,58 @@ export function generateResourceAlignmentGuides(movingResource, newX, newY) {
         const top = bounds.y;
         const bottom = bounds.y + bounds.height;
         
-        // Linha guia vertical - alinhamento dos centros
-        const centerVerticalDistance = Math.abs(movingCenterX - centerX);
-        if (centerVerticalDistance < snapDistance) {
-            guides.push({
-                type: 'vertical',
-                position: centerX,
-                start: Math.min(movingCenterY, centerY) - 50,
-                end: Math.max(movingCenterY, centerY) + 50,
-                color: '#00ff00',
-                width: 2,
-                dashPattern: [5, 5],
-                alpha: 0.8,
-                snapX: centerX - movingBounds.width / 2,
-                distance: centerVerticalDistance,
-                isCenterGuide: true
-            });
-        }
-        
-        // Linha guia horizontal - alinhamento dos centros
-        const centerHorizontalDistance = Math.abs(movingCenterY - centerY);
-        if (centerHorizontalDistance < snapDistance) {
-            guides.push({
-                type: 'horizontal',
-                position: centerY,
-                start: Math.min(movingCenterX, centerX) - 50,
-                end: Math.max(movingCenterX, centerX) + 50,
-                color: '#00ff00',
-                width: 2,
-                dashPattern: [5, 5],
-                alpha: 0.8,
-                snapY: centerY - movingBounds.height / 2,
-                distance: centerHorizontalDistance,
-                isCenterGuide: true
-            });
-        }
-        
-        // Linhas guia para alinhamento de bordas
-        
-        // Alinhamento vertical das bordas esquerdas
-        const leftEdgeDistance = Math.abs(movingLeft - left);
-        if (leftEdgeDistance < snapDistance) {
-            guides.push({
-                type: 'vertical',
-                position: left,
-                start: Math.min(movingBounds.y, bounds.y) - 20,
-                end: Math.max(movingBounds.y + movingBounds.height, bounds.y + bounds.height) + 20,
-                color: '#ff6600',
-                width: 1,
-                dashPattern: [3, 3],
-                alpha: 0.7,
-                snapX: left,
-                distance: leftEdgeDistance
-            });
-        }
-        
-        // Alinhamento vertical das bordas direitas
-        const rightEdgeDistance = Math.abs(movingRight - right);
-        if (rightEdgeDistance < snapDistance) {
-            guides.push({
-                type: 'vertical',
-                position: right,
-                start: Math.min(movingBounds.y, bounds.y) - 20,
-                end: Math.max(movingBounds.y + movingBounds.height, bounds.y + bounds.height) + 20,
-                color: '#ff6600',
-                width: 1,
-                dashPattern: [3, 3],
-                alpha: 0.7,
-                snapX: right - movingBounds.width,
-                distance: rightEdgeDistance
-            });
-        }
-        
-        // Alinhamento horizontal das bordas superiores
-        const topEdgeDistance = Math.abs(movingTop - top);
-        if (topEdgeDistance < snapDistance) {
-            guides.push({
-                type: 'horizontal',
-                position: top,
-                start: Math.min(movingBounds.x, bounds.x) - 20,
-                end: Math.max(movingBounds.x + movingBounds.width, bounds.x + bounds.width) + 20,
-                color: '#ff6600',
-                width: 1,
-                dashPattern: [3, 3],
-                alpha: 0.7,
-                snapY: top,
-                distance: topEdgeDistance
-            });
-        }
-        
-        // Alinhamento horizontal das bordas inferiores
-        const bottomEdgeDistance = Math.abs(movingBottom - bottom);
-        if (bottomEdgeDistance < snapDistance) {
-            guides.push({
-                type: 'horizontal',
-                position: bottom,
-                start: Math.min(movingBounds.x, bounds.x) - 20,
-                end: Math.max(movingBounds.x + movingBounds.width, bounds.x + bounds.width) + 20,
-                color: '#ff6600',
-                width: 1,
-                dashPattern: [3, 3],
-                alpha: 0.7,
-                snapY: bottom - movingBounds.height,
-                distance: bottomEdgeDistance
-            });
-        }
+        const verticalStart = Math.min(movingTop, top) - 20;
+        const verticalEnd = Math.max(movingBottom, bottom) + 20;
+        const horizontalStart = Math.min(movingLeft, left) - 20;
+        const horizontalEnd = Math.max(movingRight, right) + 20;
 
-        // Alinhamento cruzado: esquerda com direita
-        const leftToRightDistance = Math.abs(movingLeft - right);
-        if (leftToRightDistance < snapDistance) {
-            guides.push({
-                type: 'vertical',
-                position: right,
-                start: Math.min(movingBounds.y, bounds.y) - 20,
-                end: Math.max(movingBounds.y + movingBounds.height, bounds.y + bounds.height) + 20,
-                color: '#ff6600',
-                width: 1,
-                dashPattern: [3, 3],
-                alpha: 0.7,
-                snapX: right,
-                distance: leftToRightDistance
-            });
-        }
+        addVerticalGuide(centerX, centerX - movingBounds.width / 2, Math.abs(movingCenterX - centerX), verticalStart, verticalEnd, 'center');
+        addHorizontalGuide(centerY, centerY - movingBounds.height / 2, Math.abs(movingCenterY - centerY), horizontalStart, horizontalEnd, 'center');
+        addVerticalGuide(left, left, Math.abs(movingLeft - left), verticalStart, verticalEnd);
+        addVerticalGuide(right, right - movingBounds.width, Math.abs(movingRight - right), verticalStart, verticalEnd);
+        addHorizontalGuide(top, top, Math.abs(movingTop - top), horizontalStart, horizontalEnd);
+        addHorizontalGuide(bottom, bottom - movingBounds.height, Math.abs(movingBottom - bottom), horizontalStart, horizontalEnd);
+        addVerticalGuide(right, right, Math.abs(movingLeft - right), verticalStart, verticalEnd);
+        addVerticalGuide(left, left - movingBounds.width, Math.abs(movingRight - left), verticalStart, verticalEnd);
+        addHorizontalGuide(bottom, bottom, Math.abs(movingTop - bottom), horizontalStart, horizontalEnd);
+        addHorizontalGuide(top, top - movingBounds.height, Math.abs(movingBottom - top), horizontalStart, horizontalEnd);
 
-        // Alinhamento cruzado: direita com esquerda
-        const rightToLeftDistance = Math.abs(movingRight - left);
-        if (rightToLeftDistance < snapDistance) {
-            guides.push({
-                type: 'vertical',
-                position: left,
-                start: Math.min(movingBounds.y, bounds.y) - 20,
-                end: Math.max(movingBounds.y + movingBounds.height, bounds.y + bounds.height) + 20,
-                color: '#ff6600',
-                width: 1,
-                dashPattern: [3, 3],
-                alpha: 0.7,
-                snapX: left - movingBounds.width,
-                distance: rightToLeftDistance
-            });
-        }
-
-        // Alinhamento cruzado: topo com fundo
-        const topToBottomDistance = Math.abs(movingTop - bottom);
-        if (topToBottomDistance < snapDistance) {
-            guides.push({
-                type: 'horizontal',
-                position: bottom,
-                start: Math.min(movingBounds.x, bounds.x) - 20,
-                end: Math.max(movingBounds.x + movingBounds.width, bounds.x + bounds.width) + 20,
-                color: '#ff6600',
-                width: 1,
-                dashPattern: [3, 3],
-                alpha: 0.7,
-                snapY: bottom,
-                distance: topToBottomDistance
-            });
-        }
-
-        // Alinhamento cruzado: fundo com topo
-        const bottomToTopDistance = Math.abs(movingBottom - top);
-        if (bottomToTopDistance < snapDistance) {
-            guides.push({
-                type: 'horizontal',
-                position: top,
-                start: Math.min(movingBounds.x, bounds.x) - 20,
-                end: Math.max(movingBounds.x + movingBounds.width, bounds.x + bounds.width) + 20,
-                color: '#ff6600',
-                width: 1,
-                dashPattern: [3, 3],
-                alpha: 0.7,
-                snapY: top - movingBounds.height,
-                distance: bottomToTopDistance
-            });
+        if (settings.clearanceEnabled && settings.clearanceCm > 0) {
+            const gap = settings.clearanceCm;
+            addVerticalGuide(right + gap, right + gap, Math.abs(movingLeft - (right + gap)), verticalStart, verticalEnd, 'spacing');
+            addVerticalGuide(left - gap, left - gap - movingBounds.width, Math.abs(movingRight - (left - gap)), verticalStart, verticalEnd, 'spacing');
+            addHorizontalGuide(bottom + gap, bottom + gap, Math.abs(movingTop - (bottom + gap)), horizontalStart, horizontalEnd, 'spacing');
+            addHorizontalGuide(top - gap, top - gap - movingBounds.height, Math.abs(movingBottom - (top - gap)), horizontalStart, horizontalEnd, 'spacing');
         }
     });
-    
-    // Removido: Linhas guia para alinhamento com áreas de movimentação
-    // Os recursos devem apenas se alinhar com outros recursos, não com áreas
+
+    const parentArea = movementAreas.find(area => String(area.id) === String(movingResource.parentAreaId));
+    if (settings.area && parentArea) {
+        const areaBounds = calculateResourceBounds(parentArea);
+        const areaCenterX = areaBounds.x + areaBounds.width / 2;
+        const areaCenterY = areaBounds.y + areaBounds.height / 2;
+        addVerticalGuide(areaBounds.x, areaBounds.x, Math.abs(movingLeft - areaBounds.x), areaBounds.y, areaBounds.y + areaBounds.height, 'area');
+        addVerticalGuide(areaBounds.x + areaBounds.width, areaBounds.x + areaBounds.width - movingBounds.width, Math.abs(movingRight - (areaBounds.x + areaBounds.width)), areaBounds.y, areaBounds.y + areaBounds.height, 'area');
+        addVerticalGuide(areaCenterX, areaCenterX - movingBounds.width / 2, Math.abs(movingCenterX - areaCenterX), areaBounds.y, areaBounds.y + areaBounds.height, 'center');
+        addHorizontalGuide(areaBounds.y, areaBounds.y, Math.abs(movingTop - areaBounds.y), areaBounds.x, areaBounds.x + areaBounds.width, 'area');
+        addHorizontalGuide(areaBounds.y + areaBounds.height, areaBounds.y + areaBounds.height - movingBounds.height, Math.abs(movingBottom - (areaBounds.y + areaBounds.height)), areaBounds.x, areaBounds.x + areaBounds.width, 'area');
+        addHorizontalGuide(areaCenterY, areaCenterY - movingBounds.height / 2, Math.abs(movingCenterY - areaCenterY), areaBounds.x, areaBounds.x + areaBounds.width, 'center');
+    }
+
+    if (settings.walls) walls.forEach(wall => {
+        if (!wall?.startPoint || !wall?.endPoint) return;
+        if (movingResource.parentAreaId && wall.parentAreaId && String(wall.parentAreaId) !== String(movingResource.parentAreaId)) return;
+        const [x1, y1] = wall.startPoint;
+        const [x2, y2] = wall.endPoint;
+        if (Math.abs(x1 - x2) < 0.01) {
+            addVerticalGuide(x1, x1, Math.abs(movingLeft - x1), Math.min(y1, y2), Math.max(y1, y2), 'wall');
+            addVerticalGuide(x1, x1 - movingBounds.width, Math.abs(movingRight - x1), Math.min(y1, y2), Math.max(y1, y2), 'wall');
+        }
+        if (Math.abs(y1 - y2) < 0.01) {
+            addHorizontalGuide(y1, y1, Math.abs(movingTop - y1), Math.min(x1, x2), Math.max(x1, x2), 'wall');
+            addHorizontalGuide(y1, y1 - movingBounds.height, Math.abs(movingBottom - y1), Math.min(x1, x2), Math.max(x1, x2), 'wall');
+        }
+    });
     
     return guides;
 }
@@ -278,7 +172,7 @@ export function calculateResourceBounds(resource) {
  * @returns {object} Posição ajustada {x, y}
  */
 export function applyResourceSnapToGuides(resource, newX, newY, guides) {
-    if (!resource || resource.type === 'operator') {
+    if (!resource || resource.type === 'operator' || !isResourceSnapEnabled()) {
         return { x: newX, y: newY, usedGuides: {} };
     }
 
