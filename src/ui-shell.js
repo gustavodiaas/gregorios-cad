@@ -157,6 +157,7 @@ function organizeProjectCommands(headerActions) {
         saveLayoutBtn: 'Salvar',
         loadLayoutBtn: 'Carregar',
         openVersionHistoryBtn: 'Versões',
+        openLayoutTemplatesBtn: 'Modelos',
         exportImgBtn: 'Exportar',
         undoBtn: 'Desfazer',
         redoBtn: 'Refazer',
@@ -208,7 +209,7 @@ function organizeProjectCommands(headerActions) {
         {
             title: 'Arquivo',
             icon: 'fa-folder-open',
-            selectors: ['#newLayoutBtn', '#saveLayoutBtn', '#loadLayoutBtn', '#openVersionHistoryBtn', '#exportImgBtn']
+            selectors: ['#newLayoutBtn', '#saveLayoutBtn', '#loadLayoutBtn', '#openLayoutTemplatesBtn', '#openVersionHistoryBtn', '#exportImgBtn']
         },
         {
             title: 'Edição',

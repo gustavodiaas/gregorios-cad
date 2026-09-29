@@ -152,6 +152,9 @@ export function initializeVersionHistory() {
     window.addEventListener('gregorios:manual-save', () => {
         try { createVersion(true); } catch (error) { console.warn(error); }
     });
+    window.addEventListener('gregorios:create-version', () => {
+        try { createVersion(false); } catch (error) { console.warn(error); }
+    });
 
     list.addEventListener('click', async event => {
         const item = event.target.closest('[data-version-id]');
