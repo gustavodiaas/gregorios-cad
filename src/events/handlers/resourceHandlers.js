@@ -210,6 +210,13 @@ export function handleResourceClick(clickedResource, pos) {
         stopResourcePolygonEditing();
     }
 
+    if (!ctrlPressed && clickedResource.layoutGroupId) {
+        const groupedIds = resources
+            .filter(resource => resource.layoutGroupId === clickedResource.layoutGroupId)
+            .map(resource => resource.id);
+        setResourceSelection(groupedIds, { primaryId: clickedResource.id });
+    }
+
     const alreadySelected = isResourceSelected(clickedResource.id);
     const selectedIds = getSelectedResourceIds();
 
