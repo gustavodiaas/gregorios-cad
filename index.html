@@ -536,6 +536,19 @@
                         <span>Estoque inicial</span>
                         <input id="inspectorInitialStock" type="number" min="0" step="1" placeholder="0">
                     </label>
+                    <div class="inspector-data-heading">Segurança operacional</div>
+                    <label class="inspector-field inspector-field-wide">
+                        <span>Distância mínima ao redor</span>
+                        <div class="unit-input"><input id="inspectorSafetyClearance" type="number" min="0" step="any" placeholder="0"><b data-measurement-unit-symbol>cm</b></div>
+                    </label>
+                    <label class="inspector-switch">
+                        <span><strong>Exibir perímetro</strong><small>Mostra a área livre necessária ao redor da máquina.</small></span>
+                        <input id="inspectorSafetyVisible" type="checkbox" checked>
+                        <i aria-hidden="true"></i>
+                    </label>
+                    <div id="inspectorSafetyStatus" class="inspector-safety-status" data-state="inactive">
+                        <i class="fas fa-shield-halved"></i><span>Informe uma distância para validar.</span>
+                    </div>
                     <div class="inspector-field inspector-field-wide">
                         <span>Orientação</span>
                         <div class="rotation-control">
