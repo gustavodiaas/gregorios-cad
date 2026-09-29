@@ -311,13 +311,41 @@
                         <span class="eyebrow">Biblioteca SVG</span>
                         <h2>Máquinas e recursos</h2>
                     </div>
-                    <span class="library-count" id="machineLibraryCount">0</span>
+                    <div class="library-heading-actions">
+                        <span class="library-count" id="machineLibraryCount">0</span>
+                        <button id="openCustomStencilFormBtn" class="library-import-button" type="button" title="Importar um stencil SVG">
+                            <i class="fas fa-file-arrow-up"></i><span>Importar</span>
+                        </button>
+                    </div>
                 </div>
                 <label class="library-search" for="machineLibrarySearch">
                     <i class="fas fa-search"></i>
                     <input id="machineLibrarySearch" type="search" placeholder="Buscar stencil" autocomplete="off">
                 </label>
                 <div id="machineCategoryFilters" class="library-filters" aria-label="Categorias"></div>
+                <form id="customStencilForm" class="custom-stencil-form hidden">
+                    <div class="custom-stencil-form-heading">
+                        <div><span class="eyebrow">Novo stencil</span><strong>Importar SVG próprio</strong></div>
+                        <button id="closeCustomStencilFormBtn" type="button" aria-label="Fechar importação"><i class="fas fa-xmark"></i></button>
+                    </div>
+                    <label id="customStencilFileDrop" class="custom-stencil-file">
+                        <input id="customStencilFile" type="file" accept=".svg,image/svg+xml">
+                        <span id="customStencilPreview" class="custom-stencil-preview"><i class="fas fa-file-code"></i></span>
+                        <span><strong>Escolher arquivo SVG</strong><small>Vetor puro, até 750 KB.</small></span>
+                    </label>
+                    <div class="custom-stencil-grid">
+                        <label class="inspector-field inspector-field-wide"><span>Nome</span><input id="customStencilName" type="text" required autocomplete="off"></label>
+                        <label class="inspector-field"><span>Categoria</span><input id="customStencilCategory" type="text" value="Personalizados" autocomplete="off"></label>
+                        <label class="inspector-field"><span>Capacidade</span><input id="customStencilCapacity" type="text" placeholder="Ex.: 5 t" autocomplete="off"></label>
+                        <label class="inspector-field"><span>Largura</span><div class="unit-input"><input id="customStencilWidth" type="number" min="0.01" step="any" required><b data-measurement-unit-symbol>cm</b></div></label>
+                        <label class="inspector-field"><span>Altura</span><div class="unit-input"><input id="customStencilHeight" type="number" min="0.01" step="any" required><b data-measurement-unit-symbol>cm</b></div></label>
+                        <label class="inspector-field"><span>Fabricante</span><input id="customStencilManufacturer" type="text" autocomplete="off"></label>
+                        <label class="inspector-field"><span>Nº de série</span><input id="customStencilSerial" type="text" autocomplete="off"></label>
+                        <label class="inspector-field inspector-field-wide"><span>Tempo de ciclo (s)</span><input id="customStencilCycleTime" type="number" min="0" step="0.01" placeholder="0"></label>
+                        <label class="inspector-field inspector-field-wide"><span>Palavras-chave</span><input id="customStencilTags" type="text" placeholder="Ex.: corte, chapa, CNC" autocomplete="off"></label>
+                    </div>
+                    <button class="custom-stencil-save" type="submit"><i class="fas fa-plus"></i> Salvar na biblioteca</button>
+                </form>
                 <div id="machineLibraryGrid" class="machine-library-grid"></div>
                 <p class="library-help"><i class="fas fa-circle-info"></i> Clique para inserir ao centro ou arraste o stencil até a posição desejada.</p>
             </section>
@@ -526,6 +554,10 @@
                         <label class="inspector-field">
                             <span>Número de série</span>
                             <input id="inspectorSerialNumber" type="text" autocomplete="off" placeholder="Opcional">
+                        </label>
+                        <label class="inspector-field inspector-field-wide">
+                            <span>Capacidade</span>
+                            <input id="inspectorCapacity" type="text" autocomplete="off" placeholder="Ex.: 5 t, 200 kg/h">
                         </label>
                     </div>
                     <label class="inspector-field inspector-field-wide">
