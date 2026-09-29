@@ -2313,6 +2313,105 @@ body {
     background: rgba(52, 52, 56, 0.92);
 }
 
+.inspector-switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 10px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 10px;
+    background: rgba(118, 118, 128, 0.055);
+    cursor: pointer;
+}
+
+.inspector-switch > span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.inspector-switch strong {
+    color: #3a3a3e;
+    font-size: 0.68rem;
+}
+
+.inspector-switch small {
+    color: #8b8b91;
+    font-size: 0.58rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.inspector-switch input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.inspector-switch i {
+    position: relative;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 19px;
+    border-radius: 99px;
+    background: #d1d1d6;
+    transition: background 150ms ease;
+}
+
+.inspector-switch i::after {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+    content: '';
+    transition: transform 150ms ease;
+}
+
+.inspector-switch input:checked + i {
+    background: #34c759;
+}
+
+.inspector-switch input:checked + i::after {
+    transform: translateX(13px);
+}
+
+.inspector-safety-status {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 8px 10px;
+    border-radius: 9px;
+    color: #74747a;
+    background: rgba(118, 118, 128, 0.07);
+    font-size: 0.62rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.inspector-safety-status[data-state="safe"] {
+    color: #237a3b;
+    background: rgba(52, 199, 89, 0.1);
+}
+
+.inspector-safety-status[data-state="warning"] {
+    color: #b42318;
+    background: rgba(255, 59, 48, 0.1);
+}
+
+.dark-theme .inspector-switch {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.dark-theme .inspector-switch strong {
+    color: #ededf0;
+}
+
 .dark-theme .project-command-heading > h3,
 .dark-theme .layout-title-field label,
 .dark-theme .sidebar-command-center .zoom-indicator .project-command-label {
