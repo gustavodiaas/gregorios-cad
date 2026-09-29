@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 50" role="img" aria-label="Prateleira vista de cima">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#334155">
+    <rect x="3" y="3" width="174" height="44"/>
+    <path d="M47 3v44M90 3v44M133 3v44M3 12h174M3 38h174"/>
+    <circle cx="9" cy="9" r="2" fill="#334155"/><circle cx="171" cy="9" r="2" fill="#334155"/><circle cx="9" cy="41" r="2" fill="#334155"/><circle cx="171" cy="41" r="2" fill="#334155"/>
+  </g>
+</svg>

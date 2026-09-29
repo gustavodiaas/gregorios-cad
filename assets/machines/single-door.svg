@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" role="img" aria-label="Porta simples vista em planta">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#334155">
+    <path d="M3 3h84M3 3v84"/>
+    <path d="M3 87A84 84 0 0 0 87 3" stroke-dasharray="2 2" opacity=".75"/>
+    <circle cx="3" cy="3" r="2" fill="#334155"/>
+  </g>
+</svg>

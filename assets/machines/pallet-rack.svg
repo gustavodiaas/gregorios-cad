@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 110" role="img" aria-label="Porta-paletes visto de cima">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#334155">
+    <rect x="3" y="8" width="264" height="94"/>
+    <path d="M3 55h264M91 8v94M179 8v94"/>
+    <rect x="12" y="16" width="70" height="31" rx="2"/><rect x="100" y="16" width="70" height="31" rx="2"/><rect x="188" y="16" width="70" height="31" rx="2"/>
+    <rect x="12" y="63" width="70" height="31" rx="2"/><rect x="100" y="63" width="70" height="31" rx="2"/><rect x="188" y="63" width="70" height="31" rx="2"/>
+    <path d="M20 16v31M74 16v31M108 16v31M162 16v31M196 16v31M250 16v31M20 63v31M74 63v31M108 63v31M162 63v31M196 63v31M250 63v31" opacity=".65"/>
+  </g>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 20" role="img" aria-label="Janela vista em planta">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#334155">
+    <rect x="2" y="3" width="146" height="14"/>
+    <path d="M2 7h146M2 13h146M14 3v14M136 3v14"/>
+    <path d="M23 10h104" stroke-dasharray="4 2" opacity=".6"/>
+  </g>
+</svg>

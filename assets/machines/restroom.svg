@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="Banheiro visto de cima">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#334155">
+    <rect x="5" y="5" width="230" height="170"/>
+    <path d="M5 145h28M83 145h152M33 145v-42M33 145a50 50 0 0 1 50-50"/>
+    <rect x="150" y="22" width="60" height="38" rx="5"/>
+    <ellipse cx="180" cy="41" rx="18" ry="10"/>
+    <circle cx="180" cy="41" r="3"/>
+    <rect x="66" y="26" width="58" height="28" rx="8"/>
+    <path d="M72 54v24c0 29 46 29 46 0V54M95 62v33"/>
+    <ellipse cx="95" cy="81" rx="17" ry="12"/>
+    <circle cx="218" cy="90" r="5"/>
+    <path d="M201 90h34M218 73v34" opacity=".55"/>
+  </g>
+</svg>

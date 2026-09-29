@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" role="img" aria-label="Escada em L vista de cima">
+  <style>[stroke]{stroke-width:.25mm!important;vector-effect:non-scaling-stroke}</style>
+  <g fill="none" stroke="#334155">
+    <path d="M3 217V3h254v104H107v110z"/>
+    <path d="M29 217V107M55 217V107M81 217V107M3 191h104M3 165h104M3 139h104M3 113h254M107 87h150M107 61h150M107 35h150M107 9h150"/>
+    <path d="M55 195v-55c0-18 14-33 33-33h132M208 95l12 12-12 12"/>
+    <text x="52" y="132" fill="#334155" stroke="none" font-family="Arial,sans-serif" font-size="10" text-anchor="middle">SOBE</text>
+  </g>
+</svg>
