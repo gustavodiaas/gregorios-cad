@@ -29,6 +29,7 @@ import { initializeCustomSelects } from './custom-selects.js';
 import { initializeLayoutMetadata } from './layout-metadata.js';
 import { initializeOnboarding } from './onboarding.js';
 import { initializeSelectionActions } from './selection-actions.js';
+import { initializeSnapSettings } from './snap-settings.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
 import {
     MEASUREMENT_UNITS,
@@ -577,6 +578,7 @@ async function main() {
     initializeMachineLibrary(); // Biblioteca SVG de máquinas
     initializeSelectionInspector(); // Inspetor de medidas no estilo Visio
     initializeSelectionActions(); // Organização de múltiplos recursos
+    initializeSnapSettings(); // Encaixes inteligentes e folga entre equipamentos
     initializeMeasurementUnitSelector(); // Unidade global de entrada e exibição
     initializeCustomSelects(); // Menus de seleção com visual próprio do aplicativo
     initializeSpaghettiDiagram(); // Janela de análise das distâncias
