@@ -167,6 +167,7 @@ function organizeProjectCommands(headerActions) {
         toggleThemeBtn: 'Tema',
         openSpaghettiDiagramBtn: 'Fluxos',
         openProductPlannerBtn: 'Roteiro',
+        openEquipmentTableBtn: 'Equipamentos',
         openOnboardingBtn: 'Onboarding e atalhos',
         headerPlayBtn: 'Executar',
         headerStopBtn: 'Parar'
@@ -221,7 +222,7 @@ function organizeProjectCommands(headerActions) {
         {
             title: 'Análise e simulação',
             icon: 'fa-chart-line',
-            selectors: ['#openProductPlannerBtn', '#toggleNavMeshBtn', '.planner-controls-header']
+            selectors: ['#openEquipmentTableBtn', '#openProductPlannerBtn', '#toggleNavMeshBtn', '.planner-controls-header']
         },
         {
             title: 'Ajuda',
