@@ -37,7 +37,7 @@ import { movementAreas } from './state.js';
 import { isPointInAreaWithTolerance } from './events.js';
 import { generateId, ID_PREFIXES } from './utils/idGenerator.js';
 import { computeSubSegment, getRemainingSubSegments } from './utils/segment-split.js';
-import { attachDimensionEndpoints, findDimensionAnchor, syncDimensionEndpoints } from './dimension-anchors.js';
+import { attachAnchoredEndpoints, findEntityAnchor, syncAnchoredEndpoints } from './dimension-anchors.js';
 
 const FREE_LINE_AREA_TOLERANCE = 1;
 
@@ -87,7 +87,7 @@ export function createFreeLine(startPoint, endPoint, color = freeLineDefaultColo
         shapeType: shapeType || 'line',
         parentAreaId: parentAreaId ?? null
     };
-    return shapeType === 'dimension' ? attachDimensionEndpoints(line, startPoint, endPoint) : line;
+    return ['line', 'dimension'].includes(line.shapeType) ? attachAnchoredEndpoints(line, startPoint, endPoint) : line;
 }
 
 /**
@@ -169,7 +169,7 @@ function getLineWidth(line) {
  * @param {number} scale
  */
 function drawShape(ctx, line, scale, interactionState = null) {
-    if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
+    if (['line', 'dimension'].includes(line.shapeType || 'line')) syncAnchoredEndpoints(line);
     const shapeType = line.shapeType || 'line';
     const sx = line.startPoint[0];
     const sy = line.startPoint[1];
@@ -214,6 +214,22 @@ function drawShape(ctx, line, scale, interactionState = null) {
             break;
     }
     ctx.stroke();
+}
+
+function drawLinkedEndpointMarkers(ctx, line, scale) {
+    if (!line?.startAnchor && !line?.endAnchor) return;
+    ctx.save();
+    [[line.startPoint, line.startAnchor], [line.endPoint, line.endAnchor]].forEach(([point, anchor]) => {
+        if (!anchor || !Array.isArray(point)) return;
+        ctx.beginPath();
+        ctx.arc(point[0], point[1], 4 / scale, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.lineWidth = 1.5 / scale;
+        ctx.strokeStyle = '#007aff';
+        ctx.stroke();
+    });
+    ctx.restore();
 }
 
 function drawDimensionShape(ctx, sx, sy, ex, ey, scale, line = null, interactionState = null) {
@@ -306,7 +322,7 @@ export function drawFreeLines() {
 
     for (const line of freeLines) {
         if (line.shapeType === 'dimension' && !getGlobalShowDimensions()) continue;
-        if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
+        if (['line', 'dimension'].includes(line.shapeType || 'line')) syncAnchoredEndpoints(line);
         const isSelected = line.id === selectedId;
         const isHovered = line.id === hoveredId;
         const isLine = !line.shapeType || line.shapeType === 'line';
@@ -356,6 +372,7 @@ export function drawFreeLines() {
             ctx.lineWidth = width;
             drawShape(ctx, line, scale, { selected: isSelected, hovered: isHovered });
         }
+        if ((isSelected || isHovered) && isLine) drawLinkedEndpointMarkers(ctx, line, scale);
     }
 
     ctx.restore();
@@ -539,7 +556,7 @@ export function findFreeLineAtPosition(x, y, tolerancePx = BASE_SELECTION_TOLERA
 
     for (const line of freeLines) {
         if (line.shapeType === 'dimension' && !getGlobalShowDimensions()) continue;
-        if (line.shapeType === 'dimension') syncDimensionEndpoints(line);
+        if (['line', 'dimension'].includes(line.shapeType || 'line')) syncAnchoredEndpoints(line);
         const distance = distanceToShape(x, y, line);
 
         if (distance <= effectiveTolerance && distance < closestDistance) {
@@ -552,12 +569,23 @@ export function findFreeLineAtPosition(x, y, tolerancePx = BASE_SELECTION_TOLERA
 }
 
 export function getDimensionAnchorSnap(point) {
-    const match = findDimensionAnchor(point);
+    const match = findEntityAnchor(point);
     if (!match) return null;
     return {
         point: [...match.point],
         snapped: true,
         type: 'dimension-anchor',
+        data: match
+    };
+}
+
+export function getEntityAnchorSnap(point) {
+    const match = findEntityAnchor(point);
+    if (!match) return null;
+    return {
+        point: [...match.point],
+        snapped: true,
+        type: 'entity-anchor',
         data: match
     };
 }

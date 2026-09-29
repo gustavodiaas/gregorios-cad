@@ -48,7 +48,7 @@ function considerCandidate(current, candidate, maxDistance) {
     return current;
 }
 
-export function findDimensionAnchor(point) {
+export function findEntityAnchor(point) {
     if (!Array.isArray(point)) return null;
     const maxDistance = SNAP_RADIUS_SCREEN_PX / Math.max(getScale(), 0.0001);
     let closest = null;
@@ -91,6 +91,9 @@ export function findDimensionAnchor(point) {
     return closest;
 }
 
+// Compatibilidade com o sistema de cotas existente.
+export const findDimensionAnchor = findEntityAnchor;
+
 function pointOnEdge(vertices, edgeIndex, t) {
     if (!Array.isArray(vertices) || vertices.length < 2) return null;
     const index = Number(edgeIndex);
@@ -104,7 +107,7 @@ function pointOnEdge(vertices, edgeIndex, t) {
     ];
 }
 
-export function resolveDimensionAnchor(anchor) {
+export function resolveEntityAnchor(anchor) {
     if (!anchor?.kind) return null;
     if (anchor.kind === 'resource-edge') {
         const resource = resources.find(item => sameId(item.id, anchor.entityId));
@@ -129,25 +132,38 @@ export function resolveDimensionAnchor(anchor) {
     return null;
 }
 
-export function attachDimensionEndpoints(line, startPoint, endPoint) {
-    if (!line || line.shapeType !== 'dimension') return line;
-    const startMatch = findDimensionAnchor(startPoint);
-    const endMatch = findDimensionAnchor(endPoint);
+export const resolveDimensionAnchor = resolveEntityAnchor;
+
+export function attachAnchoredEndpoints(line, startPoint, endPoint) {
+    if (!line || !['line', 'dimension'].includes(line.shapeType || 'line')) return line;
+    const startMatch = findEntityAnchor(startPoint);
+    const endMatch = findEntityAnchor(endPoint);
     line.startAnchor = startMatch?.anchor || null;
     line.endAnchor = endMatch?.anchor || null;
     line.startPoint = startMatch?.point ? [...startMatch.point] : [...startPoint];
     line.endPoint = endMatch?.point ? [...endMatch.point] : [...endPoint];
-    line.dimensionVersion = 1;
+    line.anchorVersion = 1;
+    if (line.shapeType === 'dimension') line.dimensionVersion = 1;
     return line;
+}
+
+export function syncAnchoredEndpoints(line) {
+    if (!line || !['line', 'dimension'].includes(line.shapeType || 'line')) return line;
+    const resolvedStart = resolveEntityAnchor(line.startAnchor);
+    const resolvedEnd = resolveEntityAnchor(line.endAnchor);
+    if (resolvedStart) line.startPoint = resolvedStart;
+    if (resolvedEnd) line.endPoint = resolvedEnd;
+    return line;
+}
+
+export function attachDimensionEndpoints(line, startPoint, endPoint) {
+    if (!line || line.shapeType !== 'dimension') return line;
+    return attachAnchoredEndpoints(line, startPoint, endPoint);
 }
 
 export function syncDimensionEndpoints(line) {
     if (!line || line.shapeType !== 'dimension') return line;
-    const resolvedStart = resolveDimensionAnchor(line.startAnchor);
-    const resolvedEnd = resolveDimensionAnchor(line.endAnchor);
-    if (resolvedStart) line.startPoint = resolvedStart;
-    if (resolvedEnd) line.endPoint = resolvedEnd;
-    return line;
+    return syncAnchoredEndpoints(line);
 }
 
 export function getDimensionLengthCm(line) {
