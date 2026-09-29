@@ -36,6 +36,7 @@ import { getOperatorSpriteMeta } from '../../operators.js';
 import { calculateBoundingBox } from '../../areas.js';
 import { drawNavMeshNodes, showNavMeshNodes } from './navmeshVisualizer.js';
 import { getResourceImage } from '../../resource-image.js';
+import { drawResourceSafetyZones } from '../../resource-safety.js';
 
 const STAIR_STEP_SPACING_CM = 20;
 
@@ -49,6 +50,8 @@ function drawAllResources() {
         ...resources.filter(resource => resource.machineType !== 'overhead-crane'),
         ...resources.filter(resource => resource.machineType === 'overhead-crane')
     ];
+
+    drawResourceSafetyZones(renderOrder, selectedResourceIds);
 
     renderOrder.forEach(resource => {
         if (resource._plannerHidden) {
