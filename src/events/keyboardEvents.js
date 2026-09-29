@@ -64,7 +64,7 @@ export function initializeKeyboardEvents() {
         const isEditingField = e.target instanceof HTMLElement
             && Boolean(e.target.closest('input, textarea, select, [contenteditable="true"]'));
         // Detectar tecla Ctrl
-        if (e.ctrlKey || e.metaKey) {
+        if (e.ctrlKey || e.metaKey || e.shiftKey) {
             setIsCtrlPressed(true);
         }
 
@@ -80,7 +80,7 @@ export function initializeKeyboardEvents() {
 
     // Detectar quando Ctrl é liberado
     document.addEventListener('keyup', (e) => {
-        if (!e.ctrlKey && !e.metaKey) {
+        if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
             setIsCtrlPressed(false);
         }
     });
