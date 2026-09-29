@@ -337,6 +337,7 @@ export function saveLayout() {
         
         // Mostrar feedback visual
         showSaveSuccess(filename);
+        window.dispatchEvent(new CustomEvent('gregorios:manual-save'));
         
     } catch (error) {
         console.error('❌ Erro ao salvar layout:', error);

@@ -31,6 +31,7 @@ import { initializeOnboarding } from './onboarding.js';
 import { initializeSelectionActions } from './selection-actions.js';
 import { initializeSnapSettings } from './snap-settings.js';
 import { initializeEquipmentTable } from './equipment-table.js';
+import { initializeVersionHistory } from './version-history.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
 import {
     MEASUREMENT_UNITS,
@@ -582,6 +583,7 @@ async function main() {
     initializeSnapSettings(); // Encaixes inteligentes e folga entre equipamentos
     initializeMeasurementUnitSelector(); // Unidade global de entrada e exibição
     initializeEquipmentTable(); // Inventário técnico dos equipamentos
+    initializeVersionHistory(); // Pontos persistentes de restauração do projeto
     initializeCustomSelects(); // Menus de seleção com visual próprio do aplicativo
     initializeSpaghettiDiagram(); // Janela de análise das distâncias
     
