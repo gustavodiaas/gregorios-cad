@@ -14,45 +14,45 @@ import { formatLength, onMeasurementUnitChange } from './measurement-units.js';
 
 export const MACHINE_LIBRARY = [
     { id: 'cnc-lathe', name: 'Torno CNC', category: 'Usinagem', widthCm: 320, heightCm: 190, icon: 'assets/machines/cnc-lathe.svg' },
-    { id: 'conventional-lathe', name: 'Torno convencional', category: 'Usinagem', widthCm: 280, heightCm: 140, icon: 'assets/machines/conventional-lathe.svg', tags: 'torno manual usinagem' },
     { id: 'machining-center', name: 'Centro de usinagem', category: 'Usinagem', widthCm: 300, heightCm: 260, icon: 'assets/machines/machining-center.svg' },
+    { id: 'hydraulic-press', name: 'Prensa hidráulica', category: 'Conformação', widthCm: 240, heightCm: 220, icon: 'assets/machines/hydraulic-press.svg' },
+    { id: 'injection-molder', name: 'Injetora', category: 'Plásticos', widthCm: 520, heightCm: 210, icon: 'assets/machines/injection-molder.svg' },
+    { id: 'conveyor', name: 'Esteira', category: 'Movimentação', widthCm: 600, heightCm: 120, icon: 'assets/machines/conveyor.svg' },
+    { id: 'industrial-robot', name: 'Robô industrial', category: 'Automação', widthCm: 260, heightCm: 260, icon: 'assets/machines/industrial-robot.svg' },
+    { id: 'forklift', name: 'Empilhadeira', category: 'Movimentação', widthCm: 320, heightCm: 190, icon: 'assets/machines/forklift.svg' },
+    { id: 'workbench', name: 'Bancada', category: 'Apoio', widthCm: 240, heightCm: 120, icon: 'assets/machines/workbench.svg' },
+    { id: 'band-saw', name: 'Serra de fita', category: 'Corte', widthCm: 250, heightCm: 160, icon: 'assets/machines/band-saw.svg', tags: 'serra corte metal' },
+    { id: 'drill-press', name: 'Furadeira de coluna', category: 'Usinagem', widthCm: 120, heightCm: 100, icon: 'assets/machines/drill-press.svg', tags: 'furação bancada' },
     { id: 'milling-machine', name: 'Fresadora', category: 'Usinagem', widthCm: 280, heightCm: 220, icon: 'assets/machines/milling-machine.svg', tags: 'fresa convencional' },
     { id: 'surface-grinder', name: 'Retificadora', category: 'Usinagem', widthCm: 260, heightCm: 180, icon: 'assets/machines/surface-grinder.svg', tags: 'retífica acabamento' },
-    { id: 'drill-press', name: 'Furadeira de coluna', category: 'Usinagem', widthCm: 120, heightCm: 100, icon: 'assets/machines/drill-press.svg', tags: 'furação bancada' },
-    { id: 'bench-grinder', name: 'Esmerilhadeira', category: 'Usinagem', widthCm: 160, heightCm: 120, icon: 'assets/machines/bench-grinder.svg', tags: 'esmeril rebolo bancada acabamento' },
-    { id: 'cnc-router', name: 'Router CNC', category: 'Usinagem', widthCm: 360, heightCm: 260, icon: 'assets/machines/cnc-router.svg', tags: 'router madeira plástico cnc' },
-    { id: 'hydraulic-press', name: 'Prensa hidráulica', category: 'Conformação', widthCm: 240, heightCm: 220, icon: 'assets/machines/hydraulic-press.svg' },
-    { id: 'press-brake', name: 'Dobradeira', category: 'Conformação', widthCm: 420, heightCm: 190, icon: 'assets/machines/press-brake.svg', tags: 'dobra prensa chapa' },
-    { id: 'tube-bender', name: 'Dobradeira de tubos', category: 'Conformação', widthCm: 180, heightCm: 160, icon: 'assets/machines/tube-bender.svg', tags: 'dobra tubo perfilado' },
     { id: 'laser-cutter', name: 'Corte a laser', category: 'Corte', widthCm: 520, heightCm: 300, icon: 'assets/machines/laser-cutter.svg', tags: 'laser chapa mesa' },
     { id: 'plasma-cutter', name: 'Corte plasma', category: 'Corte', widthCm: 480, heightCm: 280, icon: 'assets/machines/plasma-cutter.svg', tags: 'plasma chapa mesa' },
-    { id: 'band-saw', name: 'Serra de fita', category: 'Corte', widthCm: 250, heightCm: 160, icon: 'assets/machines/band-saw.svg', tags: 'serra corte metal' },
-    { id: 'guillotine-shear', name: 'Guilhotina', category: 'Corte', widthCm: 420, heightCm: 220, icon: 'assets/machines/guillotine-shear.svg', tags: 'chapa cisalhamento corte' },
+    { id: 'press-brake', name: 'Dobradeira', category: 'Conformação', widthCm: 420, heightCm: 190, icon: 'assets/machines/press-brake.svg', tags: 'dobra prensa chapa' },
     { id: 'welding-cell', name: 'Célula de solda', category: 'Soldagem', widthCm: 400, heightCm: 350, icon: 'assets/machines/welding-cell.svg', tags: 'soldagem robô cabine' },
-    { id: 'industrial-oven', name: 'Forno industrial', category: 'Tratamento térmico', widthCm: 400, heightCm: 320, icon: 'assets/machines/industrial-oven.svg', tags: 'forno estufa cura aquecimento tratamento térmico' },
-    { id: 'tank', name: 'Tanque / Cuba', category: 'Tratamento térmico', widthCm: 180, heightCm: 180, icon: 'assets/machines/tank.svg', tags: 'tanque cuba banho tratamento superficial' },
-    { id: 'injection-molder', name: 'Injetora', category: 'Plásticos', widthCm: 520, heightCm: 210, icon: 'assets/machines/injection-molder.svg' },
-    { id: 'extrusion-line', name: 'Linha de extrusão', category: 'Plásticos', widthCm: 900, heightCm: 220, icon: 'assets/machines/extrusion-line.svg', tags: 'extrusora plástico linha processo' },
     { id: 'paint-booth', name: 'Cabine de pintura', category: 'Acabamento', widthCm: 600, heightCm: 400, icon: 'assets/machines/paint-booth.svg', tags: 'pintura cabine acabamento' },
-    { id: 'granulator', name: 'Granulador', category: 'Reciclagem', widthCm: 220, heightCm: 180, icon: 'assets/machines/granulator.svg', tags: 'triturador moinho reciclagem plástico' },
-    { id: 'palletizer', name: 'Paletizadora', category: 'Automação', widthCm: 400, heightCm: 400, icon: 'assets/machines/palletizer.svg', tags: 'palete robô fim de linha' },
-    { id: 'industrial-robot', name: 'Robô industrial', category: 'Automação', widthCm: 260, heightCm: 260, icon: 'assets/machines/industrial-robot.svg' },
-    { id: 'packaging-machine', name: 'Embaladora', category: 'Embalagem', widthCm: 450, heightCm: 180, icon: 'assets/machines/packaging-machine.svg', tags: 'embalagem seladora fim de linha' },
-    { id: 'conveyor', name: 'Esteira', category: 'Movimentação', widthCm: 600, heightCm: 120, icon: 'assets/machines/conveyor.svg' },
-    { id: 'forklift', name: 'Empilhadeira', category: 'Movimentação', widthCm: 320, heightCm: 190, icon: 'assets/machines/forklift.svg' },
-    { id: 'overhead-crane', name: 'Ponte rolante', category: 'Movimentação', widthCm: 800, heightCm: 180, icon: 'assets/machines/overhead-crane.svg', tags: 'ponte talha içamento carga' },
-    { id: 'agv', name: 'AGV industrial', category: 'Movimentação', widthCm: 240, heightCm: 120, icon: 'assets/machines/agv.svg', tags: 'veículo autônomo transporte logística' },
     { id: 'air-compressor', name: 'Compressor de ar', category: 'Utilidades', widthCm: 220, heightCm: 120, icon: 'assets/machines/air-compressor.svg', tags: 'ar comprimido reservatório' },
+    { id: 'palletizer', name: 'Paletizadora', category: 'Automação', widthCm: 400, heightCm: 400, icon: 'assets/machines/palletizer.svg', tags: 'palete robô fim de linha' },
+    { id: 'packaging-machine', name: 'Embaladora', category: 'Embalagem', widthCm: 450, heightCm: 180, icon: 'assets/machines/packaging-machine.svg', tags: 'embalagem seladora fim de linha' },
+    { id: 'guillotine-shear', name: 'Guilhotina', category: 'Corte', widthCm: 420, heightCm: 220, icon: 'assets/machines/guillotine-shear.svg', tags: 'chapa cisalhamento corte' },
+    { id: 'cnc-router', name: 'Router CNC', category: 'Usinagem', widthCm: 360, heightCm: 260, icon: 'assets/machines/cnc-router.svg', tags: 'router madeira plástico cnc' },
+    { id: 'industrial-oven', name: 'Forno industrial', category: 'Tratamento térmico', widthCm: 400, heightCm: 320, icon: 'assets/machines/industrial-oven.svg', tags: 'forno estufa cura aquecimento' },
+    { id: 'mixing-tank', name: 'Tanque misturador', category: 'Processo', widthCm: 280, heightCm: 280, icon: 'assets/machines/mixing-tank.svg', tags: 'tanque mistura agitador processo' },
     { id: 'centrifugal-pump', name: 'Bomba centrífuga', category: 'Utilidades', widthCm: 180, heightCm: 100, icon: 'assets/machines/centrifugal-pump.svg', tags: 'bomba fluido água processo' },
     { id: 'industrial-chiller', name: 'Chiller industrial', category: 'Utilidades', widthCm: 320, heightCm: 180, icon: 'assets/machines/industrial-chiller.svg', tags: 'refrigeração água gelada utilidade' },
     { id: 'boiler', name: 'Caldeira', category: 'Utilidades', widthCm: 420, heightCm: 220, icon: 'assets/machines/boiler.svg', tags: 'vapor aquecimento térmico' },
+    { id: 'agv', name: 'AGV industrial', category: 'Movimentação', widthCm: 240, heightCm: 120, icon: 'assets/machines/agv.svg', tags: 'veículo autônomo transporte logística' },
+    { id: 'overhead-crane', name: 'Ponte rolante', category: 'Movimentação', widthCm: 800, heightCm: 180, icon: 'assets/machines/overhead-crane.svg', tags: 'ponte talha içamento carga' },
     { id: 'storage-silo', name: 'Silo de armazenagem', category: 'Armazenagem', widthCm: 300, heightCm: 300, icon: 'assets/machines/storage-silo.svg', tags: 'silo granel matéria prima estoque' },
-    { id: 'workbench', name: 'Bancada', category: 'Apoio', widthCm: 240, heightCm: 120, icon: 'assets/machines/workbench.svg' },
-    { id: 'desk-single', name: 'Mesa individual', category: 'Mesas', widthCm: 140, heightCm: 80, icon: 'assets/machines/desk-single.svg', tags: 'mesa escritório estação trabalho' },
-    { id: 'desk-l-shape', name: 'Mesa em L', category: 'Mesas', widthCm: 160, heightCm: 160, icon: 'assets/machines/desk-l-shape.svg', tags: 'mesa L escritório estação trabalho canto' },
-    { id: 'desk-collective', name: 'Mesa coletiva', category: 'Mesas', widthCm: 240, heightCm: 100, icon: 'assets/machines/desk-collective.svg', tags: 'mesa coletiva bancada escritório open space' },
-    { id: 'meeting-table', name: 'Mesa de reunião', category: 'Mesas', widthCm: 280, heightCm: 140, icon: 'assets/machines/meeting-table.svg', tags: 'mesa reunião sala conferência' },
-    { id: 'refectory-table', name: 'Mesa de refeitório', category: 'Mesas', widthCm: 300, heightCm: 100, icon: 'assets/machines/refectory-table.svg', tags: 'mesa refeitório cantina cadeira refeição' }
+    { id: 'extrusion-line', name: 'Linha de extrusão', category: 'Plásticos', widthCm: 900, heightCm: 220, icon: 'assets/machines/extrusion-line.svg', tags: 'extrusora plástico linha processo' },
+    { id: 'granulator', name: 'Granulador', category: 'Reciclagem', widthCm: 220, heightCm: 180, icon: 'assets/machines/granulator.svg', tags: 'triturador moinho reciclagem plástico' },
+    { id: 'restroom', name: 'Banheiro', category: 'Infraestrutura', widthCm: 240, heightCm: 180, icon: 'assets/machines/restroom.svg', tags: 'banheiro sanitário lavabo vaso pia arquitetura' },
+    { id: 'single-door', name: 'Porta simples', category: 'Aberturas', widthCm: 90, heightCm: 90, icon: 'assets/machines/single-door.svg', tags: 'porta abertura giro acesso arquitetura' },
+    { id: 'double-door', name: 'Porta dupla', category: 'Aberturas', widthCm: 180, heightCm: 90, icon: 'assets/machines/double-door.svg', tags: 'porta dupla abertura giro acesso arquitetura' },
+    { id: 'industrial-window', name: 'Janela', category: 'Aberturas', widthCm: 150, heightCm: 20, icon: 'assets/machines/industrial-window.svg', tags: 'janela vidro esquadria abertura arquitetura' },
+    { id: 'straight-stair', name: 'Escada reta', category: 'Circulação', widthCm: 300, heightCm: 110, icon: 'assets/machines/straight-stair.svg', tags: 'escada reta degraus circulação acesso' },
+    { id: 'l-stair', name: 'Escada em L', category: 'Circulação', widthCm: 260, heightCm: 220, icon: 'assets/machines/l-stair.svg', tags: 'escada l patamar degraus circulação acesso' },
+    { id: 'pallet-rack', name: 'Porta-paletes', category: 'Armazenagem', widthCm: 270, heightCm: 110, icon: 'assets/machines/pallet-rack.svg', tags: 'prateleira rack porta palete estoque armazenagem' },
+    { id: 'storage-shelf', name: 'Prateleira', category: 'Armazenagem', widthCm: 180, heightCm: 50, icon: 'assets/machines/storage-shelf.svg', tags: 'prateleira estante estoque armazenagem peças' }
 ];
 
 function getInsertionArea(point = null) {
@@ -147,7 +147,7 @@ export function initializeMachineLibrary() {
                 <span class="machine-card-copy"><strong>${machine.name}</strong><small>${machine.category}</small><small>${formatLength(machine.widthCm)} × ${formatLength(machine.heightCm)}</small></span>
                 <i class="fas fa-plus machine-card-add" aria-hidden="true"></i>
             </button>
-        `).join('') || '<div class="library-empty">Nenhuma máquina encontrada.</div>';
+        `).join('') || '<div class="library-empty">Nenhum stencil encontrado.</div>';
     };
 
     filters.addEventListener('click', event => {

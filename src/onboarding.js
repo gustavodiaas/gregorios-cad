@@ -21,6 +21,7 @@ const steps = [
 const shortcuts = [
     ['Espaço + arrastar', 'Navegar pela prancha'],
     ['Ctrl + roda do mouse', 'Aproximar ou afastar'],
+    ['Ctrl ou Shift + clique', 'Selecionar vários itens'],
     ['Botão direito', 'Editar o item selecionado'],
     ['Delete', 'Excluir linha ou objeto selecionado'],
     ['Ctrl + Z', 'Desfazer a última ação'],

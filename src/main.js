@@ -28,6 +28,7 @@ import { initializeSelectionInspector } from './selection-inspector.js';
 import { initializeCustomSelects } from './custom-selects.js';
 import { initializeLayoutMetadata } from './layout-metadata.js';
 import { initializeOnboarding } from './onboarding.js';
+import { initializeSelectionActions } from './selection-actions.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
 import {
     MEASUREMENT_UNITS,
@@ -575,6 +576,7 @@ async function main() {
     initializeOnboarding();
     initializeMachineLibrary(); // Biblioteca SVG de máquinas
     initializeSelectionInspector(); // Inspetor de medidas no estilo Visio
+    initializeSelectionActions(); // Organização de múltiplos recursos
     initializeMeasurementUnitSelector(); // Unidade global de entrada e exibição
     initializeCustomSelects(); // Menus de seleção com visual próprio do aplicativo
     initializeSpaghettiDiagram(); // Janela de análise das distâncias

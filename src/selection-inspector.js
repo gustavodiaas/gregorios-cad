@@ -1,4 +1,4 @@
-import { resources, getSelectedResourceId } from './state.js';
+import { resources, getSelectedResourceId, getSelectedResourceIds } from './state.js';
 import { onStateAction } from './state/events.js';
 import { pixelsPerCm } from './config.js';
 import { calculatePolygonBounds, resizeResource, stopResourcePolygonEditing } from './resources.js';
@@ -22,6 +22,7 @@ export function initializeSelectionInspector() {
     const form = document.getElementById('resourceInspectorForm');
     const empty = document.getElementById('selectionEmptyState');
     const badge = document.getElementById('selectionTypeBadge');
+    const emptyMessage = document.getElementById('selectionEmptyMessage');
     const nameInput = document.getElementById('inspectorResourceName');
     const widthInput = document.getElementById('inspectorResourceWidth');
     const heightInput = document.getElementById('inspectorResourceHeight');
@@ -43,9 +44,18 @@ export function initializeSelectionInspector() {
     };
 
     const render = () => {
+        const selectedIds = getSelectedResourceIds();
+        const isMultiple = selectedIds.length > 1;
         const resource = getSelectedResource();
-        form.classList.toggle('hidden', !resource);
-        empty.classList.toggle('hidden', Boolean(resource));
+        form.classList.toggle('hidden', !resource || isMultiple);
+        empty.classList.toggle('hidden', Boolean(resource) && !isMultiple);
+        if (isMultiple) {
+            if (badge) badge.textContent = `${selectedIds.length} selecionados`;
+            if (emptyMessage) emptyMessage.textContent = 'Use a barra contextual para agrupar, duplicar, alinhar ou distribuir os itens.';
+            catalogReference?.classList.add('hidden');
+            return;
+        }
+        if (emptyMessage) emptyMessage.textContent = 'Selecione uma máquina ou recurso para editar suas medidas.';
         if (!resource) {
             if (badge) badge.textContent = 'Nada selecionado';
             catalogReference?.classList.add('hidden');
