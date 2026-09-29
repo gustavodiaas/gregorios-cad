@@ -305,7 +305,7 @@
                 </div>
             </div>
 
-            <section id="machineLibraryPanel" class="sidebar-section machine-library-section hidden" aria-label="Biblioteca de máquinas">
+            <section id="machineLibraryPanel" class="sidebar-section machine-library-section hidden" aria-label="Biblioteca de stencils">
                 <div class="library-heading">
                     <div>
                         <span class="eyebrow">Biblioteca SVG</span>
@@ -315,11 +315,11 @@
                 </div>
                 <label class="library-search" for="machineLibrarySearch">
                     <i class="fas fa-search"></i>
-                    <input id="machineLibrarySearch" type="search" placeholder="Buscar máquina" autocomplete="off">
+                    <input id="machineLibrarySearch" type="search" placeholder="Buscar stencil" autocomplete="off">
                 </label>
                 <div id="machineCategoryFilters" class="library-filters" aria-label="Categorias"></div>
                 <div id="machineLibraryGrid" class="machine-library-grid"></div>
-                <p class="library-help"><i class="fas fa-circle-info"></i> Clique para inserir ao centro ou arraste o equipamento até a posição desejada.</p>
+                <p class="library-help"><i class="fas fa-circle-info"></i> Clique para inserir ao centro ou arraste o stencil até a posição desejada.</p>
             </section>
 
             <div class="sidebar-section draw-workspace-panel optimization-section" style="position:relative;">
@@ -363,6 +363,24 @@
             <canvas id="layoutCanvas" style="position: absolute; top: 0; left: 0; z-index: 1; background: transparent;"></canvas>
             <!-- canvas-overlay foi removido -->
             <div id="connectionAnimationsLayer" class="connection-animations-layer"></div>
+
+            <div id="selectionActions" class="selection-actions hidden" role="toolbar" aria-label="Organizar seleção">
+                <span id="selectionActionsCount" class="selection-actions-count">0 selecionados</span>
+                <span class="selection-actions-divider" aria-hidden="true"></span>
+                <button type="button" data-selection-action="duplicate" title="Duplicar seleção" aria-label="Duplicar seleção"><i class="fas fa-copy"></i></button>
+                <button type="button" data-selection-action="group" title="Agrupar seleção" aria-label="Agrupar seleção"><i class="fas fa-object-group"></i></button>
+                <button type="button" data-selection-action="ungroup" title="Desagrupar seleção" aria-label="Desagrupar seleção"><i class="fas fa-object-ungroup"></i></button>
+                <span class="selection-actions-divider" aria-hidden="true"></span>
+                <button type="button" data-selection-action="align-left" title="Alinhar à esquerda" aria-label="Alinhar à esquerda"><i class="fas fa-align-left"></i></button>
+                <button type="button" data-selection-action="align-center" title="Centralizar horizontalmente" aria-label="Centralizar horizontalmente"><i class="fas fa-align-center"></i></button>
+                <button type="button" data-selection-action="align-right" title="Alinhar à direita" aria-label="Alinhar à direita"><i class="fas fa-align-right"></i></button>
+                <button type="button" data-selection-action="align-top" title="Alinhar ao topo" aria-label="Alinhar ao topo"><i class="fas fa-arrow-up-long"></i></button>
+                <button type="button" data-selection-action="align-middle" title="Centralizar verticalmente" aria-label="Centralizar verticalmente"><i class="fas fa-arrows-up-down"></i></button>
+                <button type="button" data-selection-action="align-bottom" title="Alinhar à base" aria-label="Alinhar à base"><i class="fas fa-arrow-down-long"></i></button>
+                <span class="selection-actions-divider" aria-hidden="true"></span>
+                <button type="button" data-selection-action="distribute-horizontal" title="Distribuir horizontalmente" aria-label="Distribuir horizontalmente"><i class="fas fa-arrows-left-right-to-line"></i></button>
+                <button type="button" data-selection-action="distribute-vertical" title="Distribuir verticalmente" aria-label="Distribuir verticalmente"><i class="fas fa-arrows-up-down-to-line"></i></button>
+            </div>
             
             <!-- Indicador de setas direcionais para midpoints -->
             <div id="midpointArrowsIndicator" class="midpoint-arrows-indicator" style="display: none;">
@@ -428,7 +446,7 @@
                     </select>
                 </label>
                 <span id="autoSaveStatus" class="autosave-status" data-state="saved"><i class="fas fa-cloud-arrow-up"></i><span>Salvamento automático ativo</span></span>
-                <span class="statusbar-hint">Clique na linha para selecionar · Delete para excluir · Espaço para navegar</span>
+                <span class="statusbar-hint">Ctrl ou Shift para selecionar vários · Delete para excluir · Espaço para navegar</span>
             </div>
         </div>
 
@@ -459,7 +477,7 @@
                 </div>
                 <div id="selectionEmptyState" class="property-empty-state">
                     <i class="fas fa-arrow-pointer"></i>
-                    <p>Selecione uma máquina ou recurso para editar suas medidas.</p>
+                    <p id="selectionEmptyMessage">Selecione uma máquina ou recurso para editar suas medidas.</p>
                 </div>
                 <form id="resourceInspectorForm" class="resource-inspector hidden">
                     <label class="inspector-field inspector-field-wide">
