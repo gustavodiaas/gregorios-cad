@@ -177,13 +177,13 @@ async function findValidPositionForDuplicate(resource, _parentArea, areaVertices
  * @param {object} resource - Recurso a ser duplicado
  */
 export async function duplicateResource(resource) {
-    if (!resource) return;
+    if (!resource) return null;
     
     // Verificar se existe área pai
     const parentArea = movementAreas.find(area => area.id === resource.parentAreaId);
     if (!parentArea) {
         alert('Área pai não encontrada para duplicação.');
-        return;
+        return null;
     }
     
     // Obter vértices da área pai
@@ -194,7 +194,7 @@ export async function duplicateResource(resource) {
     
     if (!newVertices) {
         alert('Não é possível duplicar: não há espaço suficiente na área de movimentação para colocar uma cópia do recurso.');
-        return;
+        return null;
     }
     
     // Criar novo recurso diretamente sem preview/confirmação
@@ -248,9 +248,10 @@ export async function duplicateResource(resource) {
         
         // Redesenhar canvas
         drawAll();
-        
+        return newResource;
     } else {
         alert('Erro ao criar recurso duplicado.');
+        return null;
     }
 }
 
