@@ -1680,6 +1680,27 @@ body {
     scrollbar-width: none;
 }
 
+.library-heading-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.library-import-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 27px;
+    padding: 0 8px;
+    border: 1px solid rgba(0, 122, 255, 0.18);
+    border-radius: 8px;
+    color: var(--ui-accent);
+    background: var(--ui-accent-soft);
+    font-size: 0.62rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
 .smart-snap-control {
     position: relative;
     pointer-events: auto;
@@ -1955,6 +1976,122 @@ body {
     filter: grayscale(1) contrast(1.08) drop-shadow(0 3px 4px rgba(15, 23, 42, 0.08));
 }
 
+.custom-stencil-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 11px;
+    border: 1px solid rgba(0, 122, 255, 0.18);
+    border-radius: 13px;
+    background: rgba(0, 122, 255, 0.045);
+}
+
+.custom-stencil-form.hidden {
+    display: none;
+}
+
+.custom-stencil-form-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.custom-stencil-form-heading > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.custom-stencil-form-heading strong {
+    color: #242428;
+    font-size: 0.78rem;
+}
+
+.custom-stencil-form-heading button {
+    width: 26px;
+    height: 26px;
+    border: 0;
+    border-radius: 7px;
+    color: #74747a;
+    background: rgba(118, 118, 128, 0.09);
+    cursor: pointer;
+}
+
+.custom-stencil-file {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 58px;
+    padding: 7px;
+    border: 1px dashed rgba(0, 122, 255, 0.32);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.58);
+    cursor: pointer;
+}
+
+.custom-stencil-file > input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.custom-stencil-file > span:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.custom-stencil-file strong {
+    color: #3a3a3e;
+    font-size: 0.68rem;
+}
+
+.custom-stencil-file small {
+    color: #8b8b91;
+    font-size: 0.58rem;
+}
+
+.custom-stencil-preview {
+    display: grid;
+    flex: 0 0 48px;
+    width: 48px;
+    height: 44px;
+    place-items: center;
+    border-radius: 8px;
+    color: var(--ui-accent);
+    background: #fff;
+}
+
+.custom-stencil-preview img {
+    max-width: 42px;
+    max-height: 38px;
+    filter: grayscale(1) contrast(1.08);
+}
+
+.custom-stencil-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.custom-stencil-grid .inspector-field-wide {
+    grid-column: 1 / -1;
+}
+
+.custom-stencil-save {
+    min-height: 34px;
+    border: 0;
+    border-radius: 9px;
+    color: #fff;
+    background: var(--ui-accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
 .measurement-unit-picker .cad-select {
     width: 118px;
 }
@@ -2045,6 +2182,34 @@ body {
 
 .properties-section {
     padding-bottom: 16px;
+}
+
+.machine-card-custom-badge {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    padding: 3px 5px;
+    border-radius: 5px;
+    color: #fff;
+    background: rgba(88, 86, 214, 0.86);
+    font-size: 0.5rem;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+.dark-theme .custom-stencil-form {
+    border-color: rgba(10, 132, 255, 0.28);
+    background: rgba(10, 132, 255, 0.08);
+}
+
+.dark-theme .custom-stencil-form-heading strong,
+.dark-theme .custom-stencil-file strong {
+    color: #ededf0;
+}
+
+.dark-theme .custom-stencil-file {
+    border-color: rgba(10, 132, 255, 0.32);
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .inspector-data-heading {
