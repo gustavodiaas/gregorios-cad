@@ -33,6 +33,7 @@ import { initializeSnapSettings } from './snap-settings.js';
 import { initializeEquipmentTable } from './equipment-table.js';
 import { initializeVersionHistory } from './version-history.js';
 import { initializeLayoutTemplates } from './layout-templates.js';
+import { initializeLayoutIndicators } from './layout-indicators.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
 import {
     MEASUREMENT_UNITS,
@@ -586,6 +587,7 @@ async function main() {
     initializeEquipmentTable(); // Inventário técnico dos equipamentos
     initializeVersionHistory(); // Pontos persistentes de restauração do projeto
     initializeLayoutTemplates(); // Modelos editáveis para iniciar novos projetos
+    initializeLayoutIndicators(); // Indicadores automáticos de ocupação e fluxo
     initializeCustomSelects(); // Menus de seleção com visual próprio do aplicativo
     initializeSpaghettiDiagram(); // Janela de análise das distâncias
     
