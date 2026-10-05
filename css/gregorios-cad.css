@@ -1974,6 +1974,9 @@ body {
 /* Machine library */
 .machine-library-section {
     flex: 1;
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
     overflow-y: auto;
     border-bottom: 0;
 }
@@ -2362,6 +2365,8 @@ body {
 .custom-stencil-form {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    min-width: 0;
     gap: 10px;
     margin-bottom: 12px;
     padding: 11px;
@@ -2405,6 +2410,8 @@ body {
 .custom-stencil-file {
     display: flex;
     align-items: center;
+    width: 100%;
+    min-width: 0;
     gap: 9px;
     min-height: 58px;
     padding: 7px;
@@ -2424,7 +2431,15 @@ body {
 .custom-stencil-file > span:last-child {
     display: flex;
     flex-direction: column;
+    min-width: 0;
     gap: 2px;
+}
+
+.custom-stencil-file strong,
+.custom-stencil-file small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .custom-stencil-file strong {
@@ -2456,8 +2471,18 @@ body {
 
 .custom-stencil-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
+}
+
+.custom-stencil-grid > .inspector-field,
+.custom-stencil-grid .unit-input,
+.custom-stencil-grid input {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .custom-stencil-grid .inspector-field-wide {
