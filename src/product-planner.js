@@ -71,6 +71,12 @@ let shiftStartInputEl = null;
 let shiftEndInputEl = null;
 let lunchStartInputEl = null;
 let lunchEndInputEl = null;
+let plannerNotificationsSuspended = false;
+
+function notifyPlannerChanged() {
+    if (plannerNotificationsSuspended) return;
+    window.dispatchEvent(new CustomEvent('planner:change'));
+}
 
 /**
  * Converts a "HH:MM" string into total minutes from midnight.
@@ -144,6 +150,7 @@ export function initializeProductPlanner() {
     if (productNameInputEl) {
         productNameInputEl.addEventListener('input', (event) => {
             productName = event.target.value;
+            notifyPlannerChanged();
         });
     }
 
@@ -154,7 +161,10 @@ export function initializeProductPlanner() {
     // Schedule field listeners – recalculate availability on any change
     [shiftStartInputEl, shiftEndInputEl, lunchStartInputEl, lunchEndInputEl].forEach(el => {
         if (el) {
-            el.addEventListener('input', () => recalcAvailability());
+            el.addEventListener('input', () => {
+                recalcAvailability();
+                notifyPlannerChanged();
+            });
         }
     });
 
@@ -203,15 +213,13 @@ export function initializeProductPlanner() {
             if (span) {
                 span.textContent = isLooping ? 'Looping: On' : 'Looping: Off';
             }
+            notifyPlannerChanged();
         });
     }
     
     if (playBtn) {
         playBtn.addEventListener('click', async () => {
-            if (!plannerLayers.length || plannerLayers.every(l => l.columns.length === 0)) {
-                alert('Configure o roteiro antes de executar');
-                return;
-            }
+            if (!validatePlannerBeforeRun()) return;
             updatePlayButtonsState(true);
             const shiftStartSec = timeToMinutes(shiftStartInputEl ? shiftStartInputEl.value : '07:00') * 60;
             const lunchStartSec = timeToMinutes(lunchStartInputEl ? lunchStartInputEl.value : '12:00') * 60;
@@ -229,10 +237,7 @@ export function initializeProductPlanner() {
 
     if (headerPlayBtn) {
         headerPlayBtn.addEventListener('click', async () => {
-            if (!plannerLayers.length || plannerLayers.every(l => l.columns.length === 0)) {
-                alert('Configure o roteiro antes de executar');
-                return;
-            }
+            if (!validatePlannerBeforeRun()) return;
             updatePlayButtonsState(true);
             const shiftStartSec = timeToMinutes(shiftStartInputEl ? shiftStartInputEl.value : '07:00') * 60;
             const lunchStartSec = timeToMinutes(lunchStartInputEl ? lunchStartInputEl.value : '12:00') * 60;
@@ -255,14 +260,14 @@ export function initializeProductPlanner() {
     }
 
     if (addStageBtn) {
-        // Botão Azul: Adicionar Nova Camada
+        // Adicionar um novo fluxo de operador
         addStageBtn.addEventListener('click', () => {
             addNewLayer();
         });
     }
 
     if (addColumnBtn) {
-        // Botão Verde: Adicionar Ação na Camada Ativa
+        // Adicionar uma nova etapa ao fluxo ativo
         addColumnBtn.addEventListener('click', () => {
             addStageToActiveLayer();
         });
@@ -270,7 +275,7 @@ export function initializeProductPlanner() {
 
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
-            if (confirm('Tem certeza que deseja limpar todas as colunas?')) {
+            if (confirm('Tem certeza que deseja limpar todo o roteiro?')) {
                 clearAllColumns();
             }
         });
@@ -399,6 +404,79 @@ function addNewLayer() {
     plannerLayers.push(newLayer);
     activeLayerId = layerId;
     renderPlannerLayers();
+}
+
+function getPlannerValidationIssues() {
+    loadLayoutData();
+    const issues = [];
+    const validOperatorIds = new Set(layoutOperators.map(operator => String(operator.id)));
+    const validHubIds = new Set(layoutHubs.map(hub => `hub:${hub.id}`));
+
+    if (!plannerLayers.length) {
+        return ['Crie pelo menos um fluxo de operador.'];
+    }
+
+    plannerLayers.forEach((layer, layerIndex) => {
+        const flowLabel = `Fluxo ${layerIndex + 1}`;
+        if (!layer.operatorId || !validOperatorIds.has(String(layer.operatorId))) {
+            issues.push(`${flowLabel}: selecione um operador existente.`);
+        }
+
+        const stageCount = Math.ceil(layer.columns.length / STAGE_BLUEPRINT.length);
+        if (!stageCount) {
+            issues.push(`${flowLabel}: adicione pelo menos uma etapa.`);
+            return;
+        }
+
+        for (let stageIndex = 0; stageIndex < stageCount; stageIndex++) {
+            const stageColumns = layer.columns.slice(
+                stageIndex * STAGE_BLUEPRINT.length,
+                (stageIndex + 1) * STAGE_BLUEPRINT.length
+            );
+            const whereColumn = stageColumns.find(column => column.type === 'onde');
+            const selectedHubs = String(whereColumn?.value || '').split(',').filter(Boolean);
+            if (!selectedHubs.length) {
+                issues.push(`${flowLabel}, etapa ${stageIndex + 1}: escolha um destino.`);
+            } else if (selectedHubs.some(hubId => !validHubIds.has(hubId))) {
+                issues.push(`${flowLabel}, etapa ${stageIndex + 1}: há um destino que não existe mais no layout.`);
+            }
+        }
+    });
+
+    return issues;
+}
+
+function showPlannerValidation(issues = []) {
+    const summary = document.getElementById('plannerValidationSummary');
+    if (!summary) return;
+
+    if (!issues.length) {
+        summary.hidden = true;
+        summary.innerHTML = '';
+        return;
+    }
+
+    const visibleIssues = issues.slice(0, 4);
+    const remaining = issues.length - visibleIssues.length;
+    summary.innerHTML = `
+        <i class="fas fa-triangle-exclamation" aria-hidden="true"></i>
+        <div>
+            <strong>Revise o roteiro antes de executar</strong>
+            <ul>${visibleIssues.map(issue => `<li>${issue}</li>`).join('')}</ul>
+            ${remaining > 0 ? `<small>Mais ${remaining} ${remaining === 1 ? 'ajuste necessário' : 'ajustes necessários'}.</small>` : ''}
+        </div>
+    `;
+    summary.hidden = false;
+}
+
+function validatePlannerBeforeRun() {
+    const issues = getPlannerValidationIssues();
+    showPlannerValidation(issues);
+    if (!issues.length) return true;
+
+    document.getElementById('plannerSidebar')?.classList.add('open');
+    document.getElementById('plannerValidationSummary')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return false;
 }
 
 function addStageToActiveLayer() {
@@ -628,6 +706,7 @@ function clearAllColumns() {
     plannerLayers = [];
     productName = '';
     totalAvailability = 0;
+    isLooping = false;
     activeLayerId = null;
     layerCounter = 1;
     columnCounter = 1;
@@ -644,6 +723,12 @@ function clearAllColumns() {
     if (totalAvailabilityInputEl) {
         totalAvailabilityInputEl.value = totalAvailability;
     }
+    const toggleLoopingBtn = document.getElementById('toggleLoopingBtn');
+    if (toggleLoopingBtn) {
+        toggleLoopingBtn.classList.remove('active');
+        const label = toggleLoopingBtn.querySelector('span');
+        if (label) label.textContent = 'Looping: Off';
+    }
 
     ensureDefaultLayer();
     renderPlannerLayers();
@@ -653,12 +738,16 @@ function clearAllColumns() {
  * Reseta completamente o roteiro do planner.
  * Chamado ao carregar um novo layout para evitar dados órfãos.
  */
-export function resetPlannerData() {
+export function resetPlannerData(options = {}) {
+    const shouldNotify = options.notify !== false;
     // Parar execução se estiver rodando
     if (isPlannerPlaying()) {
         stopPlanner();
     }
+    plannerNotificationsSuspended = true;
     clearAllColumns();
+    plannerNotificationsSuspended = false;
+    if (shouldNotify) notifyPlannerChanged();
 }
 
 function handleGridChange(event) {
@@ -1072,11 +1161,11 @@ function _updateGroupCount(groupEl, columnId) {
 
 function removeLayer(layerId) {
     if (plannerLayers.length <= 1) {
-        alert('Não é possível remover a única camada.');
+        alert('O roteiro precisa manter pelo menos um fluxo.');
         return;
     }
-    
-    if (confirm('Tem certeza que deseja remover esta camada?')) {
+
+    if (confirm('Tem certeza que deseja remover este fluxo de operador?')) {
         plannerLayers = plannerLayers.filter(l => l.id !== layerId);
         if (activeLayerId === layerId) {
             activeLayerId = plannerLayers[0].id;
@@ -1196,6 +1285,8 @@ function updateLayerOperator(layerId, operatorId) {
     const layer = plannerLayers.find(l => l.id === layerId);
     if (layer) {
         layer.operatorId = operatorId;
+        showPlannerValidation([]);
+        notifyPlannerChanged();
     }
 }
 
@@ -1210,6 +1301,7 @@ function updateLayerColor(layerId, color) {
             const swatch = container.querySelector('.layer-color-swatch');
             if (swatch) swatch.style.backgroundColor = color;
         }
+        notifyPlannerChanged();
     }
 }
 
@@ -1240,6 +1332,9 @@ function updateColumnValue(columnId, rawValue) {
             // Re-render when action type changes (to show/hide qty input)
             if (column.type === 'acao') {
                 renderPlannerLayers();
+            } else {
+                showPlannerValidation([]);
+                notifyPlannerChanged();
             }
             return;
         }
@@ -1251,6 +1346,7 @@ function updateColumnValueEnd(columnId, rawValue) {
         const column = layer.columns.find(col => col.id === columnId);
         if (column && column.type === 'tempo') {
             column.valueEnd = Math.max(0, Number(rawValue) || 0);
+            notifyPlannerChanged();
             return;
         }
     }
@@ -1276,6 +1372,7 @@ function updateStageDescription(columnId, value) {
         const column = layer.columns.find(col => col.id === columnId);
         if (column) {
             column.stageDescription = value;
+            notifyPlannerChanged();
             return;
         }
     }
@@ -1286,6 +1383,7 @@ function updateLoopTarget(columnId, target) {
         const column = layer.columns.find(col => col.id === columnId);
         if (column) {
             column.loopTarget = target;
+            notifyPlannerChanged();
             return;
         }
     }
@@ -1296,6 +1394,7 @@ function updateLoopCount(columnId, count) {
         const column = layer.columns.find(col => col.id === columnId);
         if (column) {
             column.loopCount = count;
+            notifyPlannerChanged();
             return;
         }
     }
@@ -1306,6 +1405,7 @@ function updateColumnQuantity(columnId, qty) {
         const column = layer.columns.find(col => col.id === columnId);
         if (column) {
             column.quantity = qty;
+            notifyPlannerChanged();
             return;
         }
     }
@@ -1316,6 +1416,7 @@ function updateColumnQuantityOut(columnId, qty) {
         const column = layer.columns.find(col => col.id === columnId);
         if (column) {
             column.quantityOut = qty;
+            notifyPlannerChanged();
             return;
         }
     }
@@ -1344,9 +1445,9 @@ function renderPlannerLayers() {
             <div class="planner-layer-container ${activeClass}" data-layer-id="${layer.id}" style="border-left: 4px solid ${layerColor};">
                 <div class="planner-layer-header">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
-                        <span class="layer-title">Camada ${layerIndex + 1}</span>
+                        <span class="layer-title">Fluxo ${layerIndex + 1}</span>
                         <select class="layer-operator-select" data-layer-id="${layer.id}" style="padding: 0.25rem 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-color); font-size: 0.85rem;">
-                            <option value="" disabled ${!layer.operatorId ? 'selected' : ''}>Selecione Operador</option>
+                            <option value="" disabled ${!layer.operatorId ? 'selected' : ''}>Selecione o operador</option>
                             ${operatorSelectOptions}
                         </select>
                         <label class="layer-color-picker" title="Cor das conexões deste operador">
@@ -1356,7 +1457,7 @@ function renderPlannerLayers() {
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         ${isActive ? '<span class="layer-badge">Ativa</span>' : ''}
-                        <button class="planner-remove-layer" data-layer-id="${layer.id}" title="Remover Camada">
+                        <button class="planner-remove-layer" data-layer-id="${layer.id}" title="Remover fluxo">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -1375,6 +1476,8 @@ function renderPlannerLayers() {
     columnsGridEl.querySelectorAll('.onde-group-checkbox[data-indeterminate="true"]').forEach(cb => {
         cb.indeterminate = true;
     });
+    showPlannerValidation([]);
+    notifyPlannerChanged();
 }
 
 function updateColumnCount() {
@@ -1402,7 +1505,7 @@ function createColumnMarkup(column, index, operatorOptions, destinationOptions, 
     
     // Determinar a ação da etapa atual para saber se devemos desabilitar o campo de tempo
     const stageStartIndex = Math.floor(index / STAGE_BLUEPRINT.length) * STAGE_BLUEPRINT.length;
-    const acaoColumnIndex = stageStartIndex + 1; // 'acao' é o segundo item no STAGE_BLUEPRINT
+    const acaoColumnIndex = stageStartIndex;
     const acaoColumn = allColumns[acaoColumnIndex];
     const currentStageAction = acaoColumn?.value || '';
     
@@ -1775,16 +1878,27 @@ export function getPlannerData() {
             lunchStart:  lunchStartInputEl  ? lunchStartInputEl.value  : '12:00',
             lunchEnd:    lunchEndInputEl    ? lunchEndInputEl.value    : '13:00'
         },
+        looping: isLooping,
         layers: plannerLayers
     };
 }
 
-export function loadPlannerDataFromJSON(data) {
+export function loadPlannerDataFromJSON(data, options = {}) {
     if (!data) return;
-    
-    if (data.productName && productNameInputEl) {
-        productName = data.productName;
+    const shouldNotify = options.notify !== false;
+    plannerNotificationsSuspended = true;
+
+    if (productNameInputEl) {
+        productName = String(data.productName || '');
         productNameInputEl.value = productName;
+    }
+
+    isLooping = Boolean(data.looping);
+    const toggleLoopingBtn = document.getElementById('toggleLoopingBtn');
+    if (toggleLoopingBtn) {
+        toggleLoopingBtn.classList.toggle('active', isLooping);
+        const label = toggleLoopingBtn.querySelector('span');
+        if (label) label.textContent = isLooping ? 'Looping: On' : 'Looping: Off';
     }
 
     if (data.totalAvailability !== undefined && totalAvailabilityInputEl) {
@@ -1844,6 +1958,8 @@ export function loadPlannerDataFromJSON(data) {
     columnCounter = maxColId + 1;
     
     renderPlannerLayers();
+    plannerNotificationsSuspended = false;
+    if (shouldNotify) notifyPlannerChanged();
 }
 
 function savePlannerData() {

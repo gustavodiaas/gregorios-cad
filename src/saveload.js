@@ -26,7 +26,7 @@ import { refreshNavMeshOptions } from './navmesh-controls.js';
 import { updateConnectionDistancesTable } from './flow-metrics.js';
 import { clearAllHubs, syncHubRegistryWithResources, serializeHubs, loadHubs } from './hubs.js';
 import { clearPathCache, serializePathCache, loadPathCache } from './planner-path-cache.js';
-import { resetPlannerData } from './product-planner.js';
+import { getPlannerData, loadPlannerDataFromJSON, resetPlannerData } from './product-planner.js';
 import { reloadResourceImages } from './resource-image.js';
 import { showConfirmDialog, showToast } from './ui-shell.js';
 import { setActiveTool } from './active_tool.js';
@@ -287,7 +287,7 @@ export function createSaveSnapshot() {
     const pathCacheData = serializePathCache();
     
     return {
-        version: "1.2.0",
+        version: "1.3.0",
         timestamp: new Date().toISOString(),
         data: {
             layoutTitle: getLayoutTitle(),
@@ -301,6 +301,7 @@ export function createSaveSnapshot() {
             openings: JSON.parse(JSON.stringify(openings)),
             connections: JSON.parse(JSON.stringify(getConnections())),
             hubs: serializeHubs(),
+            planner: getPlannerData(),
             // Cache de rotas do planner (seção 5.7 do TEC_SPEC)
             layoutHash: pathCacheData.layoutHash,
             pathCache: pathCacheData.pathCache,
@@ -454,8 +455,8 @@ export async function loadFromSnapshotAsync(snapshot, options = {}) {
         updateLoadingStatus('Limpando roteiro anterior...', 28);
         await yieldToMain();
         
-        // Resetar roteiro do planner para evitar dados órfãos
-        if (!automatic) resetPlannerData();
+        // Substituir completamente o roteiro para evitar dados órfãos.
+        resetPlannerData({ notify: false });
         
         updateLoadingStatus('Limpando seleções...', 30);
         await yieldToMain();
@@ -595,6 +596,12 @@ export async function loadFromSnapshotAsync(snapshot, options = {}) {
             updateLoadingStatus(`Carregando ${data.hubs.length} hubs...`, 80);
             await yieldToMain();
             loadHubs(data.hubs);
+        }
+
+        if (data.planner && typeof data.planner === 'object') {
+            updateLoadingStatus('Restaurando roteiro de produção...', 82);
+            await yieldToMain();
+            loadPlannerDataFromJSON(data.planner, { notify: false });
         }
         
         // Carregar cache de rotas do planner (seção 5.7 do TEC_SPEC)
@@ -894,6 +901,7 @@ export function initializeAutoSave() {
     const schedule = () => scheduleAutoSave();
     window.addEventListener('layoutChange', schedule);
     window.addEventListener('gregorios:history-change', schedule);
+    window.addEventListener('planner:change', schedule);
     document.addEventListener('change', schedule);
     window.addEventListener('pagehide', persistLayoutToBrowser);
     document.addEventListener('visibilitychange', () => {
