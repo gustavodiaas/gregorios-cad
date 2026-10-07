@@ -624,8 +624,8 @@
         <aside id="plannerSidebar" class="planner-sidebar">
             <div class="planner-sidebar-header">
                 <div class="planner-header-title">
-                    <h2>Roteiro do Produto</h2>
-                    <p class="planner-subtitle">Configure as etapas e ações dos operadores</p>
+                    <h2>Roteiro de Produção</h2>
+                    <p class="planner-subtitle">Organize o fluxo de cada operador em etapas</p>
                 </div>
                 <button id="closePlannerSidebarBtn" class="planner-close-btn" title="Fechar">
                     <i class="fas fa-times"></i>
@@ -670,12 +670,12 @@
                     </div>
                     <div class="planner-toolbar-actions">
                         <button id="addPlannerStageBtn" class="planner-btn-stage">
-                            <i class="fas fa-layer-group"></i>
-                            <span>Nova Camada</span>
+                            <i class="fas fa-user-plus"></i>
+                            <span>Novo Fluxo</span>
                         </button>
                         <button id="addPlannerColumnBtn" class="planner-btn-column">
                             <i class="fas fa-plus-circle"></i>
-                            <span>Adicionar Ação</span>
+                            <span>Nova Etapa</span>
                         </button>
                         <button id="toggleLoopingBtn" class="planner-btn-looping">
                             <i class="fas fa-sync"></i>
@@ -683,17 +683,18 @@
                         </button>
                         <button id="clearAllColumnsBtn" class="planner-btn-danger">
                             <i class="fas fa-trash-alt"></i>
-                            <span>Limpar Tudo</span>
+                            <span>Limpar Roteiro</span>
                         </button>
                     </div>
+                    <div id="plannerValidationSummary" class="planner-validation-summary" role="status" hidden></div>
                 </div>
 
                 <div class="planner-grid-container">
                     <div class="planner-grid-wrapper">
                         <div class="planner-grid" id="plannerColumnsGrid"></div>
                         <div id="plannerEmptyState" class="planner-empty-state active">
-                            <i class="fas fa-table"></i>
-                            <p>Clique em <strong>"Adicionar Etapa Completa"</strong> ou <strong>"Adicionar Coluna"</strong> para começar</p>
+                            <i class="fas fa-route"></i>
+                            <p>Crie um <strong>novo fluxo</strong>, escolha o operador e monte sua sequência de etapas.</p>
                         </div>
                     </div>
                 </div>
